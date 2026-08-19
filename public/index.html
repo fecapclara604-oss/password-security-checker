@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificador de Segurança de Senhas & Lab de Conscientização</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cyber-background"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="shield-badge">
+        <span class="pulse-dot"></span>
+        <span>CYBER DEFENSE & AWARENESS LAB</span>
+      </div>
+      <h1>Verificador de Segurança de Senhas</h1>
+      <p class="subtitle">Descubra quão vulnerável sua senha pode ser e aprenda na prática como se proteger de vazamentos e ataques de Phishing.</p>
+    </header>
+
+    <!-- MAIN CARD -->
+    <main class="main-card">
+      <div class="input-section">
+        <label for="password-input" class="input-label">
+          <span>Digite uma senha para testar:</span>
+          <span class="badge-tag">Análise em Tempo Real</span>
+        </label>
+        
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password-input" 
+            placeholder="Ex: MinhaSenha@2024 ou 123456" 
+            autocomplete="off" 
+            spellcheck="false"
+          >
+          <button type="button" id="toggle-password" class="icon-btn" title="Mostrar/Ocultar Senha" aria-label="Mostrar/Ocultar Senha">
+            <svg id="eye-open" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <svg id="eye-closed" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- REAL-TIME STRENGTH BAR -->
+        <div class="meter-container">
+          <div class="meter-header">
+            <span class="meter-label">Força da Senha:</span>
+            <span id="meter-level-text" class="level-badge level-empty">Aguardando entrada...</span>
+          </div>
+          <div class="meter-track">
+            <div id="meter-bar" class="meter-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- REQUIREMENTS LIST -->
+        <div class="rules-grid">
+          <div class="rule-item" id="rule-length">
+            <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
+          </div>
+          <div class="rule-item" id="rule-upper">
+            <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
+          </div>
+          <div class="rule-item" id="rule-lower">
+            <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
+          </div>
+          <div class="rule-item" id="rule-number">
+            <span class="rule-icon">⚪</span> Números (0-9)
+          </div>
+          <div class="rule-item" id="rule-special">
+            <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
+          </div>
+        </div>
+
+        <button id="btn-submit-check" class="btn-primary">
+          <span class="btn-icon">⚡</span>
+          <span>Analisar e Salvar no Sistema</span>
+        </button>
+      </div>
+
+      <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
+      <section id="security-alert-box" class="security-alert-box hidden">
+        <div class="alert-header">
+          <div class="alert-icon-pulse">🚨</div>
+          <div>
+            <h2 class="alert-title">NUNCA PASSE SUA SENHA PARA SITE ALGUM!</h2>
+            <p class="alert-tag">ALERTA DE SEGURANÇA E CONSCIENTIZAÇÃO CONTRA PHISHING</p>
+          </div>
+        </div>
+        <div class="alert-body">
+          <p><strong>Atenção:</strong> Você acabou de digitar sua senha em um site de testes na internet. Em um ataque real de engenharia social (Phishing), essa senha agora estaria nos servidores de cibercriminosos!</p>
+          <div class="alert-proof">
+            <span>💾 <strong>Demonstração Prática:</strong> Essa senha foi enviada para nossa API e gravada com sucesso no banco de dados <code>passwords.db</code> (Registro ID: <span id="alert-record-id">--</span>).</span>
+          </div>
+          <p class="alert-advice">🔒 <strong>Regra de Ouro da Cibersegurança:</strong> Nunca digite suas senhas reais em sites de testes, formulários não verificados, links recebidos por e-mail ou redes sociais.</p>
+        </div>
+      </section>
+
+      <!-- RESULTS & SMART SUGGESTION -->
+      <section id="results-section" class="results-section hidden">
+        <!-- ORIGINAL ANALYSIS -->
+        <div class="card-glass result-card">
+          <div class="card-head">
+            <h3>📊 Diagnóstico de Segurança</h3>
+            <span id="analysis-time-badge" class="time-badge">Tempo estimado</span>
+          </div>
+          <div class="diagnosis-grid">
+            <div class="diag-item">
+              <span class="diag-title">Nível Calculado</span>
+              <span id="diag-level" class="diag-value">Muito Fraca</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-title">Tempo para Quebra por Força Bruta</span>
+              <span id="diag-crack-time" class="diag-value text-red">Menos de 1 segundo</span>
+            </div>
+          </div>
+          <div class="feedback-list" id="feedback-list">
+            <!-- Itens de feedback gerados via JS -->
+          </div>
+        </div>
+
+        <!-- SMART FORTIFIED PASSWORD SUGGESTION -->
+        <div class="card-glass suggestion-card">
+          <div class="suggestion-header">
+            <div class="suggestion-tag">🧠 Inteligência Defensiva</div>
+            <h3>Sua Senha Blindada (Baseada na Sua)</h3>
+            <p class="suggestion-sub">Criamos uma versão ultra-segura mantendo o padrão mnemônico da sua senha original, adicionando caracteres leet, símbolos de alta entropia e comprimento estendido:</p>
+          </div>
+
+          <div class="fortified-box">
+            <div class="fortified-content">
+              <code id="fortified-password-text">Carregando sugestão...</code>
+            </div>
+            <button id="btn-copy-suggestion" class="btn-copy" title="Copiar Senha Segura">
+              <span id="copy-text">Copiar</span>
+              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="suggestion-stats">
+            <div class="stat-badge">
+              <span>🛡️ Nível: <strong>Blindada / Imbatível</strong></span>
+            </div>
+            <div class="stat-badge">
+              <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
+            </div>
+            <div class="stat-badge">
+              <span>🔐 Entropia Máxima (16+ Caracteres)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATABASE RECORDS VIEWER (PROVING PHISHING TRAP) -->
+      <section class="database-section">
+        <div class="db-section-header">
+          <div class="db-title-wrap">
+            <div class="db-icon">🗄️</div>
+            <div>
+              <h3>Registros Salvos no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
+              <p class="db-subtitle">Visualizador em tempo real para fins educativos demonstrando a interceptação no servidor:</p>
+            </div>
+          </div>
+          <div class="db-actions">
+            <button id="btn-refresh-db" class="btn-secondary" title="Recarregar Registros">
+              🔄 Atualizar
+            </button>
+            <button id="btn-clear-db" class="btn-danger" title="Limpar Banco de Dados">
+              🗑️ Limpar Banco
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="db-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Senha Digitada</th>
+                <th>Nível</th>
+                <th>Tempo de Quebra</th>
+                <th>Data / Hora</th>
+                <th>IP de Origem</th>
+              </tr>
+            </thead>
+            <tbody id="db-table-body">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Carregando registros do SQLite...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>Desenvolvido com foco em Conscientização de Segurança da Informação &copy; 2026. Salvo no SQLite e versionado com GitHub Desktop.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
