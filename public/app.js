@@ -1,35 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ELEMENTOS DA ETAPA 1 (INPUT)
+  const stepInputSection = document.getElementById('step-input-section');
   const passwordInput = document.getElementById('password-input');
   const toggleBtn = document.getElementById('toggle-password');
   const eyeOpen = document.getElementById('eye-open');
   const eyeClosed = document.getElementById('eye-closed');
-  
+  const btnSubmit = document.getElementById('btn-submit-check');
+
+  // ELEMENTOS DA ETAPA 2 (TELA DE CONCLUÍDO & DIAGNÓSTICO)
+  const stepCompletedSection = document.getElementById('step-completed-section');
   const meterBar = document.getElementById('meter-bar');
   const meterLevelText = document.getElementById('meter-level-text');
-
+  const diagLevel = document.getElementById('diag-level');
+  const diagCrackTime = document.getElementById('diag-crack-time');
   const ruleLength = document.getElementById('rule-length');
   const ruleUpper = document.getElementById('rule-upper');
   const ruleLower = document.getElementById('rule-lower');
   const ruleNumber = document.getElementById('rule-number');
   const ruleSpecial = document.getElementById('rule-special');
-
-  const btnSubmit = document.getElementById('btn-submit-check');
-  const securityAlertBox = document.getElementById('security-alert-box');
-  const alertRecordId = document.getElementById('alert-record-id');
-  const resultsSection = document.getElementById('results-section');
-
-  const diagLevel = document.getElementById('diag-level');
-  const diagCrackTime = document.getElementById('diag-crack-time');
   const feedbackList = document.getElementById('feedback-list');
-
   const fortifiedPasswordText = document.getElementById('fortified-password-text');
   const btnCopySuggestion = document.getElementById('btn-copy-suggestion');
   const copyText = document.getElementById('copy-text');
+  const btnFinalize = document.getElementById('btn-finalize');
 
+  // ELEMENTOS DA ETAPA 3 (AVISO DE SEGURANÇA & BANCO DE DADOS)
+  const stepAlertSection = document.getElementById('step-alert-section');
+  const securityAlertBox = document.getElementById('security-alert-box');
+  const alertRecordId = document.getElementById('alert-record-id');
   const dbTableBody = document.getElementById('db-table-body');
   const btnRefreshDb = document.getElementById('btn-refresh-db');
   const btnClearDb = document.getElementById('btn-clear-db');
-  const databaseSection = document.getElementById('database-section');
+  const btnTestAgain = document.getElementById('btn-test-again');
 
   // Detecta URL base da API
   function getApiBase() {
@@ -52,20 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
     eyeClosed.classList.toggle('hidden', isPassword);
   });
 
-  // Avaliação em Tempo Real no Input
-  passwordInput.addEventListener('input', () => {
-    const val = passwordInput.value;
-    updateRealtimeStrength(val);
-  });
-
-  // Enter para submeter
+  // Enter para verificar
   passwordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       submitCheck();
     }
   });
 
+  // Event Listeners
   btnSubmit.addEventListener('click', submitCheck);
+  btnFinalize.addEventListener('click', finalizeCheck);
+  btnTestAgain.addEventListener('click', resetToStart);
   btnRefreshDb.addEventListener('click', () => fetchDbRecords());
   btnClearDb.addEventListener('click', clearDbRecords);
 
@@ -88,80 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Falha ao copiar:', err);
     }
   });
-
-  function updateRealtimeStrength(pwd) {
-    if (!pwd || pwd.length === 0) {
-      meterBar.style.width = '0%';
-      meterBar.style.backgroundColor = 'transparent';
-      meterLevelText.className = 'level-badge level-empty';
-      meterLevelText.textContent = 'Aguardando entrada...';
-      resetRules();
-      return;
-    }
-
-    const hasLen = pwd.length >= 8;
-    const hasUpper = /[A-Z]/.test(pwd);
-    const hasLower = /[a-z]/.test(pwd);
-    const hasNum = /[0-9]/.test(pwd);
-    const hasSpec = /[^A-Za-z0-9]/.test(pwd);
-
-    updateRule(ruleLength, hasLen);
-    updateRule(ruleUpper, hasUpper);
-    updateRule(ruleLower, hasLower);
-    updateRule(ruleNumber, hasNum);
-    updateRule(ruleSpecial, hasSpec);
-
-    let score = 0;
-    if (hasLen) score += 1;
-    if (pwd.length >= 12) score += 1;
-    if (pwd.length >= 16) score += 1;
-    if (hasUpper) score += 1;
-    if (hasLower) score += 1;
-    if (hasNum) score += 1;
-    if (hasSpec) score += 1;
-
-    let percentage = (score / 7) * 100;
-    meterBar.style.width = `${Math.max(percentage, 8)}%`;
-
-    if (score <= 2) {
-      meterBar.style.backgroundColor = '#ff3366';
-      meterLevelText.className = 'level-badge level-very-weak';
-      meterLevelText.textContent = 'Muito Fraca';
-    } else if (score <= 4) {
-      meterBar.style.backgroundColor = '#ff9100';
-      meterLevelText.className = 'level-badge level-weak';
-      meterLevelText.textContent = 'Fraca';
-    } else if (score <= 5) {
-      meterBar.style.backgroundColor = '#ffd600';
-      meterLevelText.className = 'level-badge level-medium';
-      meterLevelText.textContent = 'Média';
-    } else if (score === 6) {
-      meterBar.style.backgroundColor = '#00e676';
-      meterLevelText.className = 'level-badge level-strong';
-      meterLevelText.textContent = 'Forte';
-    } else {
-      meterBar.style.backgroundColor = '#00f2fe';
-      meterLevelText.className = 'level-badge level-unbreakable';
-      meterLevelText.textContent = 'Blindada / Imbatível';
-    }
-  }
-
-  function updateRule(element, isValid) {
-    if (isValid) {
-      element.classList.add('valid');
-      element.querySelector('.rule-icon').textContent = '✅';
-    } else {
-      element.classList.remove('valid');
-      element.querySelector('.rule-icon').textContent = '⚪';
-    }
-  }
-
-  function resetRules() {
-    [ruleLength, ruleUpper, ruleLower, ruleNumber, ruleSpecial].forEach(el => {
-      el.classList.remove('valid');
-      el.querySelector('.rule-icon').textContent = '⚪';
-    });
-  }
 
   // Avaliação no cliente (Fallback robusto caso o servidor node não esteja rodando)
   function clientEvaluatePassword(password) {
@@ -232,7 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
       score: Math.min(score, 7),
       level,
       crackTime,
-      feedback: feedback.length > 0 ? feedback : ['✅ Excelente! Esta senha cumpre ótimos padrões de segurança.']
+      feedback: feedback.length > 0 ? feedback : ['✅ Excelente! Esta senha cumpre ótimos padrões de segurança.'],
+      details: {
+        length,
+        hasUpper,
+        hasLower,
+        hasNumber,
+        hasSpecial
+      }
     };
   }
 
@@ -299,12 +231,23 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('captured_passwords_lab', JSON.stringify(list));
       return fullRecord;
     } catch (e) {
-      console.warn('LocalStorage indisponível:', e);
       return { id: 1, ...record, created_at: new Date().toISOString(), user_ip: 'Local' };
     }
   }
 
-  // Enviar para Análise (Tenta API, com Fallback inteligente)
+  function updateRule(element, isValid) {
+    if (isValid) {
+      element.classList.add('valid');
+      element.querySelector('.rule-icon').textContent = '✅';
+    } else {
+      element.classList.remove('valid');
+      element.querySelector('.rule-icon').textContent = '⚪';
+    }
+  }
+
+  // ==========================================
+  // ETAPA 1: SUBMETER E MOSTRAR "CONCLUÍDO" (ETAPA 2)
+  // ==========================================
   async function submitCheck() {
     const password = passwordInput.value;
     if (!password || password.trim() === '') {
@@ -314,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<span>⏳ Verificando Segurança...</span>';
+    btnSubmit.innerHTML = '<span>⏳ Analisando Segurança...</span>';
 
     let resultData = null;
 
@@ -331,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.ok) {
         resultData = await response.json();
       } else {
-        throw new Error('Servidor retornou status ' + response.status);
+        throw new Error('Status ' + response.status);
       }
     } catch (netErr) {
       console.warn('Backend SQLite indisponível. Usando processamento local seguro:', netErr.message);
@@ -354,24 +297,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Exibe Banner de Conscientização Crítico
-      securityAlertBox.classList.remove('hidden');
+      // Armazena o ID capturado para a surpresa
       alertRecordId.textContent = `#${resultData.savedRecordId}`;
 
-      // Exibe Resultados e Sugestão Blindada
-      resultsSection.classList.remove('hidden');
-      diagLevel.textContent = resultData.evaluation.level;
-      diagCrackTime.textContent = resultData.evaluation.crackTime;
-      
-      if (resultData.evaluation.score <= 3) {
+      // Preenche o Diagnóstico
+      const evalData = resultData.evaluation;
+      diagLevel.textContent = evalData.level;
+      diagCrackTime.textContent = evalData.crackTime;
+
+      if (evalData.score <= 3) {
         diagCrackTime.className = 'diag-value text-red';
       } else {
         diagCrackTime.className = 'diag-value text-green';
       }
 
+      // Preenche barra de força
+      const percentage = (evalData.score / 7) * 100;
+      meterBar.style.width = `${Math.max(percentage, 10)}%`;
+
+      if (evalData.score <= 2) {
+        meterBar.style.backgroundColor = '#ff3366';
+        meterLevelText.className = 'level-badge level-very-weak';
+        meterLevelText.textContent = 'Muito Fraca';
+      } else if (evalData.score <= 4) {
+        meterBar.style.backgroundColor = '#ff9100';
+        meterLevelText.className = 'level-badge level-weak';
+        meterLevelText.textContent = 'Fraca';
+      } else if (evalData.score <= 5) {
+        meterBar.style.backgroundColor = '#ffd600';
+        meterLevelText.className = 'level-badge level-medium';
+        meterLevelText.textContent = 'Média';
+      } else if (evalData.score === 6) {
+        meterBar.style.backgroundColor = '#00e676';
+        meterLevelText.className = 'level-badge level-strong';
+        meterLevelText.textContent = 'Forte';
+      } else {
+        meterBar.style.backgroundColor = '#00f2fe';
+        meterLevelText.className = 'level-badge level-unbreakable';
+        meterLevelText.textContent = 'Blindada / Imbatível';
+      }
+
+      // Atualiza regras individuais
+      const hasLen = password.length >= 8;
+      const hasUpper = /[A-Z]/.test(password);
+      const hasLower = /[a-z]/.test(password);
+      const hasNum = /[0-9]/.test(password);
+      const hasSpec = /[^A-Za-z0-9]/.test(password);
+
+      updateRule(ruleLength, hasLen);
+      updateRule(ruleUpper, hasUpper);
+      updateRule(ruleLower, hasLower);
+      updateRule(ruleNumber, hasNum);
+      updateRule(ruleSpecial, hasSpec);
+
       // Renderiza Feedback
       feedbackList.innerHTML = '';
-      resultData.evaluation.feedback.forEach(item => {
+      evalData.feedback.forEach(item => {
         const div = document.createElement('div');
         div.className = 'feedback-item';
         div.textContent = item;
@@ -381,14 +362,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // Renderiza Sugestão Blindada
       fortifiedPasswordText.textContent = resultData.fortifiedSuggestion;
 
-      // Revela o visualizador do banco de dados
-      if (databaseSection) {
-        databaseSection.classList.remove('hidden');
-      }
-      await fetchDbRecords();
+      // TRANSIÇÃO: Oculta Input e Exibe Tela de Concluído
+      stepInputSection.classList.add('hidden');
+      stepCompletedSection.classList.remove('hidden');
+      stepCompletedSection.classList.add('fade-in');
 
-      // Scroll suave até o alerta
-      securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Garante que a etapa 3 (alerta) permanece oculta
+      stepAlertSection.classList.add('hidden');
+
+      // Scroll suave até a tela de Concluído
+      stepCompletedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     } catch (err) {
       console.error(err);
@@ -397,6 +380,44 @@ document.addEventListener('DOMContentLoaded', () => {
       btnSubmit.disabled = false;
       btnSubmit.innerHTML = '<span class="btn-icon">🔍</span><span>Verificar Segurança da Senha</span>';
     }
+  }
+
+  // ==========================================
+  // ETAPA 3: AO CLICAR EM FINALIZAR -> MOSTRAR AVISO DE SEGURANÇA (SURPRESA)
+  // ==========================================
+  async function finalizeCheck() {
+    // Revela a seção do alerta de segurança e banco de dados
+    stepAlertSection.classList.remove('hidden');
+    stepAlertSection.classList.add('fade-in');
+
+    // Desabilita o botão finalizar para indicar conclusão
+    btnFinalize.disabled = true;
+    btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
+    btnFinalize.style.opacity = '0.7';
+
+    // Carrega a tabela de registros interceptados
+    await fetchDbRecords();
+
+    // Scroll com destaque até o Alerta Crítico
+    securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ==========================================
+  // REINICIAR: TESTAR OUTRA SENHA
+  // ==========================================
+  function resetToStart() {
+    passwordInput.value = '';
+    btnFinalize.disabled = false;
+    btnFinalize.innerHTML = '<span>Finalizar</span><span class="btn-icon">🔒</span>';
+    btnFinalize.style.opacity = '1';
+
+    stepCompletedSection.classList.add('hidden');
+    stepAlertSection.classList.add('hidden');
+    stepInputSection.classList.remove('hidden');
+    stepInputSection.classList.add('fade-in');
+
+    passwordInput.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Buscar Registros do SQLite ou LocalStorage
@@ -408,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable(data.records, 'sqlite');
         return;
       }
-      throw new Error('API não respondeu com 200');
+      throw new Error('API offline');
     } catch (err) {
       const localRecords = getLocalRecords();
       renderTable(localRecords, 'local');
@@ -476,7 +497,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     await fetchDbRecords();
   }
-
-  // Carrega registros iniciais
-  fetchDbRecords();
 });

@@ -24,12 +24,14 @@
       <p class="subtitle">Descubra em segundos se a sua senha é realmente segura contra ataques e receba uma recomendação blindada.</p>
     </header>
 
-    <!-- MAIN CARD -->
+    <!-- MAIN CONTAINER -->
     <main class="main-card">
-      <div class="input-section">
+
+      <!-- ETAPA 1: INPUT INICIAL -->
+      <section id="step-input-section" class="input-section">
         <label for="password-input" class="input-label">
           <span>Digite uma senha para testar:</span>
-          <span class="badge-tag">Análise em Tempo Real</span>
+          <span class="badge-tag">Analisador de Segurança</span>
         </label>
         
         <div class="input-wrapper">
@@ -52,159 +54,191 @@
           </button>
         </div>
 
-        <!-- REAL-TIME STRENGTH BAR -->
-        <div class="meter-container">
-          <div class="meter-header">
-            <span class="meter-label">Força da Senha:</span>
-            <span id="meter-level-text" class="level-badge level-empty">Aguardando entrada...</span>
-          </div>
-          <div class="meter-track">
-            <div id="meter-bar" class="meter-fill" style="width: 0%;"></div>
-          </div>
-        </div>
-
-        <!-- REQUIREMENTS LIST -->
-        <div class="rules-grid">
-          <div class="rule-item" id="rule-length">
-            <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
-          </div>
-          <div class="rule-item" id="rule-upper">
-            <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
-          </div>
-          <div class="rule-item" id="rule-lower">
-            <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
-          </div>
-          <div class="rule-item" id="rule-number">
-            <span class="rule-icon">⚪</span> Números (0-9)
-          </div>
-          <div class="rule-item" id="rule-special">
-            <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
-          </div>
-        </div>
-
-        <!-- BOTÃO INOCENTE (SEM SPOILERS DA SURPRESA) -->
         <button id="btn-submit-check" class="btn-primary">
           <span class="btn-icon">🔍</span>
           <span>Verificar Segurança da Senha</span>
         </button>
-      </div>
+      </section>
 
-      <!-- CRITICAL EDUCATIONAL WARNING BANNER (REVELADO NA SURPRESA) -->
-      <section id="security-alert-box" class="security-alert-box hidden">
-        <div class="alert-header">
-          <div class="alert-icon-pulse">🚨</div>
-          <div>
-            <h2 class="alert-title">NUNCA PASSE SUA SENHA PARA SITE ALGUM!</h2>
-            <p class="alert-tag">ALERTA DE SEGURANÇA E CONSCIENTIZAÇÃO CONTRA PHISHING</p>
+      <!-- ETAPA 2: TELA DE CONCLUÍDO & DIAGNÓSTICO -->
+      <section id="step-completed-section" class="completed-section hidden">
+        <!-- BANNER DE STATUS CONCLUÍDO -->
+        <div class="completion-banner">
+          <div class="completion-icon">✅</div>
+          <div class="completion-text">
+            <h2>Análise Concluída!</h2>
+            <p>A avaliação de segurança da sua senha foi calculada com sucesso.</p>
           </div>
         </div>
-        <div class="alert-body">
-          <p><strong>SURPRESA! ⚠️</strong> Você acabou de digitar sua senha em um site de testes na internet. Em um ataque real de engenharia social (Phishing), essa senha agora estaria nas mãos de criminosos virtuais!</p>
-          <div class="alert-proof">
-            <span>💾 <strong>Demonstração Prática:</strong> Para provar o perigo, sua senha foi interceptada e salva no banco de dados local (Registro ID: <span id="alert-record-id">--</span>).</span>
+
+        <!-- RESULTADOS DA ANÁLISE -->
+        <div class="results-section">
+          <!-- DIAGNÓSTICO -->
+          <div class="card-glass result-card">
+            <div class="card-head">
+              <h3>📊 Diagnóstico da Senha</h3>
+              <span id="analysis-time-badge" class="time-badge">Tempo estimado</span>
+            </div>
+
+            <!-- BARRA DE FORÇA -->
+            <div class="meter-container">
+              <div class="meter-header">
+                <span class="meter-label">Classificação da Senha:</span>
+                <span id="meter-level-text" class="level-badge level-empty">--</span>
+              </div>
+              <div class="meter-track">
+                <div id="meter-bar" class="meter-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="diagnosis-grid">
+              <div class="diag-item">
+                <span class="diag-title">Nível Calculado</span>
+                <span id="diag-level" class="diag-value">--</span>
+              </div>
+              <div class="diag-item">
+                <span class="diag-title">Tempo para Quebra por Força Bruta</span>
+                <span id="diag-crack-time" class="diag-value text-red">--</span>
+              </div>
+            </div>
+
+            <!-- REQUIREMENTS LIST -->
+            <div class="rules-grid">
+              <div class="rule-item" id="rule-length">
+                <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
+              </div>
+              <div class="rule-item" id="rule-upper">
+                <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
+              </div>
+              <div class="rule-item" id="rule-lower">
+                <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
+              </div>
+              <div class="rule-item" id="rule-number">
+                <span class="rule-icon">⚪</span> Números (0-9)
+              </div>
+              <div class="rule-item" id="rule-special">
+                <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
+              </div>
+            </div>
+
+            <div class="feedback-list" id="feedback-list">
+              <!-- Dicas geradas via JS -->
+            </div>
           </div>
-          <p class="alert-advice">🔒 <strong>Regra de Ouro da Cibersegurança:</strong> Nunca digite suas senhas reais em sites de testes, formulários desconhecidos, mensagens ou links suspeitos!</p>
+
+          <!-- SUGESTÃO DE SENHA BLINDADA -->
+          <div class="card-glass suggestion-card">
+            <div class="suggestion-header">
+              <div class="suggestion-tag">🧠 Sugestão Segura</div>
+              <h3>Sua Senha Blindada</h3>
+              <p class="suggestion-sub">Versão ultra-segura criada a partir da raiz da sua senha com substituições inteligentes e alta entropia:</p>
+            </div>
+
+            <div class="fortified-box">
+              <div class="fortified-content">
+                <code id="fortified-password-text">Carregando sugestão...</code>
+              </div>
+              <button id="btn-copy-suggestion" class="btn-copy" title="Copiar Senha Segura">
+                <span id="copy-text">Copiar</span>
+                <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="suggestion-stats">
+              <div class="stat-badge">
+                <span>🛡️ Nível: <strong>Blindada / Imbatível</strong></span>
+              </div>
+              <div class="stat-badge">
+                <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
+              </div>
+              <div class="stat-badge">
+                <span>🔐 Entropia Máxima (16+ Caracteres)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÃO FINALIZAR (DISPARA A SURPRESA) -->
+        <div class="action-footer">
+          <button id="btn-finalize" class="btn-finalize">
+            <span>Finalizar</span>
+            <span class="btn-icon">🔒</span>
+          </button>
         </div>
       </section>
 
-      <!-- RESULTS & SMART SUGGESTION -->
-      <section id="results-section" class="results-section hidden">
-        <!-- ORIGINAL ANALYSIS -->
-        <div class="card-glass result-card">
-          <div class="card-head">
-            <h3>📊 Diagnóstico da Sua Senha</h3>
-            <span id="analysis-time-badge" class="time-badge">Tempo estimado</span>
-          </div>
-          <div class="diagnosis-grid">
-            <div class="diag-item">
-              <span class="diag-title">Nível Calculado</span>
-              <span id="diag-level" class="diag-value">Muito Fraca</span>
-            </div>
-            <div class="diag-item">
-              <span class="diag-title">Tempo para Quebra por Força Bruta</span>
-              <span id="diag-crack-time" class="diag-value text-red">Menos de 1 segundo</span>
-            </div>
-          </div>
-          <div class="feedback-list" id="feedback-list">
-            <!-- Itens de feedback gerados via JS -->
-          </div>
-        </div>
-
-        <!-- SMART FORTIFIED PASSWORD SUGGESTION -->
-        <div class="card-glass suggestion-card">
-          <div class="suggestion-header">
-            <div class="suggestion-tag">🧠 Sugestão Segura</div>
-            <h3>Sua Senha Blindada (Baseada na Sua)</h3>
-            <p class="suggestion-sub">Versão ultra-segura criada a partir do padrão da sua senha original com substituições inteligentes e alta entropia:</p>
-          </div>
-
-          <div class="fortified-box">
-            <div class="fortified-content">
-              <code id="fortified-password-text">Carregando sugestão...</code>
-            </div>
-            <button id="btn-copy-suggestion" class="btn-copy" title="Copiar Senha Segura">
-              <span id="copy-text">Copiar</span>
-              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
-          </div>
-
-          <div class="suggestion-stats">
-            <div class="stat-badge">
-              <span>🛡️ Nível: <strong>Blindada / Imbatível</strong></span>
-            </div>
-            <div class="stat-badge">
-              <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
-            </div>
-            <div class="stat-badge">
-              <span>🔐 Entropia Máxima (16+ Caracteres)</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- DATABASE RECORDS VIEWER (REVELADO APENAS APÓS O TESTE) -->
-      <section id="database-section" class="database-section hidden">
-        <div class="db-section-header">
-          <div class="db-title-wrap">
-            <div class="db-icon">🗄️</div>
+      <!-- ETAPA 3: AVISO DE SEGURANÇA (SURPRESA PHISHING) & BANCO DE DADOS -->
+      <section id="step-alert-section" class="alert-section hidden">
+        <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
+        <div id="security-alert-box" class="security-alert-box">
+          <div class="alert-header">
+            <div class="alert-icon-pulse">🚨</div>
             <div>
-              <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
-              <p class="db-subtitle">Prova prática demonstrando como dados são capturados por sites maliciosos:</p>
+              <h2 class="alert-title">NUNCA PASSE SUA SENHA PARA SITE ALGUM!</h2>
+              <p class="alert-tag">ALERTA DE SEGURANÇA E CONSCIENTIZAÇÃO CONTRA PHISHING</p>
             </div>
           </div>
-          <div class="db-actions">
-            <button id="btn-refresh-db" class="btn-secondary" title="Recarregar Registros">
-              🔄 Atualizar
-            </button>
-            <button id="btn-clear-db" class="btn-danger" title="Limpar Banco de Dados">
-              🗑️ Limpar Banco
-            </button>
+          <div class="alert-body">
+            <p><strong>SURPRESA! ⚠️</strong> Você acabou de digitar sua senha em um formulário na internet. Em um ataque real de engenharia social (Phishing), essa senha agora estaria nas mãos de criminosos virtuais!</p>
+            <div class="alert-proof">
+              <span>💾 <strong>Demonstração Prática:</strong> Para provar o perigo na prática, sua senha foi interceptada e salva no banco de dados local (Registro ID: <span id="alert-record-id">--</span>).</span>
+            </div>
+            <p class="alert-advice">🔒 <strong>Regra de Ouro da Cibersegurança:</strong> Nunca digite suas senhas reais em sites de testes, formulários desconhecidos, mensagens ou links suspeitos!</p>
           </div>
         </div>
 
-        <div class="table-responsive">
-          <table class="db-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Senha Digitada</th>
-                <th>Nível</th>
-                <th>Tempo de Quebra</th>
-                <th>Data / Hora</th>
-                <th>IP de Origem</th>
-              </tr>
-            </thead>
-            <tbody id="db-table-body">
-              <tr>
-                <td colspan="6" class="text-center text-muted">Carregando registros do SQLite...</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- DATABASE RECORDS VIEWER -->
+        <div id="database-section" class="database-section">
+          <div class="db-section-header">
+            <div class="db-title-wrap">
+              <div class="db-icon">🗄️</div>
+              <div>
+                <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
+                <p class="db-subtitle">Prova prática demonstrando como dados são capturados por páginas maliciosas:</p>
+              </div>
+            </div>
+            <div class="db-actions">
+              <button id="btn-refresh-db" class="btn-secondary" title="Recarregar Registros">
+                🔄 Atualizar
+              </button>
+              <button id="btn-clear-db" class="btn-danger" title="Limpar Banco de Dados">
+                🗑️ Limpar Banco
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="db-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Senha Digitada</th>
+                  <th>Nível</th>
+                  <th>Tempo de Quebra</th>
+                  <th>Data / Hora</th>
+                  <th>IP de Origem</th>
+                </tr>
+              </thead>
+              <tbody id="db-table-body">
+                <tr>
+                  <td colspan="6" class="text-center text-muted">Carregando registros do SQLite...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTÃO PARA RECOMEÇAR / NOVO TESTE -->
+        <div class="reset-wrapper">
+          <button id="btn-test-again" class="btn-secondary-large">
+            <span>🔄 Testar Outra Senha</span>
+          </button>
         </div>
       </section>
+
     </main>
 
     <!-- FOOTER -->
