@@ -4,7 +4,8 @@
   "description": "Verificador de Força de Senha e Conscientização em Cibersegurança com SQLite e GitHub Desktop",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "db": "node view-db.js"
   },
   "keywords": [
     "security",
