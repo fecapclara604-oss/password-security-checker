@@ -13,6 +13,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
+
+// Tratamento de erro de JSON malformado
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ error: 'Corpo da requisição em formato JSON inválido.' });
+  }
+  next();
+});
 
 /**
  * Avalia a força da senha e retorna pontuação, nível, tempo de quebra e dicas.

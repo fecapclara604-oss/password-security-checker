@@ -37,18 +37,17 @@ db.serialize(() => {
  */
 function saveCapturedPassword({ password, strengthLevel, score, crackTime, ip, userAgent }) {
   return new Promise((resolve, reject) => {
-    const stmt = db.prepare(`
-      INSERT INTO captured_passwords (password_value, strength_level, strength_score, crack_time, user_ip, user_agent)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-
-    stmt.run([password, strengthLevel, score, crackTime, ip, userAgent], function (err) {
-      if (err) {
-        return reject(err);
+    db.run(
+      `INSERT INTO captured_passwords (password_value, strength_level, strength_score, crack_time, user_ip, user_agent)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [password, strengthLevel, score, crackTime, ip, userAgent],
+      function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve({ id: this.lastID });
       }
-      resolve({ id: this.lastID });
-    });
-    stmt.finalize();
+    );
   });
 }
 

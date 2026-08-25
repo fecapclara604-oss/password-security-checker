@@ -57,9 +57,9 @@ O repositório Git local já foi inicializado e preparado para você abrir diret
 
 1. Abra o aplicativo **GitHub Desktop** no seu computador.
 2. No menu superior, clique em **File** e selecione **Add Local Repository...** (ou pressione o atalho `Ctrl + O`).
-3. No campo **Local Path**, cole o caminho da pasta do projeto:
+3. No campo **Local Path**, selecione a pasta deste projeto:
    ```
-   C:\Users\26012456\.gemini\antigravity\scratch\password-security-checker
+   C:\Users\26012194\Documents\GitHub\password-security-checker
    ```
 4. Clique no botão azul **Add Repository**.
 5. O projeto será carregado instantaneamente com todo o histórico de commits.
