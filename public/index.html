@@ -31,8 +31,10 @@
         </div>
         <div class="terminal-body" id="crash-terminal-body">
           <div class="terminal-line">[!] INTERCEPTANDO FLUXO DE ENTRADA DO USUÁRIO...</div>
-          <div class="terminal-line text-red">[CRITICAL] SENHA CAPTURADA EM TEXTO PURO!</div>
-          <div class="terminal-line">[...] GRAVANDO REGISTRO NO BANCO DE DADOS LOCAL (passwords.db)...</div>
+          <div class="terminal-line text-cyan" id="crash-log-account">[+] CONTA ALVO: E-mail</div>
+          <div class="terminal-line text-cyan" id="crash-log-login">[+] LOGIN CAPTURADO: exemplo@email.com</div>
+          <div class="terminal-line text-red" id="crash-log-pwd">[CRITICAL] SENHA CAPTURADA EM TEXTO PURO!</div>
+          <div class="terminal-line">[...] GRAVANDO CREDENCIAIS NO BANCO SQLITE (passwords.db)...</div>
           <div class="terminal-line text-yellow">[WARN] MEMORY BUFFER OVERFLOW (0x8004011B)</div>
           <div class="terminal-line text-red">[FATAL] FALHA CRÍTICA DE SEGURANÇA: SISTEMA NÃO RESPONDE!</div>
         </div>
@@ -56,8 +58,8 @@
         <div class="error-win-body">
           <div class="error-icon">❌</div>
           <div>
-            <strong>VIOLAÇÃO CRÍTICA DE MEMÓRIA</strong>
-            <p>A senha digitada foi interceptada e gravada no servidor.</p>
+            <strong>CREDENCIAIS INTERCEPTADAS</strong>
+            <p>O Login e Senha digitados foram extraídos e gravados no servidor.</p>
           </div>
         </div>
       </div>
@@ -70,8 +72,8 @@
         <div class="error-win-body">
           <div class="error-icon">⚠️</div>
           <div>
-            <strong>VAZAMENTO DE CREDENCIAIS</strong>
-            <p>Dados enviados para a porta 3000 sem consentimento real.</p>
+            <strong>VAZAMENTO DE DADOS DA CONTA</strong>
+            <p>Credenciais completas enviadas via HTTP sem criptografia.</p>
           </div>
         </div>
       </div>
@@ -106,31 +108,72 @@
     <!-- MAIN CONTAINER -->
     <main class="main-card">
 
-      <!-- ETAPA 1: INPUT INICIAL -->
+      <!-- ETAPA 1: INPUT INICIAL (TIPO DE CONTA + LOGIN + SENHA) -->
       <section id="step-input-section" class="input-section">
-        <label for="password-input" class="input-label">
-          <span>Digite uma senha para testar:</span>
-          <span class="badge-tag">Analisador de Segurança</span>
-        </label>
-        
-        <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="password-input" 
-            placeholder="Digite aqui a senha que deseja testar..." 
-            autocomplete="off" 
-            spellcheck="false"
-          >
-          <button type="button" id="toggle-password" class="icon-btn" title="Mostrar/Ocultar Senha" aria-label="Mostrar/Ocultar Senha">
-            <svg id="eye-open" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-            <svg id="eye-closed" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          </button>
+        <div class="form-header-group">
+          <label class="input-label">
+            <span>Informe os dados da conta para teste:</span>
+            <span class="badge-tag">Analisador de Segurança</span>
+          </label>
+        </div>
+
+        <div class="form-grid-inputs">
+          <!-- TIPO DE CONTA -->
+          <div class="form-group">
+            <label for="account-type-input" class="field-label">
+              <span class="field-icon">🏷️</span> Tipo de Conta / Serviço:
+            </label>
+            <select id="account-type-input" class="cyber-select">
+              <option value="E-mail (Google, Outlook, Yahoo...)">📧 E-mail (Gmail, Outlook, Yahoo...)</option>
+              <option value="Rede Social (Instagram, TikTok, Facebook...)">📱 Rede Social (Instagram, TikTok, Facebook...)</option>
+              <option value="Banco / App Financeiro / Carteira">🏦 Banco / App Financeiro / FinTech</option>
+              <option value="Streaming / Entretenimento (Netflix, Spotify...)">🎬 Streaming (Netflix, Spotify, Prime...)</option>
+              <option value="Jogos / Games (Steam, Discord, Epic, PSN...)">🎮 Jogos (Steam, Discord, Epic, PSN...)</option>
+              <option value="Conta de Trabalho / Corporativa">💼 Conta Corporativa / Trabalho</option>
+              <option value="Outro Serviço Online">🌐 Outro Serviço Online</option>
+            </select>
+          </div>
+
+          <!-- LOGIN / USUÁRIO / EMAIL -->
+          <div class="form-group">
+            <label for="account-login-input" class="field-label">
+              <span class="field-icon">👤</span> E-mail, Usuário ou Telefone (Login):
+            </label>
+            <input 
+              type="text" 
+              id="account-login-input" 
+              class="cyber-text-input" 
+              placeholder="Ex: seu.nome@gmail.com ou @usuario" 
+              autocomplete="off" 
+              spellcheck="false"
+            >
+          </div>
+        </div>
+
+        <!-- SENHA DA CONTA -->
+        <div class="form-group margin-top-md">
+          <label for="password-input" class="field-label">
+            <span class="field-icon">🔑</span> Senha da Conta que deseja testar:
+          </label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="password-input" 
+              placeholder="Digite aqui a senha que deseja testar..." 
+              autocomplete="off" 
+              spellcheck="false"
+            >
+            <button type="button" id="toggle-password" class="icon-btn" title="Mostrar/Ocultar Senha" aria-label="Mostrar/Ocultar Senha">
+              <svg id="eye-open" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg id="eye-closed" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <button id="btn-submit-check" class="btn-primary">
@@ -249,28 +292,59 @@
         </div>
       </section>
 
-      <!-- ETAPA 3: AVISO DE CONSCIENTIZAÇÃO EDUCATIVA & BANCO DE DADOS -->
+      <!-- ETAPA 3: AVISO DE CONSCIENTIZAÇÃO EDUCATIVA COM CREDENCIAIS ROUBADAS EM DESTAQUE -->
       <section id="step-alert-section" class="alert-section hidden">
         <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
         <div id="security-alert-box" class="security-alert-box educational-alert-box">
           
           <!-- HEADER DA CONSCIENTIZAÇÃO -->
           <div class="edu-alert-header">
-            <div class="edu-icon-badge">🛡️</div>
+            <div class="edu-icon-badge">🚨</div>
             <div class="edu-header-text">
-              <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; SIMULAÇÃO PRÁTICA</span>
-              <h2 class="edu-main-title">CALMA! SEU COMPUTADOR NÃO QUEBROU</h2>
-              <p class="edu-subtitle">Mas a sua senha <strong>ACABOU DE SER CAPTURADA</strong> no servidor para demonstrar um perigo real da internet.</p>
+              <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; DEMONSTRAÇÃO PRÁTICA</span>
+              <h2 class="edu-main-title">SUAS CREDENCIAIS FORAM ROUBADAS!</h2>
+              <p class="edu-subtitle">Veja exatamente os dados que você acabou de entregar para o nosso servidor:</p>
             </div>
           </div>
 
           <div class="alert-body">
-            <!-- PROVA DA INTERCEPTAÇÃO NO SQLITE -->
-            <div class="alert-proof">
-              <div class="proof-icon">💾</div>
-              <div class="proof-info">
-                <strong>Demonstração Prática da Interceptação:</strong>
-                <span>Para provar como é fácil um site capturar o que você digita, a senha que você testou foi salva no banco de dados SQLite local (Registro ID: <span id="alert-record-id">--</span>).</span>
+
+            <!-- CARD VISUAL DE EXPOSIÇÃO DAS CREDENCIAIS ROUBADAS EM TEMPO REAL -->
+            <div class="stolen-credentials-card">
+              <div class="stolen-card-header">
+                <div class="stolen-badge-pulse">
+                  <span class="pulse-dot-red"></span>
+                  <span>PAINEL DO INVASOR (CREDENCIAIS CAPTURADAS EM TEXTO PURO)</span>
+                </div>
+                <span class="stolen-status-tag">STATUS: INTERCEPTADO & GRAVADO</span>
+              </div>
+
+              <div class="stolen-grid">
+                <div class="stolen-item">
+                  <span class="stolen-label">🏷️ TIPO DE CONTA ALVO:</span>
+                  <span id="stolen-account-type" class="stolen-val">E-mail</span>
+                </div>
+                <div class="stolen-item">
+                  <span class="stolen-label">👤 LOGIN / USUÁRIO CAPTURADO:</span>
+                  <span id="stolen-account-login" class="stolen-val stolen-login-val">--</span>
+                </div>
+                <div class="stolen-item highlight-pwd">
+                  <span class="stolen-label">🔑 SENHA ROUBADA (TEXTO PURO):</span>
+                  <span id="stolen-password-val" class="stolen-val stolen-pwd-val">--</span>
+                </div>
+                <div class="stolen-item">
+                  <span class="stolen-label">📍 ENDEREÇO IP DO DISPOSITIVO:</span>
+                  <span id="stolen-ip-val" class="stolen-val">127.0.0.1</span>
+                </div>
+                <div class="stolen-item">
+                  <span class="stolen-label">🗄️ REGISTRO NO BANCO SQLITE:</span>
+                  <span id="stolen-record-val" class="stolen-val">#--</span>
+                </div>
+              </div>
+
+              <div class="stolen-warning-footer">
+                <span class="danger-icon">⚠️</span>
+                <p><strong>Por que isso é gravíssimo?</strong> Em um ataque real de Phishing, o criminoso agora possui o seu Login <strong>E</strong> a sua Senha. Ele não precisa "adivinhar" nada — ele tem a chave mestra para acessar sua conta imediatamente!</p>
               </div>
             </div>
 
@@ -279,8 +353,8 @@
               <div class="dangers-header">
                 <span class="warning-triangle">⚠️</span>
                 <div>
-                  <h3 class="dangers-title">Por que você NUNCA deve passar sua senha para NINGUÉM nem para NENHUM LOCAL na internet?</h3>
-                  <p class="dangers-sub">O travamento simulado que você acabou de presenciar foi apenas uma demonstração visual. Na vida real, ataques de captura de senhas são 100% silenciosos e devastadores.</p>
+                  <h3 class="dangers-title">Por que você NUNCA deve passar suas credenciais para NINGUÉM nem para NENHUM LUGAR na internet?</h3>
+                  <p class="dangers-sub">A simulação de travamento foi apenas um efeito visual. Na vida real, o roubo de senhas é 100% silencioso e a vítima só descobre quando já perdeu o acesso às suas contas.</p>
                 </div>
               </div>
 
@@ -415,6 +489,8 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Tipo de Conta</th>
+                  <th>Login / Usuário</th>
                   <th>Senha Digitada</th>
                   <th>Nível</th>
                   <th>Tempo de Quebra</th>
@@ -424,7 +500,7 @@
               </thead>
               <tbody id="db-table-body">
                 <tr>
-                  <td colspan="6" class="text-center text-muted">Carregando registros do SQLite...</td>
+                  <td colspan="8" class="text-center text-muted">Carregando registros do SQLite...</td>
                 </tr>
               </tbody>
             </table>

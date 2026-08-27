@@ -1,12 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ELEMENTOS DO OVERLAY DE TRAVAMENTO / ERROS
   const crashOverlay = document.getElementById('crash-simulation-overlay');
+  const crashLogAccount = document.getElementById('crash-log-account');
+  const crashLogLogin = document.getElementById('crash-log-login');
+  const crashLogPwd = document.getElementById('crash-log-pwd');
   const errWin1 = document.getElementById('err-win-1');
   const errWin2 = document.getElementById('err-win-2');
   const errWin3 = document.getElementById('err-win-3');
 
   // ELEMENTOS DA ETAPA 1 (INPUT)
   const stepInputSection = document.getElementById('step-input-section');
+  const accountTypeInput = document.getElementById('account-type-input');
+  const accountLoginInput = document.getElementById('account-login-input');
   const passwordInput = document.getElementById('password-input');
   const toggleBtn = document.getElementById('toggle-password');
   const eyeOpen = document.getElementById('eye-open');
@@ -30,14 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyText = document.getElementById('copy-text');
   const btnFinalize = document.getElementById('btn-finalize');
 
-  // ELEMENTOS DA ETAPA 3 (AVISO EDUCATIVO & BANCO DE DADOS)
+  // ELEMENTOS DA ETAPA 3 (AVISO EDUCATIVO & CREDENCIAIS ROUBADAS)
   const stepAlertSection = document.getElementById('step-alert-section');
   const securityAlertBox = document.getElementById('security-alert-box');
-  const alertRecordId = document.getElementById('alert-record-id');
+  const stolenAccountType = document.getElementById('stolen-account-type');
+  const stolenAccountLogin = document.getElementById('stolen-account-login');
+  const stolenPasswordVal = document.getElementById('stolen-password-val');
+  const stolenIpVal = document.getElementById('stolen-ip-val');
+  const stolenRecordVal = document.getElementById('stolen-record-val');
   const dbTableBody = document.getElementById('db-table-body');
   const btnRefreshDb = document.getElementById('btn-refresh-db');
   const btnClearDb = document.getElementById('btn-clear-db');
   const btnTestAgain = document.getElementById('btn-test-again');
+
+  // Variável para armazenar os dados da última submissão
+  let currentCheckData = null;
 
   // Detecta URL base da API
   function getApiBase() {
@@ -62,9 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Enter para verificar
   passwordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      submitCheck();
-    }
+    if (e.key === 'Enter') submitCheck();
+  });
+  accountLoginInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') passwordInput.focus();
   });
 
   // Event Listeners
@@ -94,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Avaliação no cliente (Fallback robusto caso o servidor node não esteja rodando)
+  // Avaliação no cliente (Fallback caso o backend esteja indisponível)
   function clientEvaluatePassword(password) {
     const length = password.length;
     const hasUpper = /[A-Z]/.test(password);
@@ -134,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!hasUpper) feedback.push('❌ Adicione letras maiúsculas (A-Z).');
     if (!hasLower) feedback.push('❌ Adicione letras minúsculas (a-z).');
     if (!hasNumber) feedback.push('❌ Adicione números (0-9).');
-    if (!hasSpecial) feedback.push('❌ Adicione caracteres especiais (@, #, $, %, &, *).');
+    if (!hasSpecial) feedback.push('❌ Adicione caracteres especiais (@, #, $, %, &).');
 
     let crackTime = 'Instantâneo (< 0.01 segundos)';
     let level = 'Muito Fraca';
@@ -164,13 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
       level,
       crackTime,
       feedback: feedback.length > 0 ? feedback : ['✅ Excelente! Esta senha cumpre ótimos padrões de segurança.'],
-      details: {
-        length,
-        hasUpper,
-        hasLower,
-        hasNumber,
-        hasSpecial
-      }
+      details: { length, hasUpper, hasLower, hasNumber, hasSpecial }
     };
   }
 
@@ -211,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${s1}${transformed}${s2}${digits}`;
   }
 
-  // LocalStorage helpers para histórico offline / fallback
+  // LocalStorage helpers para fallback offline
   function getLocalRecords() {
     try {
       const data = localStorage.getItem('captured_passwords_lab');
@@ -227,11 +234,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const newId = list.length > 0 ? (list[0].id + 1) : 1;
       const fullRecord = {
         id: newId,
+        account_type: record.accountType || 'E-mail',
+        account_login: record.accountLogin || 'Não informado',
         password_value: record.password,
         strength_level: record.strengthLevel,
         crack_time: record.crackTime,
         created_at: new Date().toISOString(),
-        user_ip: 'Local / Navegador'
+        user_ip: '127.0.0.1 (Local)'
       };
       list.unshift(fullRecord);
       localStorage.setItem('captured_passwords_lab', JSON.stringify(list));
@@ -256,8 +265,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   async function submitCheck() {
     const password = passwordInput.value;
+    const accountType = accountTypeInput.value || 'E-mail';
+    const rawLogin = accountLoginInput.value.trim();
+    const accountLogin = rawLogin || 'usuario@exemplo.com';
+
     if (!password || password.trim() === '') {
-      alert('Por favor, digite uma senha para realizar o teste.');
+      alert('Por favor, digite uma senha para realizar o teste de segurança.');
       passwordInput.focus();
       return;
     }
@@ -274,7 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({
+          accountType,
+          accountLogin,
+          password
+        })
       });
 
       if (response.ok) {
@@ -283,11 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Status ' + response.status);
       }
     } catch (netErr) {
-      console.warn('Backend SQLite indisponível. Usando processamento local seguro:', netErr.message);
+      console.warn('Backend SQLite offline. Usando processamento local seguro:', netErr.message);
       
       const evaluation = clientEvaluatePassword(password);
       const fortifiedSuggestion = clientGenerateFortified(password);
       const saved = saveLocalRecord({
+        accountType,
+        accountLogin,
         password,
         strengthLevel: evaluation.level,
         crackTime: evaluation.crackTime
@@ -295,16 +314,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       resultData = {
         success: true,
+        accountType,
+        accountLogin,
         originalPassword: password,
         evaluation,
         fortifiedSuggestion,
-        savedRecordId: saved.id
+        savedRecordId: saved.id,
+        userIp: '127.0.0.1'
       };
     }
 
     try {
-      // Armazena o ID capturado para a conscientização
-      alertRecordId.textContent = `#${resultData.savedRecordId}`;
+      // Armazena os dados da submissão atual
+      currentCheckData = {
+        accountType: resultData.accountType || accountType,
+        accountLogin: resultData.accountLogin || accountLogin,
+        password: password,
+        recordId: resultData.savedRecordId,
+        userIp: resultData.userIp || '127.0.0.1'
+      };
 
       // Preenche o Diagnóstico
       const evalData = resultData.evaluation;
@@ -390,10 +418,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // =========================================================================
   // ETAPA 3: AO CLICAR EM FINALIZAR -> SIMULAÇÃO DE TRAVAMENTO E ERROS
-  // E DEPOIS REVELAÇÃO DA EXPLICAÇÃO EDUCATIVA
+  // E DEPOIS EXPOSIÇÃO EXPLICITA DAS CREDENCIAIS ROUBADAS
   // =========================================================================
   function triggerCrashAndFinalize() {
     btnFinalize.disabled = true;
+
+    // Atualiza o terminal com os dados exatos que o usuário digitou
+    if (currentCheckData) {
+      if (crashLogAccount) crashLogAccount.textContent = `[+] CONTA ALVO: ${currentCheckData.accountType}`;
+      if (crashLogLogin) crashLogLogin.textContent = `[+] LOGIN CAPTURADO: ${currentCheckData.accountLogin}`;
+      if (crashLogPwd) crashLogPwd.textContent = `[CRITICAL] SENHA ROUBADA: "${currentCheckData.password}"`;
+    }
 
     // 1. Inicia o Efeito de Travamento da Tela e Ativa Overlay
     document.body.classList.add('system-crashing');
@@ -412,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errWin3) errWin3.classList.add('show');
     }, 1750);
 
-    // 3. Após 3.3 segundos de simulação de travamento, restaura e exibe a Conscientização
+    // 3. Após 3.3 segundos de travamento, restaura e exibe a Conscientização
     setTimeout(async () => {
       // Remove o efeito de travamento e esconde o overlay
       document.body.classList.remove('system-crashing');
@@ -421,6 +456,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errWin1) errWin1.classList.remove('show');
       if (errWin2) errWin2.classList.remove('show');
       if (errWin3) errWin3.classList.remove('show');
+
+      // Preenche o Card de Exposição das Credenciais Roubadas
+      if (currentCheckData) {
+        stolenAccountType.textContent = currentCheckData.accountType;
+        stolenAccountLogin.textContent = currentCheckData.accountLogin;
+        stolenPasswordVal.textContent = currentCheckData.password;
+        stolenRecordVal.textContent = `#${currentCheckData.recordId}`;
+        stolenIpVal.textContent = currentCheckData.userIp;
+      }
 
       // Revela a seção educativa
       stepAlertSection.classList.remove('hidden');
@@ -438,10 +482,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // REINICIAR: TESTAR OUTRA SENHA
+  // REINICIAR: TESTAR OUTRA CONTA E SENHA
   // ==========================================
   function resetToStart() {
     passwordInput.value = '';
+    accountLoginInput.value = '';
+    accountTypeInput.selectedIndex = 0;
+    currentCheckData = null;
+
     btnFinalize.disabled = false;
     btnFinalize.innerHTML = '<span>Finalizar</span><span class="btn-icon">🔒</span>';
     btnFinalize.style.opacity = '1';
@@ -458,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stepInputSection.classList.remove('hidden');
     stepInputSection.classList.add('fade-in');
 
-    passwordInput.focus();
+    accountLoginInput.focus();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -478,10 +526,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Renderizar Tabela do SQLite / Armazenamento Local
+  // Renderizar Tabela do SQLite / Armazenamento Local com novas colunas
   function renderTable(records, source = 'sqlite') {
     if (!records || records.length === 0) {
-      dbTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Nenhuma senha registrada ainda. Faça um teste acima para ver a interceptação na prática!</td></tr>`;
+      dbTableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Nenhuma credencial capturada ainda. Faça um teste acima para ver os dados no banco!</td></tr>`;
       return;
     }
 
@@ -489,14 +537,18 @@ document.addEventListener('DOMContentLoaded', () => {
     records.forEach(row => {
       const tr = document.createElement('tr');
       const dateFormatted = new Date(row.created_at).toLocaleString('pt-BR');
+      const accountTypeDisplay = row.account_type || 'E-mail';
+      const accountLoginDisplay = row.account_login || 'Não informado';
 
       tr.innerHTML = `
         <td><strong>#${row.id}</strong></td>
+        <td><span class="badge-account">${escapeHtml(accountTypeDisplay)}</span></td>
+        <td><span class="cell-login">${escapeHtml(accountLoginDisplay)}</span></td>
         <td><code class="cell-code">${escapeHtml(row.password_value)}</code></td>
         <td><span class="level-badge level-${getLevelSlug(row.strength_level)}">${row.strength_level}</span></td>
         <td>${row.crack_time}</td>
         <td>${dateFormatted}</td>
-        <td><small class="text-muted">${row.user_ip || (source === 'sqlite' ? '127.0.0.1' : 'Local / Navegador')}</small></td>
+        <td><small class="text-muted">${row.user_ip || (source === 'sqlite' ? '127.0.0.1' : 'Local')}</small></td>
       `;
       dbTableBody.appendChild(tr);
     });
@@ -523,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Limpar Banco de Dados
   async function clearDbRecords() {
-    if (!confirm('Deseja realmente limpar todos os registros educativos interceptados?')) {
+    if (!confirm('Deseja realmente limpar todas as credenciais capturadas no banco de dados?')) {
       return;
     }
 

