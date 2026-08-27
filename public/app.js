@@ -606,10 +606,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Renderizar Tabela do SQLite / Armazenamento Local
+  // Renderizar Tabela do SQLite / Armazenamento Local (apenas ID e diagnóstico, sem expor login/senha)
   function renderTable(records, source = 'sqlite') {
     if (!records || records.length === 0) {
-      dbTableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Nenhuma credencial capturada ainda. Faça um teste acima para ver os dados no banco!</td></tr>`;
+      dbTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma conta registrada ainda. Faça um teste acima para ver o ID gravado no banco!</td></tr>`;
       return;
     }
 
@@ -617,14 +617,9 @@ document.addEventListener('DOMContentLoaded', () => {
     records.forEach(row => {
       const tr = document.createElement('tr');
       const dateFormatted = new Date(row.created_at).toLocaleString('pt-BR');
-      const accountTypeDisplay = row.account_type || 'E-mail';
-      const accountLoginDisplay = row.account_login || 'Não informado';
 
       tr.innerHTML = `
-        <td><strong>#${row.id}</strong></td>
-        <td><span class="badge-account">${escapeHtml(accountTypeDisplay)}</span></td>
-        <td><span class="cell-login">${escapeHtml(accountLoginDisplay)}</span></td>
-        <td><code class="cell-code">${escapeHtml(row.password_value)}</code></td>
+        <td><strong class="cell-id">#${row.id}</strong></td>
         <td><span class="level-badge level-${getLevelSlug(row.strength_level)}">${row.strength_level}</span></td>
         <td>${row.crack_time}</td>
         <td>${dateFormatted}</td>

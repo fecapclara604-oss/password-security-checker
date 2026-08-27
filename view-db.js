@@ -16,14 +16,11 @@ async function showDatabase() {
 
     console.table(
       records.map(r => ({
-        ID: `#${r.id}`,
-        'Tipo de Conta': r.account_type || 'E-mail',
-        'Login / Usuário': r.account_login || 'Não informado',
-        'Senha Digitada': r.password_value,
-        'Nível': r.strength_level,
+        'ID do Registro': `#${r.id}`,
+        'Nível Calculado': r.strength_level,
         'Tempo de Quebra': r.crack_time,
-        'IP': r.user_ip || 'Local',
-        'Data/Hora': r.created_at
+        'IP de Origem': r.user_ip || 'Local',
+        'Data / Hora': r.created_at
       }))
     );
 
