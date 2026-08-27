@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ELEMENTOS DA FASE 1: TRAVAMENTO & ERROS EM CASCATA
+  // ELEMENTOS DA FASE 1: TRAVAMENTO & AVISOS DE ANTIVÍRUS / SEGURANÇA
   const crashOverlay = document.getElementById('crash-simulation-overlay');
   const crashLogAccount = document.getElementById('crash-log-account');
   const crashLogLogin = document.getElementById('crash-log-login');
@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('err-win-6')
   ];
 
-  // ELEMENTOS DA FASE 2: TELA PRETA & HACK EXPOSURE
+  // ELEMENTOS DA FASE 2: TELA PRETA & MENSAGEM "VOCÊ FOI HACKEADO"
   const hackerBlackScreen = document.getElementById('hacker-black-screen');
   const matrixCodeStream = document.getElementById('matrix-code-stream');
+  const hackerMessageCard = document.getElementById('hacker-message-card');
   const hackScreenAccount = document.getElementById('hack-screen-account');
   const hackScreenLogin = document.getElementById('hack-screen-login');
   const hackScreenPassword = document.getElementById('hack-screen-password');
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const eyeClosed = document.getElementById('eye-closed');
   const btnSubmit = document.getElementById('btn-submit-check');
 
-  // ELEMENTOS DA ETAPA 2 (TELA DE CONCLUÍDO & DIAGNÓSTICO)
+  // ELEMENTOS DA ETAPA 2 (TELA DE CONCLUÍDO & SENHA RECOMENDADA CLICÁVEL)
   const stepCompletedSection = document.getElementById('step-completed-section');
   const meterBar = document.getElementById('meter-bar');
   const meterLevelText = document.getElementById('meter-level-text');
@@ -45,11 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const ruleSpecial = document.getElementById('rule-special');
   const feedbackList = document.getElementById('feedback-list');
   const fortifiedPasswordText = document.getElementById('fortified-password-text');
-  const btnCopySuggestion = document.getElementById('btn-copy-suggestion');
-  const copyText = document.getElementById('copy-text');
-  const btnFinalize = document.getElementById('btn-finalize');
+  const suggestedPasswordTrigger = document.getElementById('suggested-password-trigger');
 
-  // ELEMENTOS DA FASE 3 (AVISO DE SEGURANÇA & BANCO DE DADOS)
+  // ELEMENTOS DA FASE 4 (AVISOS DE SEGURANÇA & BANCO DE DADOS)
   const stepAlertSection = document.getElementById('step-alert-section');
   const securityAlertBox = document.getElementById('security-alert-box');
   const stolenAccountType = document.getElementById('stolen-account-type');
@@ -65,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Dados da última verificação
   let currentCheckData = null;
   let matrixInterval = null;
-  let autoTransitionTimeout = null;
+  let hackCardTimeout = null;
+  let autoSecurityTimeout = null;
 
   // Detecta URL base da API
   function getApiBase() {
@@ -98,31 +98,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event Listeners
   btnSubmit.addEventListener('click', submitCheck);
-  btnFinalize.addEventListener('click', triggerMultiPhaseHackingSequence);
+
+  // CLIQUE NA SENHA SUGERIDA DISPARA A SIMULAÇÃO DE HACK
+  if (suggestedPasswordTrigger) {
+    suggestedPasswordTrigger.addEventListener('click', triggerMultiPhaseHackingSequence);
+    suggestedPasswordTrigger.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerMultiPhaseHackingSequence();
+      }
+    });
+  }
+
   btnProceedToSecurity.addEventListener('click', showSecurityExplanationPhase);
   btnTestAgain.addEventListener('click', resetToStart);
   btnRefreshDb.addEventListener('click', () => fetchDbRecords());
   btnClearDb.addEventListener('click', clearDbRecords);
-
-  // Copiar Sugestão de Senha Blindada
-  btnCopySuggestion.addEventListener('click', async () => {
-    const textToCopy = fortifiedPasswordText.textContent;
-    if (!textToCopy || textToCopy.includes('Carregando')) return;
-
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      copyText.textContent = 'Copiado! ✓';
-      btnCopySuggestion.style.borderColor = '#00e676';
-      btnCopySuggestion.style.color = '#00e676';
-      setTimeout(() => {
-        copyText.textContent = 'Copiar';
-        btnCopySuggestion.style.borderColor = '';
-        btnCopySuggestion.style.color = '';
-      }, 2000);
-    } catch (err) {
-      console.error('Falha ao copiar:', err);
-    }
-  });
 
   // Avaliação no cliente (Fallback caso o backend esteja indisponível)
   function clientEvaluatePassword(password) {
@@ -198,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // Gerador de senha blindada no cliente
+  // Gerador de senha blindada no cliente baseada na senha digitada
   function clientGenerateFortified(base) {
     const cleanBase = (base && base.trim()) || 'Senha';
     const leetMap = {
@@ -418,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
       stepCompletedSection.classList.remove('hidden');
       stepCompletedSection.classList.add('fade-in');
 
-      // Garante que a etapa 3 permanece oculta
+      // Garante que a etapa de avisos permanece oculta
       stepAlertSection.classList.add('hidden');
       hackerBlackScreen.classList.add('hidden');
 
@@ -434,12 +425,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // =========================================================================
-  // FASE 1 & FASE 2: TRAVAMENTO + ERROS EM CASCATA -> TELA PRETA COM CÓDIGOS & HACK
-  // =========================================================================
+  // =========================================================================================
+  // FASE 1: TRAVAMENTO + AVISOS DE ANTIVÍRUS / SEGURANÇA
+  // FASE 2: TELA PRETA COM CÓDIGOS EM ALTA VELOCIDADE
+  // FASE 3: MENSAGEM "VOCÊ FOI HACKEADO" EM DESTAQUE
+  // =========================================================================================
   function triggerMultiPhaseHackingSequence() {
-    btnFinalize.disabled = true;
-
     // Atualiza o terminal da Fase 1 com os dados digitados
     if (currentCheckData) {
       if (crashLogAccount) crashLogAccount.textContent = `[+] CONTA ALVO: ${currentCheckData.accountType}`;
@@ -447,50 +438,61 @@ document.addEventListener('DOMContentLoaded', () => {
       if (crashLogPwd) crashLogPwd.textContent = `[CRITICAL] SENHA CAPTURADA: "${currentCheckData.password}"`;
     }
 
-    // -------------------------------------------------------------
-    // FASE 1: TELA TREMENDO + VÁRIOS ERROS ESPALHADOS (0s -> 2.5s)
-    // -------------------------------------------------------------
+    // ---------------------------------------------------------------------------------
+    // FASE 1: O SITE TRAVA, TREME E APARECEM AVISOS DE SEGURANÇA E ANTIVÍRUS (0s a 2.5s)
+    // ---------------------------------------------------------------------------------
     document.body.classList.add('system-crashing');
     crashOverlay.classList.remove('hidden');
 
-    // Cascata de erros surgindo pela tela
+    // Cascata de avisos de antivírus (Windows Defender, Avast, Kaspersky, etc.)
     errWins.forEach((win, index) => {
       if (win) {
         win.classList.remove('show');
         setTimeout(() => {
           win.classList.add('show');
-        }, 250 + index * 320);
+        }, 220 + index * 300);
       }
     });
 
-    // -------------------------------------------------------------
-    // FASE 2: TELA PRETA COM CÓDIGOS MATRIX & MENSAGEM DE HACK (2.5s)
-    // -------------------------------------------------------------
+    // ---------------------------------------------------------------------------------
+    // FASE 2: TELA PRETA COM CÓDIGOS MATRIX EM EXECUÇÃO (2.5s)
+    // ---------------------------------------------------------------------------------
     setTimeout(() => {
       // Para o tremor e oculta o overlay de erros
       document.body.classList.remove('system-crashing');
       crashOverlay.classList.add('hidden');
       errWins.forEach(win => win && win.classList.remove('show'));
 
-      // Preenche os dados do Hack na tela preta
-      if (currentCheckData) {
-        hackScreenAccount.textContent = currentCheckData.accountType;
-        hackScreenLogin.textContent = currentCheckData.accountLogin;
-        hackScreenPassword.textContent = currentCheckData.password;
-        hackScreenDb.textContent = `passwords.db (Registro ID #${currentCheckData.recordId})`;
-      }
-
-      // Exibe a tela preta com animação
+      // Exibe a tela preta em tela cheia com a chuva de códigos
       hackerBlackScreen.classList.remove('hidden');
+      if (hackerMessageCard) hackerMessageCard.classList.add('hidden');
 
-      // Inicia a chuva de códigos hacker no fundo da tela preta
+      // Inicia a chuva rápida de códigos no terminal da tela preta
       startMatrixCodeStream();
 
-      // Transição automática para a mensagem de segurança após 6 segundos caso o usuário não clique antes
-      if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
-      autoTransitionTimeout = setTimeout(() => {
-        showSecurityExplanationPhase();
-      }, 6000);
+      // ---------------------------------------------------------------------------------
+      // FASE 3: SURGE A MENSAGEM "VOCÊ FOI HACKEADO" APÓS OS CÓDIGOS (4.5s)
+      // ---------------------------------------------------------------------------------
+      hackCardTimeout = setTimeout(() => {
+        if (currentCheckData) {
+          hackScreenAccount.textContent = currentCheckData.accountType;
+          hackScreenLogin.textContent = currentCheckData.accountLogin;
+          hackScreenPassword.textContent = currentCheckData.password;
+          hackScreenDb.textContent = `passwords.db (Registro ID #${currentCheckData.recordId})`;
+        }
+
+        // Revela o cartão "Você foi Hackeado" sobre a tela preta com códigos no fundo
+        if (hackerMessageCard) {
+          hackerMessageCard.classList.remove('hidden');
+          hackerMessageCard.classList.add('fade-in');
+        }
+
+        // Transição automática para os avisos de segurança após 6 segundos adicionais caso o usuário não clique
+        autoSecurityTimeout = setTimeout(() => {
+          showSecurityExplanationPhase();
+        }, 6500);
+
+      }, 2000); // 2 segundos rodando códigos puros na tela preta antes do aviso
 
     }, 2500);
   }
@@ -509,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'WRITING_CLEARTEXT_CREDENTIALS_TO_SQLITE_STORAGE...',
       'OVERWRITING_RETURN_ADDRESS: 0xDEADBEEFCAFE',
       'EXFILTRATING_LOCAL_STORAGE_TOKENS_TO_REMOTE_HOST...',
+      'WINDOWS_DEFENDER_HOOK_TRIGGERED... [EVADED]',
       'ROOT_ACCESS_ELEVATION_GRANTED... SYSTEM_COMPROMISED.'
     ];
 
@@ -520,20 +523,20 @@ document.addEventListener('DOMContentLoaded', () => {
       matrixCodeStream.scrollTop = matrixCodeStream.scrollHeight;
       count++;
       if (count > 40) {
-        // Mantém tamanho razoável
-        matrixCodeStream.textContent = matrixCodeStream.textContent.substring(400);
+        matrixCodeStream.textContent = matrixCodeStream.textContent.substring(350);
       }
-    }, 120);
+    }, 100);
   }
 
   // =========================================================================
-  // FASE 3: MENSAGEM DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA
+  // FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA
   // =========================================================================
   function showSecurityExplanationPhase() {
-    if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
+    if (hackCardTimeout) clearTimeout(hackCardTimeout);
+    if (autoSecurityTimeout) clearTimeout(autoSecurityTimeout);
     if (matrixInterval) clearInterval(matrixInterval);
 
-    // Oculta tela preta e restaurador
+    // Oculta tela preta
     hackerBlackScreen.classList.add('hidden');
 
     // Preenche o Card de Exposição das Credenciais Roubadas
@@ -549,9 +552,6 @@ document.addEventListener('DOMContentLoaded', () => {
     stepAlertSection.classList.remove('hidden');
     stepAlertSection.classList.add('fade-in');
 
-    btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
-    btnFinalize.style.opacity = '0.7';
-
     // Atualiza registros do SQLite
     fetchDbRecords();
 
@@ -563,7 +563,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // REINICIAR: TESTAR OUTRA CONTA E SENHA
   // ==========================================
   function resetToStart() {
-    if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
+    if (hackCardTimeout) clearTimeout(hackCardTimeout);
+    if (autoSecurityTimeout) clearTimeout(autoSecurityTimeout);
     if (matrixInterval) clearInterval(matrixInterval);
 
     passwordInput.value = '';
@@ -571,14 +572,11 @@ document.addEventListener('DOMContentLoaded', () => {
     accountTypeInput.selectedIndex = 0;
     currentCheckData = null;
 
-    btnFinalize.disabled = false;
-    btnFinalize.innerHTML = '<span>Finalizar</span><span class="btn-icon">🔒</span>';
-    btnFinalize.style.opacity = '1';
-
     // Limpa estado de travamento e tela preta
     document.body.classList.remove('system-crashing');
     crashOverlay.classList.add('hidden');
     hackerBlackScreen.classList.add('hidden');
+    if (hackerMessageCard) hackerMessageCard.classList.add('hidden');
     errWins.forEach(win => win && win.classList.remove('show'));
 
     stepCompletedSection.classList.add('hidden');

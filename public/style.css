@@ -69,7 +69,7 @@ body {
 }
 
 /* ========================================================
-   FASE 1: CRASH / FREEZE & MULTIPLE CASCADING ERRORS
+   FASE 1: CRASH / FREEZE & AVISOS DE ANTIVÍRUS / SEGURANÇA
    ======================================================== */
 body.system-crashing {
   animation: bodyGlitchShake 0.1s infinite alternate;
@@ -253,14 +253,14 @@ body.system-crashing {
   100% { background-position: 28px 0; }
 }
 
-/* ERROR WINDOWS CASCADING (MULTIPLE ERRORS) */
+/* ERROR & ANTIVIRUS WINDOWS (6 JANELAS EM CASCATA) */
 .error-window {
   position: absolute;
-  width: 300px;
+  width: 320px;
   background: #181d2d;
   border: 2px solid #ff3366;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 51, 102, 0.5);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 51, 102, 0.5);
   opacity: 0;
   transform: scale(0.6) rotate(-4deg);
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -275,12 +275,27 @@ body.system-crashing {
 .error-win-header {
   background: #ff3366;
   color: #fff;
-  padding: 6px 10px;
-  font-size: 0.74rem;
+  padding: 8px 12px;
+  font-size: 0.75rem;
   font-weight: 800;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.defender-header {
+  background: #0078d4;
+  border-bottom: 2px solid #005a9e;
+}
+
+.avast-header {
+  background: #ff7800;
+  border-bottom: 2px solid #e06a00;
+}
+
+.kaspersky-header {
+  background: #006d5b;
+  border-bottom: 2px solid #004d40;
 }
 
 .error-close {
@@ -289,42 +304,42 @@ body.system-crashing {
 }
 
 .error-win-body {
-  padding: 10px 12px;
+  padding: 12px 14px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: flex-start;
 }
 
 .error-icon {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: 1;
 }
 
 .error-win-body strong {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #fff;
   margin-bottom: 2px;
 }
 
 .error-win-body p {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: #ffc2d1;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
-.error-win-1 { top: -45px; right: -40px; transform: scale(0.6) rotate(3deg); }
-.error-win-2 { bottom: -60px; left: -30px; transform: scale(0.6) rotate(-4deg); }
-.error-win-3 { bottom: 30px; right: -60px; transform: scale(0.6) rotate(5deg); }
-.error-win-4 { top: -60px; left: -40px; transform: scale(0.6) rotate(-6deg); }
-.error-win-5 { top: 40%; left: -80px; transform: scale(0.6) rotate(2deg); }
-.error-win-6 { top: 45%; right: -80px; transform: scale(0.6) rotate(-3deg); }
+.error-win-1 { top: -50px; right: -50px; transform: scale(0.6) rotate(3deg); }
+.error-win-2 { bottom: -70px; left: -40px; transform: scale(0.6) rotate(-4deg); }
+.error-win-3 { bottom: 20px; right: -70px; transform: scale(0.6) rotate(5deg); }
+.error-win-4 { top: -70px; left: -50px; transform: scale(0.6) rotate(-6deg); }
+.error-win-5 { top: 38%; left: -90px; transform: scale(0.6) rotate(2deg); }
+.error-win-6 { top: 42%; right: -90px; transform: scale(0.6) rotate(-3deg); }
 
 @media (max-width: 768px) {
-  .error-win-1 { top: -20px; right: 5px; width: 260px; }
-  .error-win-2 { bottom: -20px; left: 5px; width: 260px; }
+  .error-win-1 { top: -20px; right: 5px; width: 270px; }
+  .error-win-2 { bottom: -20px; left: 5px; width: 270px; }
   .error-win-3 { display: none; }
-  .error-win-4 { top: 10px; left: 5px; width: 250px; }
+  .error-win-4 { top: 10px; left: 5px; width: 260px; }
   .error-win-5, .error-win-6 { display: none; }
 }
 
@@ -352,11 +367,11 @@ body.system-crashing {
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 24px;
   font-family: var(--code-font);
-  font-size: 0.8rem;
-  color: rgba(0, 242, 254, 0.25);
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: rgba(0, 242, 254, 0.35);
+  line-height: 1.55;
   white-space: pre-wrap;
   overflow: hidden;
   pointer-events: none;
@@ -377,11 +392,11 @@ body.system-crashing {
 }
 
 .hacker-terminal-card {
-  background: rgba(10, 15, 26, 0.95);
+  background: rgba(10, 15, 26, 0.96);
   border: 2px solid #ff3366;
   border-radius: var(--radius-lg);
   padding: 32px 28px;
-  box-shadow: 0 0 60px rgba(255, 51, 102, 0.45), inset 0 0 30px rgba(255, 51, 102, 0.15);
+  box-shadow: 0 0 60px rgba(255, 51, 102, 0.5), inset 0 0 30px rgba(255, 51, 102, 0.2);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1000,7 +1015,7 @@ body.system-crashing {
   border-radius: var(--radius-sm);
 }
 
-/* SUGGESTION CARD */
+/* SUGGESTION & PASSWORD INTERACTIVE TRIGGER */
 .suggestion-card {
   border: 1px solid rgba(0, 242, 254, 0.3);
   background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(13, 20, 34, 0.9) 100%);
@@ -1025,62 +1040,126 @@ body.system-crashing {
 }
 
 .suggestion-sub {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.suggestion-sub strong {
+  color: #00f2fe;
+}
+
+/* INTERACTIVE PASSWORD CARD (TRIGGER DA SEQUÊNCIA) */
+.interactive-password-wrapper {
   margin-bottom: 18px;
 }
 
-.fortified-box {
+.click-instruction-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #00e676;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.pulse-spark {
+  animation: sparkBlink 0.8s infinite alternate;
+}
+
+@keyframes sparkBlink {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+.interactive-password-card {
   background: #060911;
-  border: 1px solid rgba(0, 242, 254, 0.4);
+  border: 2px solid #00f2fe;
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 18px;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
+  user-select: none;
+}
+
+.interactive-password-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: #00e676;
+  box-shadow: 0 0 35px rgba(0, 230, 118, 0.4), inset 0 0 15px rgba(0, 242, 254, 0.15);
+}
+
+.interactive-password-card:active {
+  transform: translateY(0) scale(0.99);
 }
 
 .fortified-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   overflow-x: auto;
   white-space: nowrap;
 }
 
-.fortified-content code {
+.lock-glow-icon {
+  font-size: 1.4rem;
+  animation: lockGlow 2s infinite alternate;
+}
+
+@keyframes lockGlow {
+  0% { filter: drop-shadow(0 0 2px #00f2fe); }
+  100% { filter: drop-shadow(0 0 10px #00e676); }
+}
+
+.fortified-code-highlight {
   font-family: var(--code-font);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.22rem;
+  font-weight: 700;
   color: #00f2fe;
   letter-spacing: 1px;
 }
 
-.btn-copy {
-  background: rgba(0, 242, 254, 0.15);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  color: #00f2fe;
-  font-family: var(--main-font);
-  font-weight: 600;
-  font-size: 0.85rem;
+.btn-click-pass {
+  background: linear-gradient(135deg, #00e676 0%, #00b0ff 100%);
+  color: #090d16;
+  font-weight: 800;
+  font-size: 0.82rem;
   padding: 8px 14px;
   border-radius: var(--radius-sm);
-  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s;
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
   flex-shrink: 0;
+  transition: transform 0.2s;
 }
 
-.btn-copy:hover {
-  background: rgba(0, 242, 254, 0.25);
-  color: #fff;
+.interactive-password-card:hover .btn-click-pass {
+  transform: scale(1.05);
 }
 
-.copy-icon {
-  width: 16px;
-  height: 16px;
+.pass-click-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.hint-dot {
+  width: 6px;
+  height: 6px;
+  background: #00f2fe;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .suggestion-stats {
@@ -1102,44 +1181,8 @@ body.system-crashing {
   color: #fff;
 }
 
-/* ACTION FOOTER & FINALIZE BUTTON */
-.action-footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.btn-finalize {
-  width: 100%;
-  max-width: 380px;
-  background: linear-gradient(135deg, #00e676 0%, #00b0ff 100%);
-  color: #090d16;
-  border: none;
-  font-family: var(--main-font);
-  font-size: 1.1rem;
-  font-weight: 800;
-  padding: 16px 28px;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
-}
-
-.btn-finalize:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(0, 230, 118, 0.45);
-}
-
-.btn-finalize:active {
-  transform: translateY(0);
-}
-
 /* ========================================================
-   FASE 3: AVISO DE SEGURANÇA (CONSCIENTIZAÇÃO EDUCATIVA)
+   FASE 4: AVISOS DE SEGURANÇA (CONSCIENTIZAÇÃO EDUCATIVA)
    ======================================================== */
 .alert-section {
   display: flex;
@@ -1218,9 +1261,7 @@ body.system-crashing {
   gap: 26px;
 }
 
-/* ========================================================
-   STOLEN CREDENTIALS SHOWCASE CARD
-   ======================================================== */
+/* STOLEN CREDENTIALS SHOWCASE CARD */
 .stolen-credentials-card {
   background: #070a14;
   border: 2px solid #ff3366;
@@ -1631,30 +1672,10 @@ body.system-crashing {
   background: rgba(255, 255, 255, 0.02);
 }
 
-.badge-account {
-  font-size: 0.75rem;
-  background: rgba(0, 242, 254, 0.1);
-  color: #00f2fe;
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
 .cell-id {
   font-family: var(--code-font);
   color: #00f2fe;
   font-size: 0.92rem;
-}
-
-.badge-captured {
-  font-size: 0.75rem;
-  background: rgba(0, 230, 118, 0.1);
-  color: #00e676;
-  border: 1px solid rgba(0, 230, 118, 0.3);
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
 }
 
 .text-center { text-align: center; }

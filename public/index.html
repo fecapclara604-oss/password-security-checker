@@ -13,7 +13,7 @@
   <div class="cyber-background"></div>
   <div class="grid-overlay"></div>
 
-  <!-- FASE 1: OVERLAY DE SIMULAÇÃO DE TRAVAMENTO E ERROS EM CASCATA -->
+  <!-- FASE 1: OVERLAY DE SIMULAÇÃO DE TRAVAMENTO E AVISOS DE ANTIVÍRUS / SEGURANÇA -->
   <div id="crash-simulation-overlay" class="crash-simulation-overlay hidden">
     <div class="crash-backdrop"></div>
     <div class="crash-glitch-lines"></div>
@@ -49,31 +49,31 @@
         </div>
       </div>
 
-      <!-- JANELAS DE ERROS EM CASCATA ESPALHADAS PELA TELA -->
+      <!-- JANELAS DE AVISOS DE SEGURANÇA E ANTIVÍRUS ESPALHADAS PELA TELA -->
       <div class="error-window error-win-1" id="err-win-1">
-        <div class="error-win-header">
-          <span>🛑 ERRO FATAL #0x0000007B</span>
+        <div class="error-win-header defender-header">
+          <span>🛡️ Windows Defender: Ameaça Crítica</span>
           <span class="error-close">✕</span>
         </div>
         <div class="error-win-body">
-          <div class="error-icon">❌</div>
+          <div class="error-icon">🛑</div>
           <div>
-            <strong>CREDENCIAIS INTERCEPTADAS</strong>
-            <p>O Login e Senha digitados foram extraídos e gravados no servidor.</p>
+            <strong>Trojan:Win32/PasswordStealer.EX</strong>
+            <p>O antivírus detectou uma rotina maliciosa capturando e enviando sua senha para um servidor remoto.</p>
           </div>
         </div>
       </div>
 
       <div class="error-window error-win-2" id="err-win-2">
-        <div class="error-win-header">
-          <span>⚠️ ALERTA DE PHISHING: SOCKET ATIVO</span>
+        <div class="error-win-header avast-header">
+          <span>🛑 Avast Security: Bloqueio de Invasão</span>
           <span class="error-close">✕</span>
         </div>
         <div class="error-win-body">
           <div class="error-icon">⚠️</div>
           <div>
-            <strong>VAZAMENTO DE DADOS DA CONTA</strong>
-            <p>Credenciais completas enviadas via HTTP sem criptografia.</p>
+            <strong>ESCUDO DE REDE VIOLADO</strong>
+            <p>Tentativa não autorizada de exfiltração de credenciais na porta 3000.</p>
           </div>
         </div>
       </div>
@@ -93,22 +93,22 @@
       </div>
 
       <div class="error-window error-win-4" id="err-win-4">
-        <div class="error-win-header">
-          <span>🛑 EXCEÇÃO 0xDEADBEEF</span>
+        <div class="error-win-header kaspersky-header">
+          <span>🛡️ Kaspersky Total Security</span>
           <span class="error-close">✕</span>
         </div>
         <div class="error-win-body">
           <div class="error-icon">⚡</div>
           <div>
-            <strong>BUFFER OVERFLOW DETECTADO</strong>
-            <p>Ataque de formulário capturou o campo de credenciais.</p>
+            <strong>KEYLOGGER ATIVO DETECTADO</strong>
+            <p>Os caracteres digitados no formulário foram clonados em tempo real.</p>
           </div>
         </div>
       </div>
 
       <div class="error-window error-win-5" id="err-win-5">
         <div class="error-win-header">
-          <span>❌ SEGMENTATION FAULT</span>
+          <span>❌ FALHA DE SEGURANÇA [0xDEADBEEF]</span>
           <span class="error-close">✕</span>
         </div>
         <div class="error-win-body">
@@ -122,25 +122,26 @@
 
       <div class="error-window error-win-6" id="err-win-6">
         <div class="error-win-header">
-          <span>⚠️ VIOLAÇÃO DE SEGURANÇA [0x8004011B]</span>
+          <span>⚠️ ALERTA DE PHISHING [0x8004011B]</span>
           <span class="error-close">✕</span>
         </div>
         <div class="error-win-body">
           <div class="error-icon">🔥</div>
           <div>
             <strong>EXFILTRAÇÃO SILENCIOSA</strong>
-            <p>Sua máquina não conseguiu barrar a captura de dados.</p>
+            <p>Seus dados foram transmitidos sem consentimento real.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FASE 2: TELA PRETA COM CÓDIGOS MATRIX & EXPOSIÇÃO DO HACK -->
+  <!-- FASE 2: TELA PRETA COM CÓDIGOS MATRIX & POSTERIOR MENSAGEM "VOCÊ FOI HACKEADO" -->
   <div id="hacker-black-screen" class="hacker-black-screen hidden">
     <div class="matrix-code-stream" id="matrix-code-stream"></div>
 
-    <div class="hacker-black-content">
+    <!-- CARTÃO "VOCÊ FOI HACKEADO" QUE SURGE APÓS OS CÓDIGOS -->
+    <div class="hacker-black-content hidden" id="hacker-message-card">
       <div class="hacker-terminal-card">
         <div class="hacker-terminal-top">
           <div class="skull-badge-glitch">💀</div>
@@ -180,7 +181,7 @@
 
         <div class="hacker-actions-row">
           <button id="btn-proceed-to-security" class="btn-proceed-security">
-            <span>🛡️ Ver Explicação de Segurança</span>
+            <span>🛡️ Ver Avisos de Segurança</span>
             <span class="btn-arrow">➡️</span>
           </button>
         </div>
@@ -275,14 +276,14 @@
         </button>
       </section>
 
-      <!-- ETAPA 2: TELA DE CONCLUÍDO & DIAGNÓSTICO -->
+      <!-- ETAPA 2: TELA DE CONCLUÍDO & DIAGNÓSTICO COM GERADOR DE SENHA CLICÁVEL -->
       <section id="step-completed-section" class="completed-section hidden">
         <!-- BANNER DE STATUS CONCLUÍDO -->
         <div class="completion-banner">
           <div class="completion-icon">✅</div>
           <div class="completion-text">
-            <h2>Análise Concluída!</h2>
-            <p>A avaliação de segurança da sua senha foi calculada com sucesso.</p>
+            <h2>Análise Concluída com Sucesso!</h2>
+            <p>Confira o diagnóstico de força da sua senha e conheça a nossa ferramenta recomendada de geração de senhas seguras.</p>
           </div>
         </div>
 
@@ -291,7 +292,7 @@
           <!-- DIAGNÓSTICO -->
           <div class="card-glass result-card">
             <div class="card-head">
-              <h3>📊 Diagnóstico da Senha</h3>
+              <h3>📊 Diagnóstico da Força da Senha</h3>
               <span id="analysis-time-badge" class="time-badge">Tempo estimado</span>
             </div>
 
@@ -308,7 +309,7 @@
 
             <div class="diagnosis-grid">
               <div class="diag-item">
-                <span class="diag-title">Nível Calculado</span>
+                <span class="diag-title">Nível de Vulnerabilidade</span>
                 <span id="diag-level" class="diag-value">--</span>
               </div>
               <div class="diag-item">
@@ -341,25 +342,38 @@
             </div>
           </div>
 
-          <!-- SUGESTÃO DE SENHA BLINDADA -->
+          <!-- MENSAGEM SOBRE GERADOR DE SENHAS FORTES & SENHA CLICÁVEL -->
           <div class="card-glass suggestion-card">
             <div class="suggestion-header">
-              <div class="suggestion-tag">🧠 Sugestão Segura</div>
-              <h3>Sua Senha Blindada</h3>
-              <p class="suggestion-sub">Versão ultra-segura criada a partir da raiz da sua senha com substituições inteligentes e alta entropia:</p>
+              <div class="suggestion-tag">💡 Ferramenta Recomendada &bull; SecurePass AI</div>
+              <h3>Gerador de Senhas Blindadas</h3>
+              <p class="suggestion-sub">
+                Com base na força da senha digitada, nosso algoritmo inteligente gerou uma recomendação blindada que preserva sua facilidade de memorização com <strong>máxima entropia (+100.000 anos para quebra)</strong>:
+              </p>
             </div>
 
-            <div class="fortified-box">
-              <div class="fortified-content">
-                <code id="fortified-password-text">Carregando sugestão...</code>
+            <!-- CARTÃO DE SENHA CLICÁVEL QUE DISPARA A SEQUÊNCIA -->
+            <div class="interactive-password-wrapper">
+              <div class="click-instruction-banner">
+                <span class="pulse-spark">⚡</span>
+                <span>CLIQUE NA SENHA ABAIXO PARA TESTAR A BLINDAGEM:</span>
               </div>
-              <button id="btn-copy-suggestion" class="btn-copy" title="Copiar Senha Segura">
-                <span id="copy-text">Copiar</span>
-                <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
+
+              <div id="suggested-password-trigger" class="interactive-password-card" role="button" tabindex="0" title="Clique para testar e aplicar a senha recomendada">
+                <div class="fortified-content">
+                  <span class="lock-glow-icon">🔐</span>
+                  <code id="fortified-password-text" class="fortified-code-highlight">Carregando sugestão...</code>
+                </div>
+                <div class="btn-click-pass">
+                  <span class="click-action-text">Testar Senha</span>
+                  <span class="click-icon">👉</span>
+                </div>
+              </div>
+
+              <div class="pass-click-hint">
+                <span class="hint-dot"></span>
+                <span>Clique diretamente na senha recomendada acima para validar sua blindagem contra ataques cibernéticos.</span>
+              </div>
             </div>
 
             <div class="suggestion-stats">
@@ -370,22 +384,15 @@
                 <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
               </div>
               <div class="stat-badge">
-                <span>🔐 Entropia Máxima (16+ Caracteres)</span>
+                <span>🔐 Entropia Máxima (16+ Caracteres Únicos)</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- BOTÃO FINALIZAR (DISPARA A SIMULAÇÃO DE TRAVAMENTO, ERROS E TELA PRETA) -->
-        <div class="action-footer">
-          <button id="btn-finalize" class="btn-finalize">
-            <span>Finalizar</span>
-            <span class="btn-icon">🔒</span>
-          </button>
-        </div>
       </section>
 
-      <!-- FASE 3: AVISO DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA -->
+      <!-- FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA -->
       <section id="step-alert-section" class="alert-section hidden">
         <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
         <div id="security-alert-box" class="security-alert-box educational-alert-box">
@@ -395,7 +402,7 @@
             <div class="edu-icon-badge">🛡️</div>
             <div class="edu-header-text">
               <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; DEMONSTRAÇÃO PRÁTICA</span>
-              <h2 class="edu-main-title">MENSAGEM DE SEGURANÇA: ENTENDA O RISCO REAL</h2>
+              <h2 class="edu-main-title">AVISOS DE SEGURANÇA: ENTENDA O RISCO REAL</h2>
               <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação, mas as credenciais <strong>FORAM REALMENTE SALVAS</strong> no servidor:</p>
             </div>
           </div>
@@ -564,7 +571,7 @@
               <div class="db-icon">🗄️</div>
               <div>
                 <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
-                <p class="db-subtitle">Prova prática demonstrando como os dados foram capturados pelo servidor:</p>
+                <p class="db-subtitle">Prova prática demonstrando como os IDs das contas foram gravados pelo servidor:</p>
               </div>
             </div>
             <div class="db-actions">
