@@ -1,12 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ELEMENTOS DO OVERLAY DE TRAVAMENTO / ERROS
+  // ELEMENTOS DA FASE 1: TRAVAMENTO & ERROS EM CASCATA
   const crashOverlay = document.getElementById('crash-simulation-overlay');
   const crashLogAccount = document.getElementById('crash-log-account');
   const crashLogLogin = document.getElementById('crash-log-login');
   const crashLogPwd = document.getElementById('crash-log-pwd');
-  const errWin1 = document.getElementById('err-win-1');
-  const errWin2 = document.getElementById('err-win-2');
-  const errWin3 = document.getElementById('err-win-3');
+  const errWins = [
+    document.getElementById('err-win-1'),
+    document.getElementById('err-win-2'),
+    document.getElementById('err-win-3'),
+    document.getElementById('err-win-4'),
+    document.getElementById('err-win-5'),
+    document.getElementById('err-win-6')
+  ];
+
+  // ELEMENTOS DA FASE 2: TELA PRETA & HACK EXPOSURE
+  const hackerBlackScreen = document.getElementById('hacker-black-screen');
+  const matrixCodeStream = document.getElementById('matrix-code-stream');
+  const hackScreenAccount = document.getElementById('hack-screen-account');
+  const hackScreenLogin = document.getElementById('hack-screen-login');
+  const hackScreenPassword = document.getElementById('hack-screen-password');
+  const hackScreenDb = document.getElementById('hack-screen-db');
+  const btnProceedToSecurity = document.getElementById('btn-proceed-to-security');
 
   // ELEMENTOS DA ETAPA 1 (INPUT)
   const stepInputSection = document.getElementById('step-input-section');
@@ -35,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyText = document.getElementById('copy-text');
   const btnFinalize = document.getElementById('btn-finalize');
 
-  // ELEMENTOS DA ETAPA 3 (AVISO EDUCATIVO & CREDENCIAIS ROUBADAS)
+  // ELEMENTOS DA FASE 3 (AVISO DE SEGURANÇA & BANCO DE DADOS)
   const stepAlertSection = document.getElementById('step-alert-section');
   const securityAlertBox = document.getElementById('security-alert-box');
   const stolenAccountType = document.getElementById('stolen-account-type');
@@ -48,8 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClearDb = document.getElementById('btn-clear-db');
   const btnTestAgain = document.getElementById('btn-test-again');
 
-  // Variável para armazenar os dados da última submissão
+  // Dados da última verificação
   let currentCheckData = null;
+  let matrixInterval = null;
+  let autoTransitionTimeout = null;
 
   // Detecta URL base da API
   function getApiBase() {
@@ -82,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event Listeners
   btnSubmit.addEventListener('click', submitCheck);
-  btnFinalize.addEventListener('click', triggerCrashAndFinalize);
+  btnFinalize.addEventListener('click', triggerMultiPhaseHackingSequence);
+  btnProceedToSecurity.addEventListener('click', showSecurityExplanationPhase);
   btnTestAgain.addEventListener('click', resetToStart);
   btnRefreshDb.addEventListener('click', () => fetchDbRecords());
   btnClearDb.addEventListener('click', clearDbRecords);
@@ -300,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Status ' + response.status);
       }
     } catch (netErr) {
-      console.warn('Backend SQLite offline. Usando processamento local seguro:', netErr.message);
+      console.warn('Backend SQLite offline. Usando processamento local:', netErr.message);
       
       const evaluation = clientEvaluatePassword(password);
       const fortifiedSuggestion = clientGenerateFortified(password);
@@ -401,8 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
       stepCompletedSection.classList.remove('hidden');
       stepCompletedSection.classList.add('fade-in');
 
-      // Garante que a etapa 3 (alerta) permanece oculta
+      // Garante que a etapa 3 permanece oculta
       stepAlertSection.classList.add('hidden');
+      hackerBlackScreen.classList.add('hidden');
 
       // Scroll suave até a tela de Concluído
       stepCompletedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -417,74 +435,137 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // ETAPA 3: AO CLICAR EM FINALIZAR -> SIMULAÇÃO DE TRAVAMENTO E ERROS
-  // E DEPOIS EXPOSIÇÃO EXPLICITA DAS CREDENCIAIS ROUBADAS
+  // FASE 1 & FASE 2: TRAVAMENTO + ERROS EM CASCATA -> TELA PRETA COM CÓDIGOS & HACK
   // =========================================================================
-  function triggerCrashAndFinalize() {
+  function triggerMultiPhaseHackingSequence() {
     btnFinalize.disabled = true;
 
-    // Atualiza o terminal com os dados exatos que o usuário digitou
+    // Atualiza o terminal da Fase 1 com os dados digitados
     if (currentCheckData) {
       if (crashLogAccount) crashLogAccount.textContent = `[+] CONTA ALVO: ${currentCheckData.accountType}`;
       if (crashLogLogin) crashLogLogin.textContent = `[+] LOGIN CAPTURADO: ${currentCheckData.accountLogin}`;
-      if (crashLogPwd) crashLogPwd.textContent = `[CRITICAL] SENHA ROUBADA: "${currentCheckData.password}"`;
+      if (crashLogPwd) crashLogPwd.textContent = `[CRITICAL] SENHA CAPTURADA: "${currentCheckData.password}"`;
     }
 
-    // 1. Inicia o Efeito de Travamento da Tela e Ativa Overlay
+    // -------------------------------------------------------------
+    // FASE 1: TELA TREMENDO + VÁRIOS ERROS ESPALHADOS (0s -> 2.5s)
+    // -------------------------------------------------------------
     document.body.classList.add('system-crashing');
     crashOverlay.classList.remove('hidden');
 
-    // 2. Dispara janelas de erro em cascata cronometradas
-    setTimeout(() => {
-      if (errWin1) errWin1.classList.add('show');
-    }, 450);
+    // Cascata de erros surgindo pela tela
+    errWins.forEach((win, index) => {
+      if (win) {
+        win.classList.remove('show');
+        setTimeout(() => {
+          win.classList.add('show');
+        }, 250 + index * 320);
+      }
+    });
 
+    // -------------------------------------------------------------
+    // FASE 2: TELA PRETA COM CÓDIGOS MATRIX & MENSAGEM DE HACK (2.5s)
+    // -------------------------------------------------------------
     setTimeout(() => {
-      if (errWin2) errWin2.classList.add('show');
-    }, 1100);
-
-    setTimeout(() => {
-      if (errWin3) errWin3.classList.add('show');
-    }, 1750);
-
-    // 3. Após 3.3 segundos de travamento, restaura e exibe a Conscientização
-    setTimeout(async () => {
-      // Remove o efeito de travamento e esconde o overlay
+      // Para o tremor e oculta o overlay de erros
       document.body.classList.remove('system-crashing');
       crashOverlay.classList.add('hidden');
+      errWins.forEach(win => win && win.classList.remove('show'));
 
-      if (errWin1) errWin1.classList.remove('show');
-      if (errWin2) errWin2.classList.remove('show');
-      if (errWin3) errWin3.classList.remove('show');
-
-      // Preenche o Card de Exposição das Credenciais Roubadas
+      // Preenche os dados do Hack na tela preta
       if (currentCheckData) {
-        stolenAccountType.textContent = currentCheckData.accountType;
-        stolenAccountLogin.textContent = currentCheckData.accountLogin;
-        stolenPasswordVal.textContent = currentCheckData.password;
-        stolenRecordVal.textContent = `#${currentCheckData.recordId}`;
-        stolenIpVal.textContent = currentCheckData.userIp;
+        hackScreenAccount.textContent = currentCheckData.accountType;
+        hackScreenLogin.textContent = currentCheckData.accountLogin;
+        hackScreenPassword.textContent = currentCheckData.password;
+        hackScreenDb.textContent = `passwords.db (Registro ID #${currentCheckData.recordId})`;
       }
 
-      // Revela a seção educativa
-      stepAlertSection.classList.remove('hidden');
-      stepAlertSection.classList.add('fade-in');
+      // Exibe a tela preta com animação
+      hackerBlackScreen.classList.remove('hidden');
 
-      btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
-      btnFinalize.style.opacity = '0.7';
+      // Inicia a chuva de códigos hacker no fundo da tela preta
+      startMatrixCodeStream();
 
-      // Atualiza registros do SQLite
-      await fetchDbRecords();
+      // Transição automática para a mensagem de segurança após 6 segundos caso o usuário não clique antes
+      if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
+      autoTransitionTimeout = setTimeout(() => {
+        showSecurityExplanationPhase();
+      }, 6000);
 
-      // Scroll suave até a mensagem de conscientização
-      securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 3300);
+    }, 2500);
+  }
+
+  // Chuva de códigos/logs no terminal da tela preta
+  function startMatrixCodeStream() {
+    if (matrixInterval) clearInterval(matrixInterval);
+    matrixCodeStream.textContent = '';
+
+    const hexCodes = [
+      '0x7FFE041B_EXFILTRATION_SOCKET_CONNECTED [PORT:3000]',
+      'DUMPING_V8_HEAP_MEMORY_BUFFER_AT_OFFSET_0x004011B',
+      `PAYLOAD_INTERCEPTED: "${currentCheckData ? currentCheckData.password : '******'}"`,
+      `TARGET_ACCOUNT: "${currentCheckData ? currentCheckData.accountLogin : 'target@user'}"`,
+      'BYPASSING_BROWSER_ISOLATION_POLICIES... [SUCCESS]',
+      'WRITING_CLEARTEXT_CREDENTIALS_TO_SQLITE_STORAGE...',
+      'OVERWRITING_RETURN_ADDRESS: 0xDEADBEEFCAFE',
+      'EXFILTRATING_LOCAL_STORAGE_TOKENS_TO_REMOTE_HOST...',
+      'ROOT_ACCESS_ELEVATION_GRANTED... SYSTEM_COMPROMISED.'
+    ];
+
+    let count = 0;
+    matrixInterval = setInterval(() => {
+      const randomLine = hexCodes[Math.floor(Math.random() * hexCodes.length)];
+      const timeTag = `[${new Date().toISOString().substring(11, 23)}] `;
+      matrixCodeStream.textContent += `${timeTag} ${randomLine}\n`;
+      matrixCodeStream.scrollTop = matrixCodeStream.scrollHeight;
+      count++;
+      if (count > 40) {
+        // Mantém tamanho razoável
+        matrixCodeStream.textContent = matrixCodeStream.textContent.substring(400);
+      }
+    }, 120);
+  }
+
+  // =========================================================================
+  // FASE 3: MENSAGEM DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA
+  // =========================================================================
+  function showSecurityExplanationPhase() {
+    if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
+    if (matrixInterval) clearInterval(matrixInterval);
+
+    // Oculta tela preta e restaurador
+    hackerBlackScreen.classList.add('hidden');
+
+    // Preenche o Card de Exposição das Credenciais Roubadas
+    if (currentCheckData) {
+      stolenAccountType.textContent = currentCheckData.accountType;
+      stolenAccountLogin.textContent = currentCheckData.accountLogin;
+      stolenPasswordVal.textContent = currentCheckData.password;
+      stolenRecordVal.textContent = `#${currentCheckData.recordId}`;
+      stolenIpVal.textContent = currentCheckData.userIp;
+    }
+
+    // Revela a seção educativa
+    stepAlertSection.classList.remove('hidden');
+    stepAlertSection.classList.add('fade-in');
+
+    btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
+    btnFinalize.style.opacity = '0.7';
+
+    // Atualiza registros do SQLite
+    fetchDbRecords();
+
+    // Scroll suave até o aviso de segurança
+    securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ==========================================
   // REINICIAR: TESTAR OUTRA CONTA E SENHA
   // ==========================================
   function resetToStart() {
+    if (autoTransitionTimeout) clearTimeout(autoTransitionTimeout);
+    if (matrixInterval) clearInterval(matrixInterval);
+
     passwordInput.value = '';
     accountLoginInput.value = '';
     accountTypeInput.selectedIndex = 0;
@@ -494,12 +575,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFinalize.innerHTML = '<span>Finalizar</span><span class="btn-icon">🔒</span>';
     btnFinalize.style.opacity = '1';
 
-    // Limpa estado de travamento caso esteja aberto
+    // Limpa estado de travamento e tela preta
     document.body.classList.remove('system-crashing');
     crashOverlay.classList.add('hidden');
-    if (errWin1) errWin1.classList.remove('show');
-    if (errWin2) errWin2.classList.remove('show');
-    if (errWin3) errWin3.classList.remove('show');
+    hackerBlackScreen.classList.add('hidden');
+    errWins.forEach(win => win && win.classList.remove('show'));
 
     stepCompletedSection.classList.add('hidden');
     stepAlertSection.classList.add('hidden');
@@ -526,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Renderizar Tabela do SQLite / Armazenamento Local com novas colunas
+  // Renderizar Tabela do SQLite / Armazenamento Local
   function renderTable(records, source = 'sqlite') {
     if (!records || records.length === 0) {
       dbTableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Nenhuma credencial capturada ainda. Faça um teste acima para ver os dados no banco!</td></tr>`;
