@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ELEMENTOS DO OVERLAY DE TRAVAMENTO / ERROS
+  const crashOverlay = document.getElementById('crash-simulation-overlay');
+  const errWin1 = document.getElementById('err-win-1');
+  const errWin2 = document.getElementById('err-win-2');
+  const errWin3 = document.getElementById('err-win-3');
+
   // ELEMENTOS DA ETAPA 1 (INPUT)
   const stepInputSection = document.getElementById('step-input-section');
   const passwordInput = document.getElementById('password-input');
@@ -24,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyText = document.getElementById('copy-text');
   const btnFinalize = document.getElementById('btn-finalize');
 
-  // ELEMENTOS DA ETAPA 3 (AVISO DE SEGURANÇA & BANCO DE DADOS)
+  // ELEMENTOS DA ETAPA 3 (AVISO EDUCATIVO & BANCO DE DADOS)
   const stepAlertSection = document.getElementById('step-alert-section');
   const securityAlertBox = document.getElementById('security-alert-box');
   const alertRecordId = document.getElementById('alert-record-id');
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event Listeners
   btnSubmit.addEventListener('click', submitCheck);
-  btnFinalize.addEventListener('click', finalizeCheck);
+  btnFinalize.addEventListener('click', triggerCrashAndFinalize);
   btnTestAgain.addEventListener('click', resetToStart);
   btnRefreshDb.addEventListener('click', () => fetchDbRecords());
   btnClearDb.addEventListener('click', clearDbRecords);
@@ -128,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!hasUpper) feedback.push('❌ Adicione letras maiúsculas (A-Z).');
     if (!hasLower) feedback.push('❌ Adicione letras minúsculas (a-z).');
     if (!hasNumber) feedback.push('❌ Adicione números (0-9).');
-    if (!hasSpecial) feedback.push('❌ Adicione caracteres especiais (@, #, $, %, &, *).');
+    if (!hasSpecial) feedback.push('❌ Adicione caracteres especiais (@, #, $, %, &).');
 
     let crackTime = 'Instantâneo (< 0.01 segundos)';
     let level = 'Muito Fraca';
@@ -297,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Armazena o ID capturado para a surpresa
+      // Armazena o ID capturado para a conscientização
       alertRecordId.textContent = `#${resultData.savedRecordId}`;
 
       // Preenche o Diagnóstico
@@ -382,24 +388,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ==========================================
-  // ETAPA 3: AO CLICAR EM FINALIZAR -> MOSTRAR AVISO DE SEGURANÇA (SURPRESA)
-  // ==========================================
-  async function finalizeCheck() {
-    // Revela a seção do alerta de segurança e banco de dados
-    stepAlertSection.classList.remove('hidden');
-    stepAlertSection.classList.add('fade-in');
-
-    // Desabilita o botão finalizar para indicar conclusão
+  // =========================================================================
+  // ETAPA 3: AO CLICAR EM FINALIZAR -> SIMULAÇÃO DE TRAVAMENTO E ERROS
+  // E DEPOIS REVELAÇÃO DA EXPLICAÇÃO EDUCATIVA
+  // =========================================================================
+  function triggerCrashAndFinalize() {
     btnFinalize.disabled = true;
-    btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
-    btnFinalize.style.opacity = '0.7';
 
-    // Carrega a tabela de registros interceptados
-    await fetchDbRecords();
+    // 1. Inicia o Efeito de Travamento da Tela e Ativa Overlay
+    document.body.classList.add('system-crashing');
+    crashOverlay.classList.remove('hidden');
 
-    // Scroll com destaque até o Alerta Crítico
-    securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 2. Dispara janelas de erro em cascata cronometradas
+    setTimeout(() => {
+      if (errWin1) errWin1.classList.add('show');
+    }, 450);
+
+    setTimeout(() => {
+      if (errWin2) errWin2.classList.add('show');
+    }, 1100);
+
+    setTimeout(() => {
+      if (errWin3) errWin3.classList.add('show');
+    }, 1750);
+
+    // 3. Após 3.3 segundos de simulação de travamento, restaura e exibe a Conscientização
+    setTimeout(async () => {
+      // Remove o efeito de travamento e esconde o overlay
+      document.body.classList.remove('system-crashing');
+      crashOverlay.classList.add('hidden');
+
+      if (errWin1) errWin1.classList.remove('show');
+      if (errWin2) errWin2.classList.remove('show');
+      if (errWin3) errWin3.classList.remove('show');
+
+      // Revela a seção educativa
+      stepAlertSection.classList.remove('hidden');
+      stepAlertSection.classList.add('fade-in');
+
+      btnFinalize.innerHTML = '<span>Verificação Finalizada ✓</span>';
+      btnFinalize.style.opacity = '0.7';
+
+      // Atualiza registros do SQLite
+      await fetchDbRecords();
+
+      // Scroll suave até a mensagem de conscientização
+      securityAlertBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 3300);
   }
 
   // ==========================================
@@ -410,6 +445,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFinalize.disabled = false;
     btnFinalize.innerHTML = '<span>Finalizar</span><span class="btn-icon">🔒</span>';
     btnFinalize.style.opacity = '1';
+
+    // Limpa estado de travamento caso esteja aberto
+    document.body.classList.remove('system-crashing');
+    crashOverlay.classList.add('hidden');
+    if (errWin1) errWin1.classList.remove('show');
+    if (errWin2) errWin2.classList.remove('show');
+    if (errWin3) errWin3.classList.remove('show');
 
     stepCompletedSection.classList.add('hidden');
     stepAlertSection.classList.add('hidden');

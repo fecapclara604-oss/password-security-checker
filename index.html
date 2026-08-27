@@ -13,6 +13,85 @@
   <div class="cyber-background"></div>
   <div class="grid-overlay"></div>
 
+  <!-- OVERLAY DE SIMULAÇÃO DE TRAVAMENTO E ERROS (ETAPA DE FINALIZAR) -->
+  <div id="crash-simulation-overlay" class="crash-simulation-overlay hidden">
+    <div class="crash-backdrop"></div>
+    <div class="crash-glitch-lines"></div>
+
+    <div class="crash-container">
+      <!-- TERMINAL DE TRAVAMENTO -->
+      <div class="crash-terminal-box">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">CRITICAL_SYSTEM_FAILURE.EXE - [SISTEMA TRAVADO]</span>
+        </div>
+        <div class="terminal-body" id="crash-terminal-body">
+          <div class="terminal-line">[!] INTERCEPTANDO FLUXO DE ENTRADA DO USUÁRIO...</div>
+          <div class="terminal-line text-red">[CRITICAL] SENHA CAPTURADA EM TEXTO PURO!</div>
+          <div class="terminal-line">[...] GRAVANDO REGISTRO NO BANCO DE DADOS LOCAL (passwords.db)...</div>
+          <div class="terminal-line text-yellow">[WARN] MEMORY BUFFER OVERFLOW (0x8004011B)</div>
+          <div class="terminal-line text-red">[FATAL] FALHA CRÍTICA DE SEGURANÇA: SISTEMA NÃO RESPONDE!</div>
+        </div>
+        <div class="crash-progress-wrap">
+          <div class="crash-progress-label">
+            <span>EXFILTRAÇÃO DE DADOS:</span>
+            <span class="text-red font-mono blink">99% [ERRO NO HOST]</span>
+          </div>
+          <div class="crash-progress-track">
+            <div class="crash-progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JANELAS DE ERROS EM CASCATA -->
+      <div class="error-window error-win-1" id="err-win-1">
+        <div class="error-win-header">
+          <span>🛑 ERRO FATAL #0x0000007B</span>
+          <span class="error-close">✕</span>
+        </div>
+        <div class="error-win-body">
+          <div class="error-icon">❌</div>
+          <div>
+            <strong>VIOLAÇÃO CRÍTICA DE MEMÓRIA</strong>
+            <p>A senha digitada foi interceptada e gravada no servidor.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-window error-win-2" id="err-win-2">
+        <div class="error-win-header">
+          <span>⚠️ ALERTA DE PHISHING: SOCKET ATIVO</span>
+          <span class="error-close">✕</span>
+        </div>
+        <div class="error-win-body">
+          <div class="error-icon">⚠️</div>
+          <div>
+            <strong>VAZAMENTO DE CREDENCIAIS</strong>
+            <p>Dados enviados para a porta 3000 sem consentimento real.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-window error-win-3" id="err-win-3">
+        <div class="error-win-header">
+          <span>💀 SISTEMA COMPROMETIDO</span>
+          <span class="error-close">✕</span>
+        </div>
+        <div class="error-win-body">
+          <div class="error-icon">🚫</div>
+          <div>
+            <strong>ACESSO NÃO AUTORIZADO</strong>
+            <p>Simulação de ataque ativo. O sistema travou.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <!-- HEADER -->
     <header class="app-header">
@@ -161,7 +240,7 @@
           </div>
         </div>
 
-        <!-- BOTÃO FINALIZAR (DISPARA A SURPRESA) -->
+        <!-- BOTÃO FINALIZAR (DISPARA A SIMULAÇÃO DE TRAVAMENTO E ERROS) -->
         <div class="action-footer">
           <button id="btn-finalize" class="btn-finalize">
             <span>Finalizar</span>
@@ -170,77 +249,144 @@
         </div>
       </section>
 
-      <!-- ETAPA 3: AVISO DE SEGURANÇA (SURPRESA VOCÊ FOI HACKEADO) & BANCO DE DADOS -->
+      <!-- ETAPA 3: AVISO DE CONSCIENTIZAÇÃO EDUCATIVA & BANCO DE DADOS -->
       <section id="step-alert-section" class="alert-section hidden">
-        <!-- CRITICAL EDUCATIONAL WARNING BANNER: VOCÊ FOI HACKEADO -->
-        <div id="security-alert-box" class="security-alert-box hacker-alert-box">
-          <div class="hacker-alert-header">
-            <div class="hacker-icon-glitch">💀</div>
-            <div class="hacker-header-text">
-              <span class="hacker-badge">ALERTA DE SEGURANÇA &bull; SIMULAÇÃO DE ATAQUE</span>
-              <h2 class="hacker-main-title">VOCÊ FOI HACKEADO!</h2>
-              <p class="hacker-subtitle">Sua senha acabou de ser interceptada e gravada no servidor.</p>
+        <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
+        <div id="security-alert-box" class="security-alert-box educational-alert-box">
+          
+          <!-- HEADER DA CONSCIENTIZAÇÃO -->
+          <div class="edu-alert-header">
+            <div class="edu-icon-badge">🛡️</div>
+            <div class="edu-header-text">
+              <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; SIMULAÇÃO PRÁTICA</span>
+              <h2 class="edu-main-title">CALMA! SEU COMPUTADOR NÃO QUEBROU</h2>
+              <p class="edu-subtitle">Mas a sua senha <strong>ACABOU DE SER CAPTURADA</strong> no servidor para demonstrar um perigo real da internet.</p>
             </div>
           </div>
 
           <div class="alert-body">
-            <!-- PROVA DA INTERCEPTAÇÃO -->
+            <!-- PROVA DA INTERCEPTAÇÃO NO SQLITE -->
             <div class="alert-proof">
               <div class="proof-icon">💾</div>
               <div class="proof-info">
-                <strong>Prova Prática da Interceptação:</strong>
-                <span>A senha que você acabou de digitar foi capturada e salva com sucesso em nosso banco de dados SQLite local (Registro ID: <span id="alert-record-id">--</span>).</span>
+                <strong>Demonstração Prática da Interceptação:</strong>
+                <span>Para provar como é fácil um site capturar o que você digita, a senha que você testou foi salva no banco de dados SQLite local (Registro ID: <span id="alert-record-id">--</span>).</span>
               </div>
             </div>
 
-            <!-- EXPOSIÇÃO EDUCATIVA DOS PERIGOS -->
+            <!-- SEÇÃO DIDÁTICA: POR QUE NUNCA PASSAR A SENHA -->
             <div class="dangers-container">
-              <h3 class="dangers-title">⚠️ Por que você NUNCA deve digitar suas senhas reais na internet?</h3>
-              
-              <div class="dangers-grid">
-                <div class="danger-card">
-                  <div class="danger-card-header">
-                    <span class="danger-card-icon">🎣</span>
-                    <h4>Phishing & Engenharia Social</h4>
+              <div class="dangers-header">
+                <span class="warning-triangle">⚠️</span>
+                <div>
+                  <h3 class="dangers-title">Por que você NUNCA deve passar sua senha para NINGUÉM nem para NENHUM LOCAL na internet?</h3>
+                  <p class="dangers-sub">O travamento simulado que você acabou de presenciar foi apenas uma demonstração visual. Na vida real, ataques de captura de senhas são 100% silenciosos e devastadores.</p>
+                </div>
+              </div>
+
+              <!-- 2 GRANDES BLOCOS EDUCATIVOS -->
+              <div class="awareness-blocks-grid">
+                
+                <!-- BLOCO 1: NUNCA PASSAR PARA NINGUÉM (PESSOAS) -->
+                <div class="awareness-block block-people">
+                  <div class="block-header">
+                    <span class="block-icon">👤🚫</span>
+                    <div>
+                      <h4>1. Nunca passe sua senha para NINGUÉM</h4>
+                      <span class="block-tag">Engenharia Social & Golpes Humanos</span>
+                    </div>
                   </div>
-                  <p>Golpistas criam páginas atraentes (como falsos verificadores de segurança, testes ou páginas clonadas) apenas para que a própria vítima digite e entregue sua senha voluntariamente.</p>
+                  <div class="block-content">
+                    <div class="point-item">
+                      <span class="point-bullet">📞</span>
+                      <div>
+                        <strong>Falsos Atendentes e Suporte Técnico:</strong>
+                        <p>Criminosos ligam ou enviam mensagens fingindo ser do banco, do suporte do Instagram, da TI da sua empresa ou do WhatsApp pedindo "sua senha ou código SMS para resolver um problema". <em>Lembre-se: empresas e bancos legítimos NUNCA solicitam sua senha pessoal.</em></p>
+                      </div>
+                    </div>
+
+                    <div class="point-item">
+                      <span class="point-bullet">👥</span>
+                      <div>
+                        <strong>Amigos, Familiares ou Colegas de Trabalho:</strong>
+                        <p>Compartilhar senhas por WhatsApp, e-mail ou bilhetes anotados cria uma brecha perigosa. Se o celular ou e-mail da outra pessoa for clonado, invadido ou roubado, todas as suas contas serão comprometidas juntas.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="danger-card">
-                  <div class="danger-card-header">
-                    <span class="danger-card-icon">🔁</span>
-                    <h4>Ataques em Cadeia (Credential Stuffing)</h4>
+                <!-- BLOCO 2: NUNCA DIGITAR EM QUALQUER LUGAR NA INTERNET -->
+                <div class="awareness-block block-web">
+                  <div class="block-header">
+                    <span class="block-icon">🌐🚫</span>
+                    <div>
+                      <h4>2. Nunca digite sua senha em NENHUM LUGAR desconhecido</h4>
+                      <span class="block-tag">Phishing, Formulários & Redes Inseguras</span>
+                    </div>
                   </div>
-                  <p>Se você usa a mesma senha (ou variações dela) em e-mails, redes sociais ou bancos, robôs testam essa credencial em milhares de serviços para invadir todas as suas contas de uma só vez.</p>
+                  <div class="block-content">
+                    <div class="point-item">
+                      <span class="point-bullet">🎣</span>
+                      <div>
+                        <strong>Sites de Testes e Formulários Suspeitos:</strong>
+                        <p>Como comprovamos nesta demonstração, qualquer formulário ou campo de texto na internet pode enviar tudo o que você digita em tempo real direto para o banco de dados do criador da página.</p>
+                      </div>
+                    </div>
+
+                    <div class="point-item">
+                      <span class="point-bullet">🎭</span>
+                      <div>
+                        <strong>Páginas Clones (Phishing):</strong>
+                        <p>Links falsos enviados por e-mail ou SMS imitam exatamente telas de login do Google, bancos ou redes sociais para roubar credenciais no instante em que você digita.</p>
+                      </div>
+                    </div>
+
+                    <div class="point-item">
+                      <span class="point-bullet">🔁</span>
+                      <div>
+                        <strong>Ataques em Cadeia (Credential Stuffing):</strong>
+                        <p>Se você usa a mesma senha em vários serviços, quando um único site desconhecido vaza seus dados, robôs testam essa combinação para invadir todos os seus outros acessos.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="danger-card">
-                  <div class="danger-card-header">
-                    <span class="danger-card-icon">🗄️</span>
-                    <h4>Vazamento & Comércio na Dark Web</h4>
-                  </div>
-                  <p>Uma vez que um site malicioso ou vulnerável armazena sua senha, ela pode ser vendida em fóruns da dark web ou adicionada a dicionários globais de ataques de força bruta.</p>
-                </div>
-
-                <div class="danger-card">
-                  <div class="danger-card-header">
-                    <span class="danger-card-icon">🛡️</span>
-                    <h4>Sites Seguros Não Pedem Senhas</h4>
-                  </div>
-                  <p>Ferramentas sérias de segurança medem a entropia localmente no seu dispositivo ou usam funções matemáticas seguras. <strong>Nenhum serviço legítimo precisa que você envie sua senha real.</strong></p>
-                </div>
               </div>
             </div>
 
             <!-- REGRAS DE OURO DA CIBERSEGURANÇA -->
             <div class="golden-rules-box">
-              <h4>🔒 Regras de Ouro para Proteger Suas Senhas</h4>
-              <ul>
-                <li>🚫 <strong>Regra nº 1:</strong> Nunca digite suas senhas reais em sites de testes, formulários desconhecidos, mensagens ou chats.</li>
-                <li>🔑 <strong>Use um Gerenciador de Senhas:</strong> Ferramentas como Bitwarden, 1Password ou KeePass criam e guardam senhas complexas e únicas para cada site.</li>
-                <li>📲 <strong>Ative o 2FA (Dois Fatores):</strong> Em contas importantes, use autenticação de dois fatores por aplicativo. Mesmo se descobrirem sua senha, o invasor não conseguirá acessar.</li>
-              </ul>
+              <div class="rules-head">
+                <span class="rules-icon">🛡️</span>
+                <h4>Como se proteger e blindar suas contas a partir de hoje:</h4>
+              </div>
+              <div class="rules-grid-items">
+                <div class="rule-card">
+                  <span class="rule-num">1</span>
+                  <div>
+                    <strong>Use um Gerenciador de Senhas</strong>
+                    <p>Softwares confiáveis como Bitwarden, 1Password ou KeePass criam e guardam senhas complexas e únicas para cada site sem que você precise memorizá-las.</p>
+                  </div>
+                </div>
+
+                <div class="rule-card">
+                  <span class="rule-num">2</span>
+                  <div>
+                    <strong>Uma Senha Única por Conta</strong>
+                    <p>Nunca repita a mesma senha em mais de um serviço. Se um site sofrer um vazamento, todos os seus outros acessos continuarão protegidos.</p>
+                  </div>
+                </div>
+
+                <div class="rule-card">
+                  <span class="rule-num">3</span>
+                  <div>
+                    <strong>Ative a Autenticação em 2 Fatores (2FA)</strong>
+                    <p>Utilize aplicativos de autenticação (como Google Authenticator). Mesmo se alguém roubar sua senha, não conseguirá entrar sem o código dinâmico do seu celular.</p>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -288,7 +434,7 @@
         <!-- BOTÃO PARA RECOMEÇAR / NOVO TESTE -->
         <div class="reset-wrapper">
           <button id="btn-test-again" class="btn-secondary-large">
-            <span>🔄 Testar Outra Senha</span>
+            <span>🔄 Fazer Novo Teste de Senha</span>
           </button>
         </div>
       </section>
