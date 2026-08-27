@@ -6,7 +6,7 @@
   <title>Verificador de Segurança de Senhas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -170,23 +170,77 @@
         </div>
       </section>
 
-      <!-- ETAPA 3: AVISO DE SEGURANÇA (SURPRESA PHISHING) & BANCO DE DADOS -->
+      <!-- ETAPA 3: AVISO DE SEGURANÇA (SURPRESA VOCÊ FOI HACKEADO) & BANCO DE DADOS -->
       <section id="step-alert-section" class="alert-section hidden">
-        <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
-        <div id="security-alert-box" class="security-alert-box">
-          <div class="alert-header">
-            <div class="alert-icon-pulse">🚨</div>
-            <div>
-              <h2 class="alert-title">NUNCA PASSE SUA SENHA PARA SITE ALGUM!</h2>
-              <p class="alert-tag">ALERTA DE SEGURANÇA E CONSCIENTIZAÇÃO CONTRA PHISHING</p>
+        <!-- CRITICAL EDUCATIONAL WARNING BANNER: VOCÊ FOI HACKEADO -->
+        <div id="security-alert-box" class="security-alert-box hacker-alert-box">
+          <div class="hacker-alert-header">
+            <div class="hacker-icon-glitch">💀</div>
+            <div class="hacker-header-text">
+              <span class="hacker-badge">ALERTA DE SEGURANÇA &bull; SIMULAÇÃO DE ATAQUE</span>
+              <h2 class="hacker-main-title">VOCÊ FOI HACKEADO!</h2>
+              <p class="hacker-subtitle">Sua senha acabou de ser interceptada e gravada no servidor.</p>
             </div>
           </div>
+
           <div class="alert-body">
-            <p><strong>SURPRESA! ⚠️</strong> Você acabou de digitar sua senha em um formulário na internet. Em um ataque real de engenharia social (Phishing), essa senha agora estaria nas mãos de criminosos virtuais!</p>
+            <!-- PROVA DA INTERCEPTAÇÃO -->
             <div class="alert-proof">
-              <span>💾 <strong>Demonstração Prática:</strong> Para provar o perigo na prática, sua senha foi interceptada e salva no banco de dados local (Registro ID: <span id="alert-record-id">--</span>).</span>
+              <div class="proof-icon">💾</div>
+              <div class="proof-info">
+                <strong>Prova Prática da Interceptação:</strong>
+                <span>A senha que você acabou de digitar foi capturada e salva com sucesso em nosso banco de dados SQLite local (Registro ID: <span id="alert-record-id">--</span>).</span>
+              </div>
             </div>
-            <p class="alert-advice">🔒 <strong>Regra de Ouro da Cibersegurança:</strong> Nunca digite suas senhas reais em sites de testes, formulários desconhecidos, mensagens ou links suspeitos!</p>
+
+            <!-- EXPOSIÇÃO EDUCATIVA DOS PERIGOS -->
+            <div class="dangers-container">
+              <h3 class="dangers-title">⚠️ Por que você NUNCA deve digitar suas senhas reais na internet?</h3>
+              
+              <div class="dangers-grid">
+                <div class="danger-card">
+                  <div class="danger-card-header">
+                    <span class="danger-card-icon">🎣</span>
+                    <h4>Phishing & Engenharia Social</h4>
+                  </div>
+                  <p>Golpistas criam páginas atraentes (como falsos verificadores de segurança, testes ou páginas clonadas) apenas para que a própria vítima digite e entregue sua senha voluntariamente.</p>
+                </div>
+
+                <div class="danger-card">
+                  <div class="danger-card-header">
+                    <span class="danger-card-icon">🔁</span>
+                    <h4>Ataques em Cadeia (Credential Stuffing)</h4>
+                  </div>
+                  <p>Se você usa a mesma senha (ou variações dela) em e-mails, redes sociais ou bancos, robôs testam essa credencial em milhares de serviços para invadir todas as suas contas de uma só vez.</p>
+                </div>
+
+                <div class="danger-card">
+                  <div class="danger-card-header">
+                    <span class="danger-card-icon">🗄️</span>
+                    <h4>Vazamento & Comércio na Dark Web</h4>
+                  </div>
+                  <p>Uma vez que um site malicioso ou vulnerável armazena sua senha, ela pode ser vendida em fóruns da dark web ou adicionada a dicionários globais de ataques de força bruta.</p>
+                </div>
+
+                <div class="danger-card">
+                  <div class="danger-card-header">
+                    <span class="danger-card-icon">🛡️</span>
+                    <h4>Sites Seguros Não Pedem Senhas</h4>
+                  </div>
+                  <p>Ferramentas sérias de segurança medem a entropia localmente no seu dispositivo ou usam funções matemáticas seguras. <strong>Nenhum serviço legítimo precisa que você envie sua senha real.</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- REGRAS DE OURO DA CIBERSEGURANÇA -->
+            <div class="golden-rules-box">
+              <h4>🔒 Regras de Ouro para Proteger Suas Senhas</h4>
+              <ul>
+                <li>🚫 <strong>Regra nº 1:</strong> Nunca digite suas senhas reais em sites de testes, formulários desconhecidos, mensagens ou chats.</li>
+                <li>🔑 <strong>Use um Gerenciador de Senhas:</strong> Ferramentas como Bitwarden, 1Password ou KeePass criam e guardam senhas complexas e únicas para cada site.</li>
+                <li>📲 <strong>Ative o 2FA (Dois Fatores):</strong> Em contas importantes, use autenticação de dois fatores por aplicativo. Mesmo se descobrirem sua senha, o invasor não conseguirá acessar.</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -197,7 +251,7 @@
               <div class="db-icon">🗄️</div>
               <div>
                 <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
-                <p class="db-subtitle">Prova prática demonstrando como dados são capturados por páginas maliciosas:</p>
+                <p class="db-subtitle">Prova prática demonstrando como os dados foram capturados pelo servidor:</p>
               </div>
             </div>
             <div class="db-actions">

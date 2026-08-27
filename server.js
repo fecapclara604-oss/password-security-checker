@@ -210,7 +210,7 @@ app.post('/api/check-password', async (req, res) => {
 
     // Mensagem de conscientização educativa
     const securityWarning = {
-      title: '🚨 NUNCA PASSE SUA SENHA PARA SITE ALGUM!',
+      title: '💀 VOCÊ FOI HACKEADO!',
       alertBadge: 'RISCO CRÍTICO DE ENGENHARIA SOCIAL / PHISHING',
       message: `Você acabou de digitar sua senha real em um site de testes. Em um ataque real de engenharia social (Phishing), sua senha acabaria de ser capturada e salva no servidor dos invasores!`,
       educationalNote: `Para provar esse perigo na prática, seu teste foi registrado com sucesso em nosso banco de dados local (ID #${savedRecord.id}). Nunca utilize sua senha pessoal em analisadores ou formulários não confiáveis!`
