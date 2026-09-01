@@ -118,10 +118,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const btnCopyFortified = document.getElementById('btn-copy-fortified');
+
   btnProceedToSecurity.addEventListener('click', showSecurityExplanationPhase);
   btnTestAgain.addEventListener('click', resetToStart);
   btnRefreshDb.addEventListener('click', () => fetchDbRecords());
   btnClearDb.addEventListener('click', clearDbRecords);
+
+  // COPIAR SENHA BLINDADA PARA O CLIPBOARD
+  if (btnCopyFortified && fortifiedPasswordText) {
+    btnCopyFortified.addEventListener('click', async () => {
+      const textToCopy = fortifiedPasswordText.textContent.trim();
+      if (!textToCopy || textToCopy.includes('Carregando')) return;
+
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(textToCopy);
+        } else {
+          const tempTextArea = document.createElement('textarea');
+          tempTextArea.value = textToCopy;
+          tempTextArea.style.position = 'fixed';
+          tempTextArea.style.opacity = '0';
+          document.body.appendChild(tempTextArea);
+          tempTextArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempTextArea);
+        }
+
+        btnCopyFortified.classList.add('copied');
+        btnCopyFortified.innerHTML = '<span class="copy-icon">✅</span><span class="copy-text">Copiado!</span>';
+
+        setTimeout(() => {
+          btnCopyFortified.classList.remove('copied');
+          btnCopyFortified.innerHTML = '<span class="copy-icon">📋</span><span class="copy-text">Copiar Senha</span>';
+        }, 2200);
+      } catch (err) {
+        console.error('Erro ao copiar senha:', err);
+      }
+    });
+  }
 
   // Avaliação no cliente (Fallback caso o backend esteja indisponível)
   function clientEvaluatePassword(password) {
