@@ -1259,6 +1259,81 @@ body.system-crashing {
 /* ========================================================
    FASE 4: DIAGNÓSTICO REAL (PÁGINA SEPARADA DE SEGURANÇA)
    ======================================================== */
+
+/* BANNER DE DESTAQUE: SENHA NÃO SALVA EM BANCO DE DADOS */
+.no-storage-highlight-banner {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
+  border: 2px solid rgba(0, 230, 118, 0.45);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 0 25px rgba(0, 230, 118, 0.15);
+  margin-bottom: 6px;
+}
+
+.no-storage-icon-wrap {
+  position: relative;
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-storage-check {
+  position: absolute;
+  bottom: -4px;
+  right: -6px;
+  font-size: 1rem;
+}
+
+.no-storage-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.no-storage-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.no-storage-title-row h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #00e676;
+  letter-spacing: -0.2px;
+}
+
+.no-storage-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: rgba(0, 230, 118, 0.2);
+  color: #00e676;
+  border: 1px solid rgba(0, 230, 118, 0.4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.no-storage-content p {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.no-storage-content p strong {
+  color: #00f2fe;
+}
+
 .real-diagnosis-card {
   border: 2px solid rgba(0, 242, 254, 0.4);
   background: linear-gradient(180deg, rgba(10, 18, 34, 0.95) 0%, rgba(6, 12, 24, 0.98) 100%);

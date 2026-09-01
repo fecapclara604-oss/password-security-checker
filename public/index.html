@@ -169,8 +169,8 @@
         </div>
 
         <div class="hacker-impact-msg">
-          <span class="danger-symbol">⚠️</span>
-          <span>Em um ataque cibernético real, o invasor agora teria <strong>a sua senha</strong> imediatamente, sem precisar quebrar criptografia alguma.</span>
+          <span class="danger-symbol">🔒</span>
+          <span>Simulação Educativa: Em um ataque cibernético real, o invasor teria sua senha. <strong>(Fique tranquilo: sua senha NÃO foi salva no banco de dados!)</strong></span>
         </div>
 
         <div class="hacker-actions-row">
@@ -253,7 +253,6 @@
         </button>
       </section>
 
-      <!-- ETAPA 2: TELA DE CONCLUÍDO & DIAGNÓSTICO COM GERADOR DE SENHA CLICÁVEL -->
       <!-- ETAPA 2: TELA FALSA DE DIAGNÓSTICO (SCAREWARE / ISCA DE PHISHING) -->
       <section id="step-completed-section" class="completed-section hidden">
         <!-- BANNER DE ALERTA FALSO (SCAREWARE) -->
@@ -281,55 +280,42 @@
                 <span id="meter-level-text" class="level-badge level-very-weak">Muito Fraca</span>
               </div>
               <div class="meter-track">
-                <div id="meter-bar" class="meter-fill" style="width: 15%; background-color: rgb(255, 51, 102);"></div>
+                <div id="meter-bar" class="meter-fill" style="width: 15%;"></div>
               </div>
             </div>
 
             <div class="diagnosis-grid">
               <div class="diag-item">
-                <span class="diag-title">Nível de Vulnerabilidade</span>
-                <span id="diag-level" class="diag-value text-red">Crítico / Insegura</span>
+                <span class="diag-title">Nível de Segurança</span>
+                <span id="diag-level" class="diag-value">Crítico / Insegura</span>
               </div>
               <div class="diag-item">
-                <span class="diag-title">Tempo Estimado de Quebra</span>
+                <span class="diag-title">Tempo Estimado para Quebra</span>
                 <span id="diag-crack-time" class="diag-value text-red">Menos de 3 segundos</span>
               </div>
             </div>
 
-            <!-- REQUIREMENTS LIST FALSA -->
+            <!-- REGRAS -->
             <div class="rules-grid">
               <div class="rule-item" id="rule-length">
-                <span class="rule-icon">❌</span> 8+ caracteres (14+ ideal)
+                <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
               </div>
               <div class="rule-item" id="rule-upper">
-                <span class="rule-icon">❌</span> Letras maiúsculas (A-Z)
+                <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
               </div>
               <div class="rule-item" id="rule-lower">
-                <span class="rule-icon">❌</span> Letras minúsculas (a-z)
+                <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
               </div>
               <div class="rule-item" id="rule-number">
-                <span class="rule-icon">❌</span> Números (0-9)
+                <span class="rule-icon">⚪</span> Números (0-9)
               </div>
               <div class="rule-item" id="rule-special">
-                <span class="rule-icon">❌</span> Símbolos (@, #, $, %, &)
+                <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
               </div>
             </div>
 
             <div class="feedback-list" id="feedback-list">
-              <div class="feedback-item">⚠️ Padrões de entropia insuficiente detectados.</div>
-              <div class="feedback-item">❌ Credencial vulnerável a ataques modernos por dicionário e IA.</div>
-              <div class="feedback-item">🚨 Recomendação: Substitua imediatamente por uma credencial blindada usando o link ao lado.</div>
-            </div>
-          </div>
-
-          <!-- MENSAGEM SOBRE GERADOR DE SENHAS FORTES & ISCA DE GERADOR -->
-          <div class="card-glass suggestion-card">
-            <div class="suggestion-header">
-              <div class="suggestion-tag">💡 Ferramenta Recomendada &bull; SecurePass AI</div>
-              <h3>Gerador de Senhas Blindadas</h3>
-              <p class="suggestion-sub">
-                Com base na análise da sua senha, nosso sistema detectou vulnerabilidades que podem ser eliminadas criando uma senha de <strong>máxima entropia (+100.000 anos para quebra)</strong> com a nossa ferramenta recomendada:
-              </p>
+              <!-- Mensagens de Alerta Geradas Via JS -->
             </div>
 
             <!-- BOTÃO CHAMATIVO E LINK DO GERADOR (ISCA DE PHISHING / EDUCACIONAL) -->
@@ -354,21 +340,8 @@
                 </div>
               </div>
             </div>
-
-            <div class="suggestion-stats">
-              <div class="stat-badge">
-                <span>🛡️ Nível de Proteção: <strong>Blindada / Imbatível</strong></span>
-              </div>
-              <div class="stat-badge">
-                <span>⏱️ Tempo de Quebra Estimado: <strong>+100.000 Anos</strong></span>
-              </div>
-              <div class="stat-badge">
-                <span>🔐 Algoritmo Anti-Força Bruta e Alta Entropia</span>
-              </div>
-            </div>
           </div>
         </div>
-
       </section>
 
       <!-- FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA (PÁGINA SEPARADA) -->
@@ -382,7 +355,24 @@
             <div class="edu-header-text">
               <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; DEMONSTRAÇÃO PRÁTICA</span>
               <h2 class="edu-main-title">AVISOS DE SEGURANÇA: ENTENDA O RISCO REAL</h2>
-              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação para demonstrar na prática como funcionam os golpes de Phishing e Scareware:</p>
+              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação educativa para demonstrar como funcionam os golpes virtuais.</p>
+            </div>
+          </div>
+
+          <!-- BANNER DE DESTAQUE: NENHUM DADO FOI SALVO NO BANCO DE DADOS -->
+          <div class="no-storage-highlight-banner">
+            <div class="no-storage-icon-wrap">
+              <span class="no-storage-icon">🔒</span>
+              <span class="no-storage-check">✅</span>
+            </div>
+            <div class="no-storage-content">
+              <div class="no-storage-title-row">
+                <h4>SUA SENHA NÃO FOI SALVA EM NENHUM BANCO DE DADOS!</h4>
+                <span class="no-storage-tag">PRIVACIDADE 100% GARANTIDA</span>
+              </div>
+              <p>
+                Esta página é <strong>estritamente educativa e segura</strong>. Nenhum dado, nome ou senha digitada foi registrado em disco, banco de dados ou transmitido para servidores externos.
+              </p>
             </div>
           </div>
 
