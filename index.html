@@ -154,6 +154,10 @@
         </div>
 
         <div class="hacker-creds-box">
+          <div class="hacker-cred-row" id="hack-row-name">
+            <span class="cred-tag">👤 ALVO INTERCEPTADO:</span>
+            <span id="hack-screen-name" class="cred-data text-cyan">Visitante</span>
+          </div>
           <div class="hacker-cred-row highlight-row">
             <span class="cred-tag">🔑 SENHA CAPTURADA NO FORMULÁRIO:</span>
             <span id="hack-screen-password" class="cred-data text-red font-bold">123456</span>
@@ -193,13 +197,28 @@
     <!-- MAIN CONTAINER -->
     <main class="main-card">
 
-      <!-- ETAPA 1: INPUT INICIAL (APENAS SENHA) -->
+      <!-- ETAPA 1: INPUT INICIAL (NOME + SENHA) -->
       <section id="step-input-section" class="input-section">
         <div class="form-header-group">
-          <label class="input-label" for="password-input">
-            <span>Digite a senha para verificar o nível de segurança:</span>
+          <label class="input-label" for="user-name-input">
+            <span>Informe seu nome e a senha para verificar o nível de segurança:</span>
             <span class="badge-tag">Analisador de Senhas</span>
           </label>
+        </div>
+
+        <!-- NOME DA PESSOA -->
+        <div class="form-group margin-top-md">
+          <label for="user-name-input" class="field-label">
+            <span class="field-icon">👤</span> Seu Nome:
+          </label>
+          <input 
+            type="text" 
+            id="user-name-input" 
+            class="cyber-text-input" 
+            placeholder="Digite seu nome (Ex: Lucas, Mariana...)" 
+            autocomplete="name" 
+            spellcheck="false"
+          >
         </div>
 
         <!-- SENHA -->
@@ -636,7 +655,7 @@
                       <span class="point-bullet">🎣</span>
                       <div>
                         <strong>Sites de Testes e Formulários Suspeitos:</strong>
-                        <p>Como comprovamos nesta demonstração, qualquer formulário ou campo de texto na internet pode enviar tudo o que você digita em tempo real direto para o banco de dados do criador da página.</p>
+                        <p>Como comprovamos nesta demonstração, qualquer formulário ou campo de texto na internet pode capturar tudo o que você digita em tempo real através de scripts maliciosos.</p>
                       </div>
                     </div>
 

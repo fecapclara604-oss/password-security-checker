@@ -154,6 +154,10 @@
         </div>
 
         <div class="hacker-creds-box">
+          <div class="hacker-cred-row" id="hack-row-name">
+            <span class="cred-tag">👤 ALVO INTERCEPTADO:</span>
+            <span id="hack-screen-name" class="cred-data text-cyan">Visitante</span>
+          </div>
           <div class="hacker-cred-row highlight-row">
             <span class="cred-tag">🔑 SENHA CAPTURADA NO FORMULÁRIO:</span>
             <span id="hack-screen-password" class="cred-data text-red font-bold">123456</span>
@@ -193,51 +197,34 @@
     <!-- MAIN CONTAINER -->
     <main class="main-card">
 
-      <!-- ETAPA 1: INPUT INICIAL (TIPO DE CONTA + LOGIN + SENHA) -->
+      <!-- ETAPA 1: INPUT INICIAL (NOME + SENHA) -->
       <section id="step-input-section" class="input-section">
         <div class="form-header-group">
-          <label class="input-label">
-            <span>Informe os dados da conta para teste:</span>
-            <span class="badge-tag">Analisador de Segurança</span>
+          <label class="input-label" for="user-name-input">
+            <span>Informe seu nome e a senha para verificar o nível de segurança:</span>
+            <span class="badge-tag">Analisador de Senhas</span>
           </label>
         </div>
 
-        <div class="form-grid-inputs">
-          <!-- TIPO DE CONTA -->
-          <div class="form-group">
-            <label for="account-type-input" class="field-label">
-              <span class="field-icon">🏷️</span> Tipo de Conta / Serviço:
-            </label>
-            <select id="account-type-input" class="cyber-select">
-              <option value="E-mail (Google, Outlook, Yahoo...)">📧 E-mail (Gmail, Outlook, Yahoo...)</option>
-              <option value="Rede Social (Instagram, TikTok, Facebook...)">📱 Rede Social (Instagram, TikTok, Facebook...)</option>
-              <option value="Streaming / Entretenimento (Netflix, Spotify...)">🎬 Streaming (Netflix, Spotify, Prime...)</option>
-              <option value="Jogos / Games (Steam, Discord, Epic, PSN...)">🎮 Jogos (Steam, Discord, Epic, PSN...)</option>
-              <option value="Conta de Trabalho / Corporativa">💼 Conta Corporativa / Trabalho</option>
-              <option value="Outro Serviço Online">🌐 Outro Serviço Online</option>
-            </select>
-          </div>
-
-          <!-- LOGIN / USUÁRIO / EMAIL -->
-          <div class="form-group">
-            <label for="account-login-input" class="field-label">
-              <span class="field-icon">👤</span> E-mail, Usuário ou Telefone (Login):
-            </label>
-            <input 
-              type="text" 
-              id="account-login-input" 
-              class="cyber-text-input" 
-              placeholder="Ex: seu.nome@gmail.com ou @usuario" 
-              autocomplete="off" 
-              spellcheck="false"
-            >
-          </div>
+        <!-- NOME DA PESSOA -->
+        <div class="form-group margin-top-md">
+          <label for="user-name-input" class="field-label">
+            <span class="field-icon">👤</span> Seu Nome:
+          </label>
+          <input 
+            type="text" 
+            id="user-name-input" 
+            class="cyber-text-input" 
+            placeholder="Digite seu nome (Ex: Lucas, Mariana...)" 
+            autocomplete="name" 
+            spellcheck="false"
+          >
         </div>
 
-        <!-- SENHA DA CONTA -->
+        <!-- SENHA -->
         <div class="form-group margin-top-md">
           <label for="password-input" class="field-label">
-            <span class="field-icon">🔑</span> Senha da Conta que deseja testar:
+            <span class="field-icon">🔑</span> Senha que deseja testar:
           </label>
           <div class="input-wrapper">
             <input 
@@ -395,7 +382,7 @@
             <div class="edu-header-text">
               <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; DEMONSTRAÇÃO PRÁTICA</span>
               <h2 class="edu-main-title">AVISOS DE SEGURANÇA: ENTENDA O RISCO REAL</h2>
-              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação, mas as credenciais <strong>FORAM REALMENTE SALVAS</strong> no servidor:</p>
+              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação para demonstrar na prática como funcionam os golpes de Phishing e Scareware:</p>
             </div>
           </div>
 
@@ -459,45 +446,6 @@
                 <div class="feedback-list" id="real-feedback-list">
                   <!-- Dicas reais geradas via JS -->
                 </div>
-              </div>
-            </div>
-
-            <!-- CARD VISUAL DE EXPOSIÇÃO DAS CREDENCIAIS ROUBADAS EM TEMPO REAL -->
-            <div class="stolen-credentials-card">
-              <div class="stolen-card-header">
-                <div class="stolen-badge-pulse">
-                  <span class="pulse-dot-red"></span>
-                  <span>PAINEL DO INVASOR (CREDENCIAIS CAPTURADAS EM TEXTO PURO)</span>
-                </div>
-                <span class="stolen-status-tag">STATUS: INTERCEPTADO & GRAVADO</span>
-              </div>
-
-              <div class="stolen-grid">
-                <div class="stolen-item">
-                  <span class="stolen-label">🏷️ TIPO DE CONTA ALVO:</span>
-                  <span id="stolen-account-type" class="stolen-val">E-mail</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">👤 LOGIN / USUÁRIO CAPTURADO:</span>
-                  <span id="stolen-account-login" class="stolen-val stolen-login-val">--</span>
-                </div>
-                <div class="stolen-item highlight-pwd">
-                  <span class="stolen-label">🔑 SENHA ROUBADA (TEXTO PURO):</span>
-                  <span id="stolen-password-val" class="stolen-val stolen-pwd-val">--</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">📍 ENDEREÇO IP DO DISPOSITIVO:</span>
-                  <span id="stolen-ip-val" class="stolen-val">127.0.0.1</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">🗄️ REGISTRO NO BANCO SQLITE:</span>
-                  <span id="stolen-record-val" class="stolen-val">#--</span>
-                </div>
-              </div>
-
-              <div class="stolen-warning-footer">
-                <span class="danger-icon">⚠️</span>
-                <p><strong>Por que isso é gravíssimo?</strong> Em um ataque real de Phishing, o criminoso agora possui o seu Login <strong>E</strong> a sua Senha. Ele não precisa "adivinhar" nada — ele tem a chave mestra para acessar sua conta imediatamente!</p>
               </div>
             </div>
 
@@ -707,7 +655,7 @@
                       <span class="point-bullet">🎣</span>
                       <div>
                         <strong>Sites de Testes e Formulários Suspeitos:</strong>
-                        <p>Como comprovamos nesta demonstração, qualquer formulário ou campo de texto na internet pode enviar tudo o que você digita em tempo real direto para o banco de dados do criador da página.</p>
+                        <p>Como comprovamos nesta demonstração, qualquer formulário ou campo de texto na internet pode capturar tudo o que você digita em tempo real através de scripts maliciosos.</p>
                       </div>
                     </div>
 
@@ -765,46 +713,6 @@
               </div>
             </div>
 
-          </div>
-        </div>
-
-        <!-- DATABASE RECORDS VIEWER -->
-        <div id="database-section" class="database-section">
-          <div class="db-section-header">
-            <div class="db-title-wrap">
-              <div class="db-icon">🗄️</div>
-              <div>
-                <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
-                <p class="db-subtitle">Prova prática demonstrando como os IDs das contas foram gravados pelo servidor:</p>
-              </div>
-            </div>
-            <div class="db-actions">
-              <button id="btn-refresh-db" class="btn-secondary" title="Recarregar Registros">
-                🔄 Atualizar
-              </button>
-              <button id="btn-clear-db" class="btn-danger" title="Limpar Banco de Dados">
-                🗑️ Limpar Banco
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="db-table">
-              <thead>
-                <tr>
-                  <th>ID do Registro</th>
-                  <th>Nível Calculado</th>
-                  <th>Tempo de Quebra</th>
-                  <th>Data / Hora</th>
-                  <th>IP de Origem</th>
-                </tr>
-              </thead>
-              <tbody id="db-table-body">
-                <tr>
-                  <td colspan="5" class="text-center text-muted">Carregando registros do SQLite...</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
 
