@@ -1329,310 +1329,161 @@ body.system-crashing {
 }
 
 /* ========================================================
-   FASE 4: CARTÃO DA ARMADILHA DA ISCA, DEFINIÇÃO E CASOS DE PHISHING
+   FASE 4: EXEMPLOS REAIS DE PHISHING NO FINAL DA PÁGINA (MINI BLOCOS)
    ======================================================== */
-.trap-explanation-card {
-  background: linear-gradient(180deg, rgba(30, 20, 10, 0.95) 0%, rgba(16, 12, 8, 0.98) 100%);
-  border: 2px solid rgba(255, 179, 0, 0.45);
+.real-phishing-section {
+  background: rgba(13, 19, 34, 0.7);
+  border: 1px solid rgba(255, 179, 0, 0.3);
   border-radius: var(--radius-lg);
-  padding: 26px 28px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  box-shadow: 0 0 35px rgba(255, 179, 0, 0.18);
-  position: relative;
+  gap: 18px;
+  box-shadow: 0 0 30px rgba(255, 179, 0, 0.08);
 }
 
-.trap-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  border-bottom: 1px solid rgba(255, 179, 0, 0.2);
-  padding-bottom: 18px;
-}
-
-.trap-icon {
-  font-size: 2.6rem;
-  line-height: 1;
-  background: rgba(255, 179, 0, 0.12);
-  padding: 10px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 179, 0, 0.35);
-  flex-shrink: 0;
-  box-shadow: 0 0 15px rgba(255, 179, 0, 0.15);
-}
-
-.trap-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #ffb300;
-  background: rgba(255, 179, 0, 0.15);
-  border: 1px solid rgba(255, 179, 0, 0.4);
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-bottom: 6px;
-}
-
-.trap-header h4 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #ffb300;
-  margin-bottom: 6px;
-  letter-spacing: -0.3px;
-}
-
-.trap-sub {
-  font-size: 0.94rem;
-  color: #e2e8f0;
-  line-height: 1.5;
-}
-
-.trap-sub strong {
-  color: #ffe082;
-}
-
-/* BLOCO DE DEFINIÇÃO DE PHISHING */
-.phishing-definition-box {
-  background: rgba(10, 15, 26, 0.7);
-  border-left: 4px solid #ffb300;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.phishing-def-header {
+.real-phishing-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1.05rem;
-  color: #ffb300;
+  gap: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 14px;
 }
 
-.def-icon {
+.real-phishing-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.real-phishing-header h4 {
   font-size: 1.2rem;
-}
-
-.phishing-def-text {
-  font-size: 0.92rem;
-  color: #cbd5e1;
-  line-height: 1.55;
-}
-
-.phishing-def-text strong {
-  color: #fff;
-}
-
-.phishing-def-text em {
-  color: #00f2fe;
-  font-style: normal;
-  font-weight: 600;
-}
-
-.triggers-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.triggers-title {
-  font-size: 0.8rem;
   font-weight: 800;
-  color: #94a3b8;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  color: #ffb300;
+  margin-bottom: 2px;
 }
 
-.phishing-triggers-grid {
+.real-phishing-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.mini-phishing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 
-@media (max-width: 820px) {
-  .phishing-triggers-grid {
+@media (max-width: 900px) {
+  .mini-phishing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mini-phishing-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.trigger-pill {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  transition: border-color 0.2s;
-}
-
-.trigger-pill:hover {
-  border-color: rgba(255, 179, 0, 0.4);
-}
-
-.trigger-icon {
-  font-size: 1.4rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.trigger-pill strong {
-  display: block;
-  font-size: 0.84rem;
-  color: #fff;
-  margin-bottom: 2px;
-}
-
-.trigger-pill p {
-  font-size: 0.76rem;
-  color: var(--text-muted);
-  line-height: 1.35;
-}
-
-/* CASOS MAIS COMUNS DE PHISHING */
-.phishing-cases-section {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.cases-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.cases-icon {
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
-.cases-header h4 {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 2px;
-}
-
-.cases-sub {
-  font-size: 0.84rem;
-  color: var(--text-muted);
-}
-
-.phishing-cases-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-@media (max-width: 768px) {
-  .phishing-cases-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.phishing-case-card {
-  background: rgba(8, 12, 22, 0.8);
+.mini-phishing-card {
+  background: rgba(8, 12, 22, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  padding: 16px 18px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   transition: all 0.25s ease;
 }
 
-.phishing-case-card:hover {
+.mini-phishing-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 242, 254, 0.35);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 179, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-.case-card-head {
+.mini-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.case-icon {
-  font-size: 1.4rem;
+.mini-icon {
+  font-size: 1.3rem;
   line-height: 1;
 }
 
-.case-tag {
-  font-size: 0.7rem;
+.mini-badge {
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 4px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
-.tag-clone {
-  background: rgba(0, 242, 254, 0.15);
+.tag-sms {
+  background: rgba(0, 242, 254, 0.12);
   color: #00f2fe;
-  border: 1px solid rgba(0, 242, 254, 0.35);
+  border: 1px solid rgba(0, 242, 254, 0.3);
 }
 
 .tag-bank {
-  background: rgba(255, 179, 0, 0.15);
+  background: rgba(255, 179, 0, 0.12);
   color: #ffb300;
-  border: 1px solid rgba(255, 179, 0, 0.35);
+  border: 1px solid rgba(255, 179, 0, 0.3);
 }
 
 .tag-social {
-  background: rgba(255, 51, 102, 0.15);
+  background: rgba(255, 51, 102, 0.12);
   color: #ff3366;
-  border: 1px solid rgba(255, 51, 102, 0.35);
+  border: 1px solid rgba(255, 51, 102, 0.3);
 }
 
-.tag-msg {
-  background: rgba(0, 230, 118, 0.15);
+.tag-job {
+  background: rgba(0, 230, 118, 0.12);
   color: #00e676;
-  border: 1px solid rgba(0, 230, 118, 0.35);
+  border: 1px solid rgba(0, 230, 118, 0.3);
 }
 
-.phishing-case-card h5 {
-  font-size: 0.95rem;
+.tag-corp {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.tag-scare {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.mini-phishing-card h5 {
+  font-size: 0.92rem;
   font-weight: 700;
   color: #fff;
 }
 
-.phishing-case-card p {
-  font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.45;
-  flex-grow: 1;
-}
-
-.case-example {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px dashed rgba(255, 255, 255, 0.12);
+.mini-example-bubble {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-sm);
   padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.example-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.case-example code {
-  font-family: var(--code-font);
   font-size: 0.78rem;
-  color: #ffc2d1;
-  word-break: normal;
-  overflow-wrap: break-word;
-  hyphens: none;
-  line-height: 1.45;
+  color: #ffe082;
+  line-height: 1.4;
+}
+
+.mini-example-bubble em {
+  font-style: italic;
+}
+
+.mini-phishing-card p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
+  flex-grow: 1;
 }
 
 /* BLOCO DE SENHA BLINDADA SEGURA */
