@@ -266,7 +266,7 @@
 
         <!-- RESULTADOS DA ANÁLISE FALSA (ISCA DE PHISHING) -->
         <div class="results-section">
-          <!-- DIAGNÓSTICO FALSO -->
+          <!-- BLOCO 1: DIAGNÓSTICO DE VULNERABILIDADE & BRECHAS DA SENHA -->
           <div class="card-glass result-card fake-result-card">
             <div class="card-head">
               <h3>🚨 Diagnóstico de Vulnerabilidade</h3>
@@ -318,6 +318,25 @@
               <!-- Mensagens de Alerta Geradas Via JS -->
             </div>
 
+            <div class="vulnerability-breach-callout">
+              <span class="breach-icon">⚠️</span>
+              <div>
+                <strong>Brecha Crítica Detectada:</strong>
+                <p>Sua credencial atual está exposta a ataques automatizados. É indispensável substituí-la por uma senha blindada imediatamente.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 2: O SITE / GERADOR DE SENHAS BLINDADAS (BEM DESTACADO) -->
+          <div class="card-glass suggestion-card fake-bait-card">
+            <div class="suggestion-header">
+              <div class="suggestion-tag glow-tag">⭐ SERVIÇO PARCEIRO RECOMENDADO</div>
+              <h3>Gerador de Senhas Blindadas</h3>
+              <p class="suggestion-sub">
+                Para corrigir as falhas graves detectadas na sua senha, utilize nossa ferramenta oficial com <strong>criptografia militar (+100.000 anos de resistência)</strong>:
+              </p>
+            </div>
+
             <!-- BOTÃO CHAMATIVO E LINK DO GERADOR (ISCA DE PHISHING / EDUCACIONAL) -->
             <div class="generator-cta-wrapper">
               <button type="button" id="btn-generate-fortified" class="btn-flashy-generator" title="Clique para usar o gerador de senhas blindadas">
@@ -327,7 +346,7 @@
                 <span class="btn-arrow-flash">👉</span>
               </button>
 
-              <div class="generator-link-container">
+              <div class="generator-link-container highlight-link-box">
                 <span class="link-label">Ou acesse diretamente pelo link oficial:</span>
                 <a href="javascript:void(0)" id="link-generate-fortified" class="generator-cta-link" role="button" title="Clique para acessar o gerador de senhas blindadas">
                   <span class="link-icon">🔗</span>
@@ -338,6 +357,18 @@
                   <span class="hint-dot"></span>
                   <span>Clique no link acima para gerar instantaneamente sua senha blindada contra invasores.</span>
                 </div>
+              </div>
+            </div>
+
+            <div class="suggestion-stats">
+              <div class="stat-badge">
+                <span>🛡️ Nível de Proteção: <strong>Blindada / Imbatível</strong></span>
+              </div>
+              <div class="stat-badge">
+                <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
+              </div>
+              <div class="stat-badge">
+                <span>🔐 Algoritmo Anti-Força Bruta e Alta Entropia</span>
               </div>
             </div>
           </div>

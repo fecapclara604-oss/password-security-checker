@@ -1036,11 +1036,51 @@ body.system-crashing {
   border-radius: var(--radius-sm);
 }
 
-/* SUGGESTION & PASSWORD INTERACTIVE TRIGGER */
+.vulnerability-breach-callout {
+  background: rgba(255, 51, 102, 0.08);
+  border: 1px solid rgba(255, 51, 102, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.breach-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.vulnerability-breach-callout strong {
+  display: block;
+  font-size: 0.85rem;
+  color: #ff3366;
+  margin-bottom: 2px;
+}
+
+.vulnerability-breach-callout p {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* SUGGESTION & PASSWORD INTERACTIVE TRIGGER (BLOCO 2 - ISCA DESTACADA) */
 .suggestion-card {
   border: 1px solid rgba(0, 242, 254, 0.3);
   background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(13, 20, 34, 0.9) 100%);
   position: relative;
+}
+
+.fake-bait-card {
+  border: 2px solid rgba(0, 242, 254, 0.45) !important;
+  background: linear-gradient(180deg, rgba(8, 24, 48, 0.95) 0%, rgba(5, 15, 30, 0.98) 100%) !important;
+  box-shadow: 0 0 35px rgba(0, 242, 254, 0.25), inset 0 0 20px rgba(0, 242, 254, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .suggestion-tag {
@@ -1052,6 +1092,14 @@ body.system-crashing {
   padding: 2px 8px;
   border-radius: 4px;
   margin-bottom: 8px;
+}
+
+.glow-tag {
+  background: rgba(0, 242, 254, 0.2) !important;
+  color: #00f2fe !important;
+  border: 1px solid rgba(0, 242, 254, 0.5) !important;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+  letter-spacing: 0.8px;
 }
 
 .suggestion-header h3 {
