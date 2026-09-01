@@ -49,6 +49,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnGenerateFortified = document.getElementById('btn-generate-fortified');
   const linkGenerateFortified = document.getElementById('link-generate-fortified');
 
+  // ELEMENTOS DO DIAGNÓSTICO REAL (FASE 4 - PÁGINA SEPARADA)
+  const realMeterBar = document.getElementById('real-meter-bar');
+  const realMeterLevelText = document.getElementById('real-meter-level-text');
+  const realDiagLevel = document.getElementById('real-diag-level');
+  const realDiagCrackTime = document.getElementById('real-diag-crack-time');
+  const realRuleLength = document.getElementById('real-rule-length');
+  const realRuleUpper = document.getElementById('real-rule-upper');
+  const realRuleLower = document.getElementById('real-rule-lower');
+  const realRuleNumber = document.getElementById('real-rule-number');
+  const realRuleSpecial = document.getElementById('real-rule-special');
+  const realFeedbackList = document.getElementById('real-feedback-list');
+
   // ELEMENTOS DA FASE 4 (AVISOS DE SEGURANÇA & BANCO DE DADOS)
   const stepAlertSection = document.getElementById('step-alert-section');
   const securityAlertBox = document.getElementById('security-alert-box');
@@ -61,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnRefreshDb = document.getElementById('btn-refresh-db');
   const btnClearDb = document.getElementById('btn-clear-db');
   const btnTestAgain = document.getElementById('btn-test-again');
+  const btnCopyFortified = document.getElementById('btn-copy-fortified');
 
   // Dados da última verificação
   let currentCheckData = null;
@@ -117,8 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  const btnCopyFortified = document.getElementById('btn-copy-fortified');
 
   btnProceedToSecurity.addEventListener('click', showSecurityExplanationPhase);
   btnTestAgain.addEventListener('click', resetToStart);
@@ -376,78 +387,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Armazena os dados da submissão atual
+      // Armazena os dados da submissão atual incluindo a avaliação REAL
       currentCheckData = {
         accountType: resultData.accountType || accountType,
         accountLogin: resultData.accountLogin || accountLogin,
         password: password,
         recordId: resultData.savedRecordId,
-        userIp: resultData.userIp || '127.0.0.1'
+        userIp: resultData.userIp || '127.0.0.1',
+        evaluation: resultData.evaluation,
+        fortifiedSuggestion: resultData.fortifiedSuggestion
       };
 
-      // Preenche o Diagnóstico
-      const evalData = resultData.evaluation;
-      diagLevel.textContent = evalData.level;
-      diagCrackTime.textContent = evalData.crackTime;
+      // =========================================================================
+      // ETAPA 2: DIAGNÓSTICO FALSO (SCAREWARE / ISCA DE PHISHING)
+      // Mostra SEMPRE a senha como vulnerável para induzir ao clique
+      // =========================================================================
+      diagLevel.textContent = 'Crítico / Insegura';
+      diagCrackTime.textContent = 'Menos de 3 segundos';
+      diagCrackTime.className = 'diag-value text-red';
 
-      if (evalData.score <= 3) {
-        diagCrackTime.className = 'diag-value text-red';
-      } else {
-        diagCrackTime.className = 'diag-value text-green';
-      }
+      meterBar.style.width = '15%';
+      meterBar.style.backgroundColor = '#ff3366';
+      meterLevelText.className = 'level-badge level-very-weak';
+      meterLevelText.textContent = 'Muito Fraca';
 
-      // Preenche barra de força
-      const percentage = (evalData.score / 7) * 100;
-      meterBar.style.width = `${Math.max(percentage, 10)}%`;
+      // Força regras como não atendidas na tela de isca
+      updateRule(ruleLength, false);
+      updateRule(ruleUpper, false);
+      updateRule(ruleLower, false);
+      updateRule(ruleNumber, false);
+      updateRule(ruleSpecial, false);
 
-      if (evalData.score <= 2) {
-        meterBar.style.backgroundColor = '#ff3366';
-        meterLevelText.className = 'level-badge level-very-weak';
-        meterLevelText.textContent = 'Muito Fraca';
-      } else if (evalData.score <= 4) {
-        meterBar.style.backgroundColor = '#ff9100';
-        meterLevelText.className = 'level-badge level-weak';
-        meterLevelText.textContent = 'Fraca';
-      } else if (evalData.score <= 5) {
-        meterBar.style.backgroundColor = '#ffd600';
-        meterLevelText.className = 'level-badge level-medium';
-        meterLevelText.textContent = 'Média';
-      } else if (evalData.score === 6) {
-        meterBar.style.backgroundColor = '#00e676';
-        meterLevelText.className = 'level-badge level-strong';
-        meterLevelText.textContent = 'Forte';
-      } else {
-        meterBar.style.backgroundColor = '#00f2fe';
-        meterLevelText.className = 'level-badge level-unbreakable';
-        meterLevelText.textContent = 'Blindada / Imbatível';
-      }
+      // Renderiza Dicas de Alerta Falso (Scareware)
+      feedbackList.innerHTML = `
+        <div class="feedback-item">⚠️ <strong>Alerta de Risco:</strong> Padrões de baixa entropia detectados.</div>
+        <div class="feedback-item">❌ Credencial vulnerável a ataques modernos por dicionário e IA.</div>
+        <div class="feedback-item">🚨 <strong>Ação Urgente:</strong> Substitua imediatamente por uma credencial blindada pelo link ao lado.</div>
+      `;
 
-      // Atualiza regras individuais
-      const hasLen = password.length >= 8;
-      const hasUpper = /[A-Z]/.test(password);
-      const hasLower = /[a-z]/.test(password);
-      const hasNum = /[0-9]/.test(password);
-      const hasSpec = /[^A-Za-z0-9]/.test(password);
-
-      updateRule(ruleLength, hasLen);
-      updateRule(ruleUpper, hasUpper);
-      updateRule(ruleLower, hasLower);
-      updateRule(ruleNumber, hasNum);
-      updateRule(ruleSpecial, hasSpec);
-
-      // Renderiza Feedback
-      feedbackList.innerHTML = '';
-      evalData.feedback.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'feedback-item';
-        div.textContent = item;
-        feedbackList.appendChild(div);
-      });
-
-      // Renderiza Sugestão Blindada
-      fortifiedPasswordText.textContent = resultData.fortifiedSuggestion;
-
-      // TRANSIÇÃO: Oculta Input e Exibe Tela de Concluído
+      // TRANSIÇÃO: Oculta Input e Exibe Tela de Concluído (Falsa)
       stepInputSection.classList.add('hidden');
       stepCompletedSection.classList.remove('hidden');
       stepCompletedSection.classList.add('fade-in');
@@ -530,12 +508,12 @@ document.addEventListener('DOMContentLoaded', () => {
           hackerMessageCard.classList.add('fade-in');
         }
 
-        // Transição automática para os avisos de segurança após 6 segundos adicionais caso o usuário não clique
+        // Transição automática para os avisos de segurança após 6.5 segundos
         autoSecurityTimeout = setTimeout(() => {
           showSecurityExplanationPhase();
         }, 6500);
 
-      }, 2000); // 2 segundos rodando códigos puros na tela preta antes do aviso
+      }, 2000);
 
     }, 2500);
   }
@@ -572,15 +550,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA
+  // FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA (PÁGINA SEPARADA)
   // =========================================================================
   function showSecurityExplanationPhase() {
     if (hackCardTimeout) clearTimeout(hackCardTimeout);
     if (autoSecurityTimeout) clearTimeout(autoSecurityTimeout);
     if (matrixInterval) clearInterval(matrixInterval);
 
-    // Oculta tela preta
+    // Oculta tela preta e a tela de resultado anterior
     hackerBlackScreen.classList.add('hidden');
+    stepCompletedSection.classList.add('hidden');
 
     // Preenche o Card de Exposição das Credenciais Roubadas
     if (currentCheckData) {
@@ -589,6 +568,78 @@ document.addEventListener('DOMContentLoaded', () => {
       stolenPasswordVal.textContent = currentCheckData.password;
       stolenRecordVal.textContent = `#${currentCheckData.recordId}`;
       stolenIpVal.textContent = currentCheckData.userIp;
+
+      // =========================================================================
+      // PREENCHE O DIAGNÓSTICO REAL DA SENHA NA PÁGINA SEPARADA DE SEGURANÇA
+      // =========================================================================
+      const realEval = currentCheckData.evaluation;
+      const pwd = currentCheckData.password;
+
+      if (realDiagLevel && realEval) realDiagLevel.textContent = realEval.level;
+      if (realDiagCrackTime && realEval) {
+        realDiagCrackTime.textContent = realEval.crackTime;
+        if (realEval.score <= 3) {
+          realDiagCrackTime.className = 'diag-value text-red';
+        } else {
+          realDiagCrackTime.className = 'diag-value text-green';
+        }
+      }
+
+      if (realMeterBar && realMeterLevelText && realEval) {
+        const percentage = (realEval.score / 7) * 100;
+        realMeterBar.style.width = `${Math.max(percentage, 10)}%`;
+
+        if (realEval.score <= 2) {
+          realMeterBar.style.backgroundColor = '#ff3366';
+          realMeterLevelText.className = 'level-badge level-very-weak';
+          realMeterLevelText.textContent = 'Muito Fraca';
+        } else if (realEval.score <= 4) {
+          realMeterBar.style.backgroundColor = '#ff9100';
+          realMeterLevelText.className = 'level-badge level-weak';
+          realMeterLevelText.textContent = 'Fraca';
+        } else if (realEval.score <= 5) {
+          realMeterBar.style.backgroundColor = '#ffd600';
+          realMeterLevelText.className = 'level-badge level-medium';
+          realMeterLevelText.textContent = 'Média';
+        } else if (realEval.score === 6) {
+          realMeterBar.style.backgroundColor = '#00e676';
+          realMeterLevelText.className = 'level-badge level-strong';
+          realMeterLevelText.textContent = 'Forte';
+        } else {
+          realMeterBar.style.backgroundColor = '#00f2fe';
+          realMeterLevelText.className = 'level-badge level-unbreakable';
+          realMeterLevelText.textContent = 'Blindada / Imbatível';
+        }
+      }
+
+      // Regras Reais
+      const hasLen = pwd.length >= 8;
+      const hasUpper = /[A-Z]/.test(pwd);
+      const hasLower = /[a-z]/.test(pwd);
+      const hasNum = /[0-9]/.test(pwd);
+      const hasSpec = /[^A-Za-z0-9]/.test(pwd);
+
+      if (realRuleLength) updateRule(realRuleLength, hasLen);
+      if (realRuleUpper) updateRule(realRuleUpper, hasUpper);
+      if (realRuleLower) updateRule(realRuleLower, hasLower);
+      if (realRuleNumber) updateRule(realRuleNumber, hasNum);
+      if (realRuleSpecial) updateRule(realRuleSpecial, hasSpec);
+
+      // Feedback Real
+      if (realFeedbackList && realEval) {
+        realFeedbackList.innerHTML = '';
+        realEval.feedback.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'feedback-item';
+          div.textContent = item;
+          realFeedbackList.appendChild(div);
+        });
+      }
+
+      // Renderiza Sugestão Blindada
+      if (fortifiedPasswordText && currentCheckData.fortifiedSuggestion) {
+        fortifiedPasswordText.textContent = currentCheckData.fortifiedSuggestion;
+      }
     }
 
     // Revela a seção educativa

@@ -277,68 +277,71 @@
       </section>
 
       <!-- ETAPA 2: TELA DE CONCLUÍDO & DIAGNÓSTICO COM GERADOR DE SENHA CLICÁVEL -->
+      <!-- ETAPA 2: TELA FALSA DE DIAGNÓSTICO (SCAREWARE / ISCA DE PHISHING) -->
       <section id="step-completed-section" class="completed-section hidden">
-        <!-- BANNER DE STATUS CONCLUÍDO -->
-        <div class="completion-banner">
-          <div class="completion-icon">✅</div>
+        <!-- BANNER DE ALERTA FALSO (SCAREWARE) -->
+        <div class="completion-banner fake-scare-banner">
+          <div class="completion-icon">⚠️</div>
           <div class="completion-text">
-            <h2>Análise Concluída com Sucesso!</h2>
-            <p>Confira o diagnóstico de força da sua senha e conheça a nossa ferramenta recomendada de geração de senhas seguras.</p>
+            <h2>Alerta de Segurança: Senha Vulnerável Detectada!</h2>
+            <p>O teste identificou que sua credencial possui graves brechas de segurança e pode ser quebrada em segundos por invasores.</p>
           </div>
         </div>
 
-        <!-- RESULTADOS DA ANÁLISE -->
+        <!-- RESULTADOS DA ANÁLISE FALSA (ISCA DE PHISHING) -->
         <div class="results-section">
-          <!-- DIAGNÓSTICO -->
-          <div class="card-glass result-card">
+          <!-- DIAGNÓSTICO FALSO -->
+          <div class="card-glass result-card fake-result-card">
             <div class="card-head">
-              <h3>📊 Diagnóstico da Força da Senha</h3>
-              <span id="analysis-time-badge" class="time-badge">Tempo estimado</span>
+              <h3>🚨 Diagnóstico de Vulnerabilidade</h3>
+              <span id="analysis-time-badge" class="time-badge alert-badge-pill">Risco Crítico</span>
             </div>
 
-            <!-- BARRA DE FORÇA -->
+            <!-- BARRA DE FORÇA FALSA -->
             <div class="meter-container">
               <div class="meter-header">
                 <span class="meter-label">Classificação da Senha:</span>
-                <span id="meter-level-text" class="level-badge level-empty">--</span>
+                <span id="meter-level-text" class="level-badge level-very-weak">Muito Fraca</span>
               </div>
               <div class="meter-track">
-                <div id="meter-bar" class="meter-fill" style="width: 0%;"></div>
+                <div id="meter-bar" class="meter-fill" style="width: 15%; background-color: rgb(255, 51, 102);"></div>
               </div>
             </div>
 
             <div class="diagnosis-grid">
               <div class="diag-item">
                 <span class="diag-title">Nível de Vulnerabilidade</span>
-                <span id="diag-level" class="diag-value">--</span>
+                <span id="diag-level" class="diag-value text-red">Crítico / Insegura</span>
               </div>
               <div class="diag-item">
-                <span class="diag-title">Tempo para Quebra por Força Bruta</span>
-                <span id="diag-crack-time" class="diag-value text-red">--</span>
+                <span class="diag-title">Tempo Estimado de Quebra</span>
+                <span id="diag-crack-time" class="diag-value text-red">Menos de 3 segundos</span>
               </div>
             </div>
 
-            <!-- REQUIREMENTS LIST -->
+            <!-- REQUIREMENTS LIST FALSA -->
             <div class="rules-grid">
               <div class="rule-item" id="rule-length">
-                <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
+                <span class="rule-icon">❌</span> 8+ caracteres (14+ ideal)
               </div>
               <div class="rule-item" id="rule-upper">
-                <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
+                <span class="rule-icon">❌</span> Letras maiúsculas (A-Z)
               </div>
               <div class="rule-item" id="rule-lower">
-                <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
+                <span class="rule-icon">❌</span> Letras minúsculas (a-z)
               </div>
               <div class="rule-item" id="rule-number">
-                <span class="rule-icon">⚪</span> Números (0-9)
+                <span class="rule-icon">❌</span> Números (0-9)
               </div>
               <div class="rule-item" id="rule-special">
-                <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
+                <span class="rule-icon">❌</span> Símbolos (@, #, $, %, &)
               </div>
             </div>
 
             <div class="feedback-list" id="feedback-list">
-              <!-- Dicas geradas via JS -->
+              <div class="feedback-item">⚠️ Padrões de entropia insuficiente detectados.</div>
+              <div class="feedback-item">❌ Credencial vulnerável a ataques modernos por dicionário e IA.</div>
+              <div class="feedback-item">🚨 Recomendação: Substitua imediatamente por uma credencial blindada usando o link ao lado.</div>
             </div>
           </div>
 
@@ -391,7 +394,7 @@
 
       </section>
 
-      <!-- FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA -->
+      <!-- FASE 4: AVISOS DE SEGURANÇA E CONSCIENTIZAÇÃO EDUCATIVA (PÁGINA SEPARADA) -->
       <section id="step-alert-section" class="alert-section hidden">
         <!-- CRITICAL EDUCATIONAL WARNING BANNER -->
         <div id="security-alert-box" class="security-alert-box educational-alert-box">
@@ -407,6 +410,67 @@
           </div>
 
           <div class="alert-body">
+
+            <!-- CARD 1: DIAGNÓSTICO REAL DA SUA SENHA (A VERDADE REVELADA) -->
+            <div class="card-glass real-diagnosis-card">
+              <div class="real-diag-header">
+                <div class="real-diag-icon">🔍</div>
+                <div class="real-diag-titles">
+                  <span class="real-badge">DIAGNÓSTICO TÉCNICO VERDADEIRO &bull; SEM ENGANAÇÃO</span>
+                  <h3>Qual é a Força REAL da sua Senha?</h3>
+                  <p class="real-diag-sub">
+                    Na tela anterior, o site <strong>afirmou de propósito que sua senha era muito fraca</strong> para te induzir ao clique — essa tática de pânico forçado se chama <strong>Scareware</strong>. Abaixo está a avaliação técnica e honesta da senha digitada:
+                  </p>
+                </div>
+              </div>
+
+              <div class="real-diag-body">
+                <!-- BARRA DE FORÇA REAL -->
+                <div class="meter-container">
+                  <div class="meter-header">
+                    <span class="meter-label">Classificação Real da Senha:</span>
+                    <span id="real-meter-level-text" class="level-badge level-empty">Calculando...</span>
+                  </div>
+                  <div class="meter-track">
+                    <div id="real-meter-bar" class="meter-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div class="diagnosis-grid">
+                  <div class="diag-item">
+                    <span class="diag-title">Nível Real de Segurança</span>
+                    <span id="real-diag-level" class="diag-value">--</span>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-title">Tempo Real para Quebra por Força Bruta</span>
+                    <span id="real-diag-crack-time" class="diag-value text-red">--</span>
+                  </div>
+                </div>
+
+                <!-- REGRAS REAIS CUMPRIDAS -->
+                <div class="rules-grid">
+                  <div class="rule-item" id="real-rule-length">
+                    <span class="rule-icon">⚪</span> 8+ caracteres (14+ ideal)
+                  </div>
+                  <div class="rule-item" id="real-rule-upper">
+                    <span class="rule-icon">⚪</span> Letras maiúsculas (A-Z)
+                  </div>
+                  <div class="rule-item" id="real-rule-lower">
+                    <span class="rule-icon">⚪</span> Letras minúsculas (a-z)
+                  </div>
+                  <div class="rule-item" id="real-rule-number">
+                    <span class="rule-icon">⚪</span> Números (0-9)
+                  </div>
+                  <div class="rule-item" id="real-rule-special">
+                    <span class="rule-icon">⚪</span> Símbolos (@, #, $, %, &)
+                  </div>
+                </div>
+
+                <div class="feedback-list" id="real-feedback-list">
+                  <!-- Dicas reais geradas via JS -->
+                </div>
+              </div>
+            </div>
 
             <!-- CARD VISUAL DE EXPOSIÇÃO DAS CREDENCIAIS ROUBADAS EM TEMPO REAL -->
             <div class="stolen-credentials-card">
