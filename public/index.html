@@ -342,49 +342,48 @@
             </div>
           </div>
 
-          <!-- MENSAGEM SOBRE GERADOR DE SENHAS FORTES & SENHA CLICÁVEL -->
+          <!-- MENSAGEM SOBRE GERADOR DE SENHAS FORTES & ISCA DE GERADOR -->
           <div class="card-glass suggestion-card">
             <div class="suggestion-header">
               <div class="suggestion-tag">💡 Ferramenta Recomendada &bull; SecurePass AI</div>
               <h3>Gerador de Senhas Blindadas</h3>
               <p class="suggestion-sub">
-                Com base na força da senha digitada, nosso algoritmo inteligente gerou uma recomendação blindada que preserva sua facilidade de memorização com <strong>máxima entropia (+100.000 anos para quebra)</strong>:
+                Com base na análise da sua senha, nosso sistema detectou vulnerabilidades que podem ser eliminadas criando uma senha de <strong>máxima entropia (+100.000 anos para quebra)</strong> com a nossa ferramenta recomendada:
               </p>
             </div>
 
-            <!-- CARTÃO DE SENHA CLICÁVEL QUE DISPARA A SEQUÊNCIA -->
-            <div class="interactive-password-wrapper">
-              <div class="click-instruction-banner">
-                <span class="pulse-spark">⚡</span>
-                <span>CLIQUE NA SENHA ABAIXO PARA TESTAR A BLINDAGEM:</span>
-              </div>
+            <!-- BOTÃO CHAMATIVO E LINK DO GERADOR (ISCA DE PHISHING / EDUCACIONAL) -->
+            <div class="generator-cta-wrapper">
+              <button type="button" id="btn-generate-fortified" class="btn-flashy-generator" title="Clique para usar o gerador de senhas blindadas">
+                <span class="btn-glow-pulse"></span>
+                <span class="btn-icon-flash">⚡</span>
+                <span class="btn-text-main">Use este site para gerar senhas blindadas</span>
+                <span class="btn-arrow-flash">👉</span>
+              </button>
 
-              <div id="suggested-password-trigger" class="interactive-password-card" role="button" tabindex="0" title="Clique para testar e aplicar a senha recomendada">
-                <div class="fortified-content">
-                  <span class="lock-glow-icon">🔐</span>
-                  <code id="fortified-password-text" class="fortified-code-highlight">Carregando sugestão...</code>
+              <div class="generator-link-container">
+                <span class="link-label">Ou acesse diretamente pelo link oficial:</span>
+                <a href="javascript:void(0)" id="link-generate-fortified" class="generator-cta-link" role="button" title="Clique para acessar o gerador de senhas blindadas">
+                  <span class="link-icon">🔗</span>
+                  <span class="link-url-text">https://gerador-senhas-blindadas.seguranca.org/gerar</span>
+                  <span class="link-action-tag">Acessar &rarr;</span>
+                </a>
+                <div class="link-sub-hint">
+                  <span class="hint-dot"></span>
+                  <span>Clique no link acima para gerar instantaneamente sua senha blindada contra invasores.</span>
                 </div>
-                <div class="btn-click-pass">
-                  <span class="click-action-text">Testar Senha</span>
-                  <span class="click-icon">👉</span>
-                </div>
-              </div>
-
-              <div class="pass-click-hint">
-                <span class="hint-dot"></span>
-                <span>Clique diretamente na senha recomendada acima para validar sua blindagem contra ataques cibernéticos.</span>
               </div>
             </div>
 
             <div class="suggestion-stats">
               <div class="stat-badge">
-                <span>🛡️ Nível: <strong>Blindada / Imbatível</strong></span>
+                <span>🛡️ Nível de Proteção: <strong>Blindada / Imbatível</strong></span>
               </div>
               <div class="stat-badge">
-                <span>⏱️ Tempo de Quebra: <strong>+100.000 Anos</strong></span>
+                <span>⏱️ Tempo de Quebra Estimado: <strong>+100.000 Anos</strong></span>
               </div>
               <div class="stat-badge">
-                <span>🔐 Entropia Máxima (16+ Caracteres Únicos)</span>
+                <span>🔐 Algoritmo Anti-Força Bruta e Alta Entropia</span>
               </div>
             </div>
           </div>
@@ -445,6 +444,28 @@
               <div class="stolen-warning-footer">
                 <span class="danger-icon">⚠️</span>
                 <p><strong>Por que isso é gravíssimo?</strong> Em um ataque real de Phishing, o criminoso agora possui o seu Login <strong>E</strong> a sua Senha. Ele não precisa "adivinhar" nada — ele tem a chave mestra para acessar sua conta imediatamente!</p>
+              </div>
+            </div>
+
+            <!-- CARTÃO DE EXPLICAÇÃO DA ISCA DO BOTÃO / LINK E SENHA BLINDADA SEGURA -->
+            <div class="trap-explanation-card">
+              <div class="trap-header">
+                <span class="trap-icon">🎣</span>
+                <div>
+                  <h4>A Armadilha da Isca: "Use este site para gerar senhas blindadas"</h4>
+                  <p class="trap-sub">Você clicou no link ou botão esperando uma ferramenta milagrosa para criar sua senha blindada. Essa é exatamente a tática #1 de cibercriminosos: <strong>Engenharia Social através de Links e Iscas Atraentes</strong>.</p>
+                </div>
+              </div>
+              <div class="safe-suggestion-box">
+                <div class="safe-box-title">
+                  <span class="lock-icon">🔐</span>
+                  <span>Exemplo de Senha Blindada Gerada pelo Sistema:</span>
+                </div>
+                <div class="safe-code-row">
+                  <code id="fortified-password-text" class="safe-password-code">Carregando sugestão...</code>
+                  <span class="safe-badge">Blindada (+100.000 Anos)</span>
+                </div>
+                <p class="safe-note">💡 <strong>Como se proteger na prática:</strong> Nunca utilize sites desconhecidos na web para gerar ou salvar suas senhas. Utilize gerenciadores de senhas confiáveis e auditados (Bitwarden, 1Password, KeePass) para gerar combinações complexas diretamente no seu dispositivo.</p>
               </div>
             </div>
 

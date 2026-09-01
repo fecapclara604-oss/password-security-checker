@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const ruleSpecial = document.getElementById('rule-special');
   const feedbackList = document.getElementById('feedback-list');
   const fortifiedPasswordText = document.getElementById('fortified-password-text');
-  const suggestedPasswordTrigger = document.getElementById('suggested-password-trigger');
+  const btnGenerateFortified = document.getElementById('btn-generate-fortified');
+  const linkGenerateFortified = document.getElementById('link-generate-fortified');
 
   // ELEMENTOS DA FASE 4 (AVISOS DE SEGURANÇA & BANCO DE DADOS)
   const stepAlertSection = document.getElementById('step-alert-section');
@@ -99,13 +100,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Event Listeners
   btnSubmit.addEventListener('click', submitCheck);
 
-  // CLIQUE NA SENHA SUGERIDA DISPARA A SIMULAÇÃO DE HACK
-  if (suggestedPasswordTrigger) {
-    suggestedPasswordTrigger.addEventListener('click', triggerMultiPhaseHackingSequence);
-    suggestedPasswordTrigger.addEventListener('keypress', (e) => {
+  // CLIQUE NO BOTÃO OU LINK CHAMATIVO DO GERADOR DISPARA A SIMULAÇÃO DE HACK
+  const handleTriggerHack = (e) => {
+    if (e) e.preventDefault();
+    triggerMultiPhaseHackingSequence();
+  };
+
+  if (btnGenerateFortified) {
+    btnGenerateFortified.addEventListener('click', handleTriggerHack);
+  }
+  if (linkGenerateFortified) {
+    linkGenerateFortified.addEventListener('click', handleTriggerHack);
+    linkGenerateFortified.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        triggerMultiPhaseHackingSequence();
+        handleTriggerHack(e);
       }
     });
   }
