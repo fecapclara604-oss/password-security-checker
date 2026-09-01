@@ -30,11 +30,9 @@
           <span class="terminal-title">CRITICAL_SYSTEM_FAILURE.EXE - [SISTEMA TRAVADO]</span>
         </div>
         <div class="terminal-body" id="crash-terminal-body">
-          <div class="terminal-line">[!] INTERCEPTANDO FLUXO DE ENTRADA DO USUÁRIO...</div>
-          <div class="terminal-line text-cyan" id="crash-log-account">[+] CONTA ALVO: E-mail</div>
-          <div class="terminal-line text-cyan" id="crash-log-login">[+] LOGIN CAPTURADO: exemplo@email.com</div>
-          <div class="terminal-line text-red" id="crash-log-pwd">[CRITICAL] SENHA CAPTURADA EM TEXTO PURO!</div>
-          <div class="terminal-line">[...] GRAVANDO CREDENCIAIS NO BANCO SQLITE (passwords.db)...</div>
+          <div class="terminal-line">[!] INTERCEPTANDO ENTRADA DO FORMULÁRIO...</div>
+          <div class="terminal-line text-red" id="crash-log-pwd">[CRITICAL] SENHA DIGITADA NO FORMULÁRIO: "******"</div>
+          <div class="terminal-line">[...] SIMULAÇÃO DE VAZAMENTO ATIVA...</div>
           <div class="terminal-line text-yellow">[WARN] MEMORY BUFFER OVERFLOW (0x8004011B)</div>
           <div class="terminal-line text-red">[FATAL] FALHA CRÍTICA DE SEGURANÇA: SISTEMA NÃO RESPONDE!</div>
         </div>
@@ -59,7 +57,7 @@
           <div class="error-icon">🛑</div>
           <div>
             <strong>Trojan:Win32/PasswordStealer.EX</strong>
-            <p>O antivírus detectou uma rotina maliciosa capturando e enviando sua senha para um servidor remoto.</p>
+            <p>O antivírus detectou uma rotina maliciosa capturando sua senha em tempo real.</p>
           </div>
         </div>
       </div>
@@ -73,7 +71,7 @@
           <div class="error-icon">⚠️</div>
           <div>
             <strong>ESCUDO DE REDE VIOLADO</strong>
-            <p>Tentativa não autorizada de exfiltração de credenciais na porta 3000.</p>
+            <p>Tentativa de exfiltração de senha através de script na página.</p>
           </div>
         </div>
       </div>
@@ -101,7 +99,7 @@
           <div class="error-icon">⚡</div>
           <div>
             <strong>KEYLOGGER ATIVO DETECTADO</strong>
-            <p>Os caracteres digitados no formulário foram clonados em tempo real.</p>
+            <p>Os caracteres digitados no formulário foram interceptados.</p>
           </div>
         </div>
       </div>
@@ -115,7 +113,7 @@
           <div class="error-icon">🛑</div>
           <div>
             <strong>PRIVILEGE OVERRIDE</strong>
-            <p>Credenciais gravadas no arquivo local passwords.db.</p>
+            <p>Senha interceptada pelo formulário web.</p>
           </div>
         </div>
       </div>
@@ -128,8 +126,8 @@
         <div class="error-win-body">
           <div class="error-icon">🔥</div>
           <div>
-            <strong>EXFILTRAÇÃO SILENCIOSA</strong>
-            <p>Seus dados foram transmitidos sem consentimento real.</p>
+            <strong>ISCA DE ENGENHARIA SOCIAL</strong>
+            <p>O link falso disparou a armadilha de segurança.</p>
           </div>
         </div>
       </div>
@@ -152,31 +150,23 @@
         </div>
 
         <div class="hacker-terminal-subtitle">
-          Sua conta acaba de ser interceptada e exposta em tempo real no servidor:
+          A senha que você digitou foi interceptada em tempo real pelo script da página:
         </div>
 
         <div class="hacker-creds-box">
-          <div class="hacker-cred-row">
-            <span class="cred-tag">🏷️ SERVIÇO ALVO:</span>
-            <span id="hack-screen-account" class="cred-data">E-mail</span>
-          </div>
-          <div class="hacker-cred-row">
-            <span class="cred-tag">👤 LOGIN CAPTURADO:</span>
-            <span id="hack-screen-login" class="cred-data text-cyan">usuario@exemplo.com</span>
-          </div>
           <div class="hacker-cred-row highlight-row">
-            <span class="cred-tag">🔑 SENHA EXTRAÍDA:</span>
+            <span class="cred-tag">🔑 SENHA CAPTURADA NO FORMULÁRIO:</span>
             <span id="hack-screen-password" class="cred-data text-red font-bold">123456</span>
           </div>
           <div class="hacker-cred-row">
-            <span class="cred-tag">🗄️ BANCO DE DADOS:</span>
-            <span id="hack-screen-db" class="cred-data text-green">passwords.db (Registro ID #--)</span>
+            <span class="cred-tag">⚠️ VETOR DO GOLPE:</span>
+            <span class="cred-data text-cyan">Engenharia Social / Isca de Phishing</span>
           </div>
         </div>
 
         <div class="hacker-impact-msg">
           <span class="danger-symbol">⚠️</span>
-          <span>Em um ataque cibernético real, o invasor agora teria <strong>acesso total à sua conta</strong> imediatamente, sem precisar quebrar criptografia alguma.</span>
+          <span>Em um ataque cibernético real, o invasor agora teria <strong>a sua senha</strong> imediatamente, sem precisar quebrar criptografia alguma.</span>
         </div>
 
         <div class="hacker-actions-row">
@@ -203,51 +193,19 @@
     <!-- MAIN CONTAINER -->
     <main class="main-card">
 
-      <!-- ETAPA 1: INPUT INICIAL (TIPO DE CONTA + LOGIN + SENHA) -->
+      <!-- ETAPA 1: INPUT INICIAL (APENAS SENHA) -->
       <section id="step-input-section" class="input-section">
         <div class="form-header-group">
-          <label class="input-label">
-            <span>Informe os dados da conta para teste:</span>
-            <span class="badge-tag">Analisador de Segurança</span>
+          <label class="input-label" for="password-input">
+            <span>Digite a senha para verificar o nível de segurança:</span>
+            <span class="badge-tag">Analisador de Senhas</span>
           </label>
         </div>
 
-        <div class="form-grid-inputs">
-          <!-- TIPO DE CONTA -->
-          <div class="form-group">
-            <label for="account-type-input" class="field-label">
-              <span class="field-icon">🏷️</span> Tipo de Conta / Serviço:
-            </label>
-            <select id="account-type-input" class="cyber-select">
-              <option value="E-mail (Google, Outlook, Yahoo...)">📧 E-mail (Gmail, Outlook, Yahoo...)</option>
-              <option value="Rede Social (Instagram, TikTok, Facebook...)">📱 Rede Social (Instagram, TikTok, Facebook...)</option>
-              <option value="Streaming / Entretenimento (Netflix, Spotify...)">🎬 Streaming (Netflix, Spotify, Prime...)</option>
-              <option value="Jogos / Games (Steam, Discord, Epic, PSN...)">🎮 Jogos (Steam, Discord, Epic, PSN...)</option>
-              <option value="Conta de Trabalho / Corporativa">💼 Conta Corporativa / Trabalho</option>
-              <option value="Outro Serviço Online">🌐 Outro Serviço Online</option>
-            </select>
-          </div>
-
-          <!-- LOGIN / USUÁRIO / EMAIL -->
-          <div class="form-group">
-            <label for="account-login-input" class="field-label">
-              <span class="field-icon">👤</span> E-mail, Usuário ou Telefone (Login):
-            </label>
-            <input 
-              type="text" 
-              id="account-login-input" 
-              class="cyber-text-input" 
-              placeholder="Ex: seu.nome@gmail.com ou @usuario" 
-              autocomplete="off" 
-              spellcheck="false"
-            >
-          </div>
-        </div>
-
-        <!-- SENHA DA CONTA -->
+        <!-- SENHA -->
         <div class="form-group margin-top-md">
           <label for="password-input" class="field-label">
-            <span class="field-icon">🔑</span> Senha da Conta que deseja testar:
+            <span class="field-icon">🔑</span> Senha que deseja testar:
           </label>
           <div class="input-wrapper">
             <input 
@@ -405,7 +363,7 @@
             <div class="edu-header-text">
               <span class="edu-badge">CONSCIENTIZAÇÃO EM CIBERSEGURANÇA &bull; DEMONSTRAÇÃO PRÁTICA</span>
               <h2 class="edu-main-title">AVISOS DE SEGURANÇA: ENTENDA O RISCO REAL</h2>
-              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação, mas as credenciais <strong>FORAM REALMENTE SALVAS</strong> no servidor:</p>
+              <p class="edu-subtitle">O travamento e a tela de hack foram uma simulação para demonstrar na prática como funcionam os golpes de Phishing e Scareware:</p>
             </div>
           </div>
 
@@ -469,45 +427,6 @@
                 <div class="feedback-list" id="real-feedback-list">
                   <!-- Dicas reais geradas via JS -->
                 </div>
-              </div>
-            </div>
-
-            <!-- CARD VISUAL DE EXPOSIÇÃO DAS CREDENCIAIS ROUBADAS EM TEMPO REAL -->
-            <div class="stolen-credentials-card">
-              <div class="stolen-card-header">
-                <div class="stolen-badge-pulse">
-                  <span class="pulse-dot-red"></span>
-                  <span>PAINEL DO INVASOR (CREDENCIAIS CAPTURADAS EM TEXTO PURO)</span>
-                </div>
-                <span class="stolen-status-tag">STATUS: INTERCEPTADO & GRAVADO</span>
-              </div>
-
-              <div class="stolen-grid">
-                <div class="stolen-item">
-                  <span class="stolen-label">🏷️ TIPO DE CONTA ALVO:</span>
-                  <span id="stolen-account-type" class="stolen-val">E-mail</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">👤 LOGIN / USUÁRIO CAPTURADO:</span>
-                  <span id="stolen-account-login" class="stolen-val stolen-login-val">--</span>
-                </div>
-                <div class="stolen-item highlight-pwd">
-                  <span class="stolen-label">🔑 SENHA ROUBADA (TEXTO PURO):</span>
-                  <span id="stolen-password-val" class="stolen-val stolen-pwd-val">--</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">📍 ENDEREÇO IP DO DISPOSITIVO:</span>
-                  <span id="stolen-ip-val" class="stolen-val">127.0.0.1</span>
-                </div>
-                <div class="stolen-item">
-                  <span class="stolen-label">🗄️ REGISTRO NO BANCO SQLITE:</span>
-                  <span id="stolen-record-val" class="stolen-val">#--</span>
-                </div>
-              </div>
-
-              <div class="stolen-warning-footer">
-                <span class="danger-icon">⚠️</span>
-                <p><strong>Por que isso é gravíssimo?</strong> Em um ataque real de Phishing, o criminoso agora possui o seu Login <strong>E</strong> a sua Senha. Ele não precisa "adivinhar" nada — ele tem a chave mestra para acessar sua conta imediatamente!</p>
               </div>
             </div>
 
@@ -775,46 +694,6 @@
               </div>
             </div>
 
-          </div>
-        </div>
-
-        <!-- DATABASE RECORDS VIEWER -->
-        <div id="database-section" class="database-section">
-          <div class="db-section-header">
-            <div class="db-title-wrap">
-              <div class="db-icon">🗄️</div>
-              <div>
-                <h3>Registros Interceptados no Banco de Dados SQLite (<code>passwords.db</code>)</h3>
-                <p class="db-subtitle">Prova prática demonstrando como os IDs das contas foram gravados pelo servidor:</p>
-              </div>
-            </div>
-            <div class="db-actions">
-              <button id="btn-refresh-db" class="btn-secondary" title="Recarregar Registros">
-                🔄 Atualizar
-              </button>
-              <button id="btn-clear-db" class="btn-danger" title="Limpar Banco de Dados">
-                🗑️ Limpar Banco
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="db-table">
-              <thead>
-                <tr>
-                  <th>ID do Registro</th>
-                  <th>Nível Calculado</th>
-                  <th>Tempo de Quebra</th>
-                  <th>Data / Hora</th>
-                  <th>IP de Origem</th>
-                </tr>
-              </thead>
-              <tbody id="db-table-body">
-                <tr>
-                  <td colspan="5" class="text-center text-muted">Carregando registros do SQLite...</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
 

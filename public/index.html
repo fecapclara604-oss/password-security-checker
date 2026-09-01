@@ -30,11 +30,9 @@
           <span class="terminal-title">CRITICAL_SYSTEM_FAILURE.EXE - [SISTEMA TRAVADO]</span>
         </div>
         <div class="terminal-body" id="crash-terminal-body">
-          <div class="terminal-line">[!] INTERCEPTANDO FLUXO DE ENTRADA DO USUÁRIO...</div>
-          <div class="terminal-line text-cyan" id="crash-log-account">[+] CONTA ALVO: E-mail</div>
-          <div class="terminal-line text-cyan" id="crash-log-login">[+] LOGIN CAPTURADO: exemplo@email.com</div>
-          <div class="terminal-line text-red" id="crash-log-pwd">[CRITICAL] SENHA CAPTURADA EM TEXTO PURO!</div>
-          <div class="terminal-line">[...] GRAVANDO CREDENCIAIS NO BANCO SQLITE (passwords.db)...</div>
+          <div class="terminal-line">[!] INTERCEPTANDO ENTRADA DO FORMULÁRIO...</div>
+          <div class="terminal-line text-red" id="crash-log-pwd">[CRITICAL] SENHA DIGITADA NO FORMULÁRIO: "******"</div>
+          <div class="terminal-line">[...] SIMULAÇÃO DE VAZAMENTO ATIVA...</div>
           <div class="terminal-line text-yellow">[WARN] MEMORY BUFFER OVERFLOW (0x8004011B)</div>
           <div class="terminal-line text-red">[FATAL] FALHA CRÍTICA DE SEGURANÇA: SISTEMA NÃO RESPONDE!</div>
         </div>
@@ -59,7 +57,7 @@
           <div class="error-icon">🛑</div>
           <div>
             <strong>Trojan:Win32/PasswordStealer.EX</strong>
-            <p>O antivírus detectou uma rotina maliciosa capturando e enviando sua senha para um servidor remoto.</p>
+            <p>O antivírus detectou uma rotina maliciosa capturando sua senha em tempo real.</p>
           </div>
         </div>
       </div>
@@ -73,7 +71,7 @@
           <div class="error-icon">⚠️</div>
           <div>
             <strong>ESCUDO DE REDE VIOLADO</strong>
-            <p>Tentativa não autorizada de exfiltração de credenciais na porta 3000.</p>
+            <p>Tentativa de exfiltração de senha através de script na página.</p>
           </div>
         </div>
       </div>
@@ -101,7 +99,7 @@
           <div class="error-icon">⚡</div>
           <div>
             <strong>KEYLOGGER ATIVO DETECTADO</strong>
-            <p>Os caracteres digitados no formulário foram clonados em tempo real.</p>
+            <p>Os caracteres digitados no formulário foram interceptados.</p>
           </div>
         </div>
       </div>
@@ -115,7 +113,7 @@
           <div class="error-icon">🛑</div>
           <div>
             <strong>PRIVILEGE OVERRIDE</strong>
-            <p>Credenciais gravadas no arquivo local passwords.db.</p>
+            <p>Senha interceptada pelo formulário web.</p>
           </div>
         </div>
       </div>
@@ -128,8 +126,8 @@
         <div class="error-win-body">
           <div class="error-icon">🔥</div>
           <div>
-            <strong>EXFILTRAÇÃO SILENCIOSA</strong>
-            <p>Seus dados foram transmitidos sem consentimento real.</p>
+            <strong>ISCA DE ENGENHARIA SOCIAL</strong>
+            <p>O link falso disparou a armadilha de segurança.</p>
           </div>
         </div>
       </div>
@@ -152,31 +150,23 @@
         </div>
 
         <div class="hacker-terminal-subtitle">
-          Sua conta acaba de ser interceptada e exposta em tempo real no servidor:
+          A senha que você digitou foi interceptada em tempo real pelo script da página:
         </div>
 
         <div class="hacker-creds-box">
-          <div class="hacker-cred-row">
-            <span class="cred-tag">🏷️ SERVIÇO ALVO:</span>
-            <span id="hack-screen-account" class="cred-data">E-mail</span>
-          </div>
-          <div class="hacker-cred-row">
-            <span class="cred-tag">👤 LOGIN CAPTURADO:</span>
-            <span id="hack-screen-login" class="cred-data text-cyan">usuario@exemplo.com</span>
-          </div>
           <div class="hacker-cred-row highlight-row">
-            <span class="cred-tag">🔑 SENHA EXTRAÍDA:</span>
+            <span class="cred-tag">🔑 SENHA CAPTURADA NO FORMULÁRIO:</span>
             <span id="hack-screen-password" class="cred-data text-red font-bold">123456</span>
           </div>
           <div class="hacker-cred-row">
-            <span class="cred-tag">🗄️ BANCO DE DADOS:</span>
-            <span id="hack-screen-db" class="cred-data text-green">passwords.db (Registro ID #--)</span>
+            <span class="cred-tag">⚠️ VETOR DO GOLPE:</span>
+            <span class="cred-data text-cyan">Engenharia Social / Isca de Phishing</span>
           </div>
         </div>
 
         <div class="hacker-impact-msg">
           <span class="danger-symbol">⚠️</span>
-          <span>Em um ataque cibernético real, o invasor agora teria <strong>acesso total à sua conta</strong> imediatamente, sem precisar quebrar criptografia alguma.</span>
+          <span>Em um ataque cibernético real, o invasor agora teria <strong>a sua senha</strong> imediatamente, sem precisar quebrar criptografia alguma.</span>
         </div>
 
         <div class="hacker-actions-row">

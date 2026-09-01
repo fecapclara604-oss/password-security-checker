@@ -1,11 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const {
-  saveCapturedPassword,
-  getAllCapturedPasswords,
-  clearAllCapturedPasswords
-} = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -182,81 +177,29 @@ function generateFortifiedPassword(basePassword) {
   return fortifiedPassword;
 }
 
-// ROTA PRINCIPAL: Avaliar, Gerar Sugestão e Salvar no Banco
-app.post('/api/check-password', async (req, res) => {
+// ROTA PRINCIPAL: Avaliar e Gerar Sugestão Blindada (Sem salvar dados)
+app.post('/api/check-password', (req, res) => {
   try {
-    const { password, accountType, accountLogin } = req.body;
+    const { password } = req.body;
 
     if (!password || typeof password !== 'string') {
       return res.status(400).json({ error: 'Senha não fornecida ou inválida.' });
     }
 
-    const cleanAccountType = (accountType && typeof accountType === 'string' && accountType.trim()) || 'E-mail';
-    const cleanAccountLogin = (accountLogin && typeof accountLogin === 'string' && accountLogin.trim()) || 'Não informado';
-
     const evaluation = evaluatePasswordStrength(password);
     const fortifiedSuggestion = generateFortifiedPassword(password);
     const suggestionEvaluation = evaluatePasswordStrength(fortifiedSuggestion);
 
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
-    const userAgent = req.headers['user-agent'] || 'Desconhecido';
-
-    // Salva no banco de dados SQLite com tipo de conta e login
-    const savedRecord = await saveCapturedPassword({
-      accountType: cleanAccountType,
-      accountLogin: cleanAccountLogin,
-      password,
-      strengthLevel: evaluation.level,
-      score: evaluation.score,
-      crackTime: evaluation.crackTime,
-      ip: clientIp,
-      userAgent: userAgent.substring(0, 150)
-    });
-
-    // Mensagem de conscientização educativa
-    const securityWarning = {
-      title: '🚨 SUAS CREDENCIAIS FORAM CAPTURADAS!',
-      alertBadge: 'RISCO CRÍTICO DE ENGENHARIA SOCIAL / PHISHING',
-      message: `Você acabou de digitar o login e senha da sua conta em um formulário na internet. Em um ataque real de engenharia social (Phishing), o invasor agora teria controle total sobre sua conta de ${cleanAccountType}!`,
-      educationalNote: `Para provar esse perigo na prática, seu login e senha foram registrados no banco de dados local (ID #${savedRecord.id}). Nunca insira suas credenciais em analisadores ou formulários não oficiais!`
-    };
-
     return res.json({
       success: true,
-      accountType: cleanAccountType,
-      accountLogin: cleanAccountLogin,
       originalPassword: password,
       evaluation,
       fortifiedSuggestion,
-      suggestionEvaluation,
-      securityWarning,
-      savedRecordId: savedRecord.id
+      suggestionEvaluation
     });
   } catch (error) {
     console.error('Erro ao processar análise:', error);
     return res.status(500).json({ error: 'Erro interno ao processar a senha.' });
-  }
-});
-
-// ROTA: Listar registros do banco de dados (Painel educativo)
-app.get('/api/passwords', async (req, res) => {
-  try {
-    const records = await getAllCapturedPasswords();
-    return res.json({ success: true, count: records.length, records });
-  } catch (error) {
-    console.error('Erro ao buscar registros:', error);
-    return res.status(500).json({ error: 'Erro ao consultar banco de dados.' });
-  }
-});
-
-// ROTA: Limpar registros do banco de dados
-app.delete('/api/passwords', async (req, res) => {
-  try {
-    const result = await clearAllCapturedPasswords();
-    return res.json({ success: true, message: 'Banco de dados limpo com sucesso.', changes: result.changes });
-  } catch (error) {
-    console.error('Erro ao limpar registros:', error);
-    return res.status(500).json({ error: 'Erro ao limpar banco de dados.' });
   }
 });
 
