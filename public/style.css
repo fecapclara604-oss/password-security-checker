@@ -25,15 +25,24 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--main-font);
   background-color: var(--bg-dark);
   color: var(--text-main);
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow-x: hidden;
   line-height: 1.6;
   transition: filter 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* BACKGROUND EFFECTS */
@@ -64,8 +73,10 @@ body {
 
 .container {
   max-width: 980px;
+  width: 100%;
   margin: 0 auto;
   padding: 40px 20px 60px 20px;
+  padding-bottom: max(60px, calc(40px + env(safe-area-inset-bottom, 0px)));
 }
 
 /* ========================================================
@@ -89,12 +100,15 @@ body.system-crashing {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: all;
   cursor: wait;
+  overflow: hidden;
+  padding: 12px;
 }
 
 .crash-backdrop {
@@ -336,11 +350,24 @@ body.system-crashing {
 .error-win-6 { top: 42%; right: -90px; transform: scale(0.6) rotate(-3deg); }
 
 @media (max-width: 768px) {
-  .error-win-1 { top: -20px; right: 5px; width: 270px; }
-  .error-win-2 { bottom: -20px; left: 5px; width: 270px; }
+  .error-window {
+    max-width: calc(100vw - 28px);
+  }
+  .error-win-1 { top: -16px; right: 4px; width: 270px; }
+  .error-win-2 { bottom: -16px; left: 4px; width: 270px; }
   .error-win-3 { display: none; }
-  .error-win-4 { top: 10px; left: 5px; width: 260px; }
+  .error-win-4 { top: 12px; left: 4px; width: 260px; }
   .error-win-5, .error-win-6 { display: none; }
+}
+
+@media (max-width: 480px) {
+  .error-window {
+    width: auto;
+    max-width: 92%;
+  }
+  .error-win-1 { top: -10px; right: 2px; }
+  .error-win-2 { bottom: -10px; left: 2px; }
+  .error-win-4 { top: 20px; left: 2px; }
 }
 
 /* ========================================================
@@ -352,13 +379,16 @@ body.system-crashing {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: #020408;
   z-index: 100000;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .matrix-code-stream {
@@ -2289,4 +2319,646 @@ body.system-crashing {
   margin-top: 40px;
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* ========================================================
+   RESPONSIVIDADE & OTIMIZAÇÕES MOBILE (TABLETS & SMARTPHONES)
+   ======================================================== */
+
+/* --- TABLETS E DISPOSITIVOS MÉDIOS (<= 768px) --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px 48px 16px;
+  }
+
+  .app-header {
+    margin-bottom: 28px;
+  }
+
+  .app-header h1 {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .input-section {
+    padding: 24px 20px;
+    border-radius: var(--radius-md);
+  }
+
+  .form-header-group {
+    margin-bottom: 16px;
+  }
+
+  .card-glass {
+    padding: 20px 18px;
+    border-radius: var(--radius-md);
+  }
+
+  .educational-alert-box {
+    padding: 26px 20px;
+  }
+
+  .edu-main-title {
+    font-size: 1.5rem;
+  }
+
+  .hacker-terminal-card {
+    padding: 24px 20px;
+  }
+
+  .hacker-glitch-title {
+    font-size: 1.35rem;
+  }
+}
+
+/* --- SMARTPHONES E TELAS MENORES (<= 600px) --- */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px 12px 36px 12px;
+  }
+
+  /* Header */
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .shield-badge {
+    font-size: 0.68rem;
+    padding: 5px 10px;
+    letter-spacing: 0.5px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .app-header h1 {
+    font-size: 1.55rem;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 0.88rem;
+  }
+
+  /* Etapa 1: Input Section */
+  .input-section {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .input-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.95rem;
+  }
+
+  .badge-tag {
+    align-self: flex-start;
+  }
+
+  .margin-top-md {
+    margin-top: 4px;
+    margin-bottom: 18px;
+  }
+
+  .field-label {
+    font-size: 0.84rem;
+  }
+
+  /* Evita zoom indesejado no iOS garantindo font-size >= 16px */
+  .cyber-text-input,
+  .input-wrapper input {
+    font-size: 16px !important;
+    min-height: 48px;
+  }
+
+  .cyber-text-input {
+    padding: 12px 14px;
+  }
+
+  .input-wrapper input {
+    padding: 12px 48px 12px 14px;
+  }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    right: 4px;
+  }
+
+  .btn-primary {
+    min-height: 48px;
+    padding: 14px 18px;
+    font-size: 0.98rem;
+  }
+
+  /* Fase 1: Travamento e Antivírus */
+  .crash-container {
+    width: 96%;
+    max-width: 100%;
+  }
+
+  .terminal-header {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .terminal-title {
+    font-size: 0.68rem;
+    max-width: calc(100vw - 110px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .terminal-body {
+    padding: 12px;
+    font-size: 0.76rem;
+    gap: 6px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .crash-progress-wrap {
+    padding: 10px 12px 14px 12px;
+  }
+
+  .crash-progress-label {
+    font-size: 0.72rem;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .error-win-header {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+
+  .error-win-body {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .error-icon {
+    font-size: 1.4rem;
+  }
+
+  .error-win-body strong {
+    font-size: 0.76rem;
+  }
+
+  .error-win-body p {
+    font-size: 0.7rem;
+  }
+
+  /* Fase 2 / 3: Hacker Black Screen */
+  .hacker-black-screen {
+    padding: 12px;
+  }
+
+  .matrix-code-stream {
+    font-size: 0.72rem;
+    padding: 10px;
+    line-height: 1.35;
+  }
+
+  .hacker-terminal-card {
+    padding: 18px 14px;
+    gap: 14px;
+    max-height: 92dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hacker-terminal-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .skull-badge-glitch {
+    font-size: 2rem;
+    padding: 8px;
+  }
+
+  .hacker-alert-text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hacker-sub-tag {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+  }
+
+  .hacker-glitch-title {
+    font-size: 1.15rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .hacker-terminal-subtitle {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .hacker-creds-box {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+
+  .hacker-cred-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .cred-tag {
+    font-size: 0.72rem;
+  }
+
+  .cred-data {
+    font-size: 0.95rem;
+    word-break: break-all;
+  }
+
+  .hacker-impact-msg {
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    gap: 8px;
+  }
+
+  .danger-symbol {
+    font-size: 1.2rem;
+  }
+
+  .btn-proceed-security {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+
+  /* Etapa 2: Resultados da Isca / Scareware */
+  .completion-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .completion-icon {
+    font-size: 1.8rem;
+  }
+
+  .completion-text h2 {
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+
+  .completion-text p {
+    font-size: 0.84rem;
+  }
+
+  .card-glass {
+    padding: 16px 14px;
+    border-radius: 12px;
+  }
+
+  .card-head h3 {
+    font-size: 1.05rem;
+  }
+
+  .meter-header {
+    font-size: 0.82rem;
+  }
+
+  .level-badge {
+    font-size: 0.74rem;
+    padding: 2px 8px;
+  }
+
+  .diag-item {
+    padding: 10px 12px;
+  }
+
+  .diag-value {
+    font-size: 0.95rem;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .rule-item {
+    font-size: 0.78rem;
+    padding: 7px 10px;
+  }
+
+  .feedback-list {
+    gap: 6px;
+  }
+
+  .feedback-item {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+
+  .vulnerability-breach-callout {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .vulnerability-breach-callout strong {
+    font-size: 0.8rem;
+  }
+
+  .vulnerability-breach-callout p {
+    font-size: 0.75rem;
+  }
+
+  .btn-flashy-generator {
+    padding: 14px 14px;
+    font-size: 0.92rem;
+    gap: 8px;
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 52px;
+  }
+
+  .btn-text-main {
+    font-size: 0.88rem;
+    line-height: 1.3;
+    display: block;
+    width: 100%;
+  }
+
+  .btn-icon-flash,
+  .btn-arrow-flash {
+    font-size: 1.15rem;
+  }
+
+  .generator-link-container {
+    padding: 12px;
+  }
+
+  .generator-cta-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .link-url-text {
+    font-size: 0.76rem;
+    word-break: break-all;
+  }
+
+  .link-action-tag {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+  }
+
+  /* Etapa 4: Avisos de Segurança & Diagnóstico Real */
+  .educational-alert-box {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .edu-alert-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+
+  .edu-icon-badge {
+    font-size: 2.2rem;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .edu-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.8px;
+  }
+
+  .edu-main-title {
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .edu-subtitle {
+    font-size: 0.86rem;
+  }
+
+  .no-storage-highlight-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .no-storage-icon-wrap {
+    font-size: 1.6rem;
+  }
+
+  .no-storage-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .no-storage-title-row h4 {
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  .no-storage-tag {
+    font-size: 0.62rem;
+  }
+
+  .no-storage-content p {
+    font-size: 0.8rem;
+  }
+
+  .real-diagnosis-card {
+    padding: 16px 14px;
+    gap: 14px;
+    border-radius: 12px;
+  }
+
+  .real-diag-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+
+  .real-diag-icon {
+    font-size: 1.8rem;
+    padding: 8px;
+  }
+
+  .real-diag-titles h3 {
+    font-size: 1.15rem;
+  }
+
+  .real-diag-sub {
+    font-size: 0.84rem;
+  }
+
+  .safe-suggestion-box {
+    padding: 14px 12px;
+    border-radius: 10px;
+  }
+
+  .safe-box-title {
+    font-size: 0.8rem;
+  }
+
+  .safe-code-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .safe-code-content {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .safe-password-code {
+    font-size: 1.05rem;
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  .safe-actions-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .btn-copy-pwd {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    min-height: 44px;
+  }
+
+  .safe-badge {
+    text-align: center;
+    width: 100%;
+    font-size: 0.72rem;
+  }
+
+  .golden-rules-box {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .rules-head h4 {
+    font-size: 0.98rem;
+  }
+
+  .rules-grid-items {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .rule-card {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+
+  .real-phishing-section {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .real-phishing-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .real-phishing-header h4 {
+    font-size: 1.05rem;
+  }
+
+  .mini-phishing-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .mini-phishing-card {
+    padding: 12px 14px;
+  }
+
+  .mini-example-bubble {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
+
+  .reset-wrapper {
+    width: 100%;
+  }
+
+  .btn-secondary-large {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+
+  .app-footer {
+    margin-top: 24px;
+    font-size: 0.75rem;
+  }
+}
+
+/* --- TELAS EXTRA PEQUENAS (<= 360px) --- */
+@media (max-width: 360px) {
+  .app-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .btn-primary,
+  .btn-proceed-security,
+  .btn-secondary-large {
+    font-size: 0.88rem;
+    padding: 12px 14px;
+  }
+
+  .edu-main-title {
+    font-size: 1.1rem;
+  }
+
+  .hacker-glitch-title {
+    font-size: 1.05rem;
+  }
+
+  .safe-password-code {
+    font-size: 0.92rem;
+  }
 }
