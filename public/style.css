@@ -440,10 +440,11 @@ body.system-crashing {
 }
 
 .hacker-glitch-title {
-  font-size: 2.2rem;
+  font-size: 1.55rem;
   font-weight: 900;
   color: #fff;
-  letter-spacing: 1px;
+  letter-spacing: -0.2px;
+  line-height: 1.25;
   text-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
 }
 
