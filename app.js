@@ -34,11 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const meterLevelText = document.getElementById('meter-level-text');
   const diagLevel = document.getElementById('diag-level');
   const diagCrackTime = document.getElementById('diag-crack-time');
-  const ruleLength = document.getElementById('rule-length');
-  const ruleUpper = document.getElementById('rule-upper');
-  const ruleLower = document.getElementById('rule-lower');
-  const ruleNumber = document.getElementById('rule-number');
-  const ruleSpecial = document.getElementById('rule-special');
   const feedbackList = document.getElementById('feedback-list');
   const fortifiedPasswordText = document.getElementById('fortified-password-text');
   const btnGenerateFortified = document.getElementById('btn-generate-fortified');
@@ -351,13 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
         meterLevelText.className = 'level-badge level-very-weak';
         meterLevelText.textContent = 'Muito Fraca';
       }
-
-      // Força regras como não atendidas na tela de isca
-      updateRule(ruleLength, false);
-      updateRule(ruleUpper, false);
-      updateRule(ruleLower, false);
-      updateRule(ruleNumber, false);
-      updateRule(ruleSpecial, false);
 
       // Renderiza Dicas de Alerta Falso (Scareware)
       if (feedbackList) {
