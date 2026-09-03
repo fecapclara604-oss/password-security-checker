@@ -55,6 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCopyFortified = document.getElementById('btn-copy-fortified');
   const btnTestAgain = document.getElementById('btn-test-again');
 
+  // ELEMENTOS DO BOTÃO "FECHAR" FAKE QUE FOGE DO CLIQUE
+  const btnFakeClose = document.getElementById('btn-fake-close');
+  const fakeCloseToast = document.getElementById('fake-close-toast');
+  const allCloseButtons = document.querySelectorAll('.error-close');
+  let fakeCloseCount = 0;
+
   // Dados da verificação atual em memória (sem salvar em banco nem localStorage)
   let currentCheckData = null;
   let matrixInterval = null;

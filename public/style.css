@@ -267,6 +267,77 @@ body.system-crashing {
   100% { background-position: 28px 0; }
 }
 
+.crash-actions-bar {
+  padding: 12px 18px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  min-height: 56px;
+}
+
+.btn-fake-close {
+  background: rgba(255, 51, 102, 0.2);
+  border: 1px solid #ff3366;
+  color: #fff;
+  font-family: var(--code-font);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease;
+  user-select: none;
+  z-index: 5;
+}
+
+.btn-fake-close:hover {
+  background: rgba(255, 51, 102, 0.4);
+  box-shadow: 0 0 25px rgba(255, 51, 102, 0.7);
+}
+
+.fake-close-toast {
+  font-family: var(--code-font);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #ff3366;
+  background: rgba(10, 15, 26, 0.95);
+  border: 1px solid rgba(255, 51, 102, 0.5);
+  padding: 4px 12px;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(255, 51, 102, 0.3);
+  animation: toastPop 0.2s ease-out;
+}
+
+@keyframes toastPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.error-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+}
+
+.error-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 /* ERROR & ANTIVIRUS WINDOWS (6 JANELAS EM CASCATA) */
 .error-window {
   position: absolute;
