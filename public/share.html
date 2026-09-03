@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code & Compartilhamento na Internet - Verificador de Segurança</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .share-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 60px 20px;
+    }
+    .share-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+    .qr-frame {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.4);
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .qr-frame:hover {
+      transform: scale(1.02);
+    }
+    .qr-image {
+      width: 270px;
+      height: 270px;
+      display: block;
+      border-radius: 4px;
+    }
+    .url-display-box {
+      width: 100%;
+      background: rgba(10, 15, 26, 0.95);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+    }
+    .url-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .url-tag {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .url-value {
+      font-family: var(--code-font);
+      font-size: 1.05rem;
+      color: #fff;
+      word-break: break-all;
+    }
+    .url-public-highlight {
+      color: #00f2fe;
+      font-weight: 700;
+    }
+    .btn-copy-url {
+      background: rgba(0, 242, 254, 0.15);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: #00f2fe;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-copy-url:hover {
+      background: rgba(0, 242, 254, 0.3);
+      color: #fff;
+    }
+    .share-actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .btn-download-qr {
+      background: var(--primary-gradient);
+      color: #090d16;
+      border: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
+    }
+    .btn-download-qr:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 242, 254, 0.45);
+    }
+    .btn-back {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    .share-instructions {
+      background: rgba(0, 230, 118, 0.08);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+      text-align: left;
+      width: 100%;
+    }
+    .share-instructions strong {
+      color: #00e676;
+    }
+  </style>
+</head>
+<body>
+  <div class="cyber-background"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="share-container">
+    <header class="app-header">
+      <div class="shield-badge">
+        <span class="pulse-dot"></span>
+        <span>ACESSO GLOBAL & COMPARTILHAMENTO NA INTERNET</span>
+      </div>
+      <h1>QR Code & Links para Compartilhar</h1>
+      <p class="subtitle">Escaneie o QR Code abaixo pelo celular (4G/5G ou Wi-Fi) ou compartilhe a URL pública com qualquer pessoa na internet.</p>
+    </header>
+
+    <div class="share-card">
+      <div class="qr-frame">
+        <img src="qrcode.png" alt="QR Code do Verificador de Senha" class="qr-image" id="qr-img">
+      </div>
+
+      <div class="url-display-box">
+        <div class="url-row">
+          <div>
+            <span class="url-tag">🌍 URL Oficial na Internet (Qualquer Lugar / 4G / 5G / Celular):</span>
+            <div class="url-value url-public-highlight" id="public-url-text">https://fecapclara604-oss.github.io/password-security-checker/</div>
+          </div>
+          <button class="btn-copy-url" id="btn-copy-public">Copiar Link Público</button>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;" class="url-row">
+          <div>
+            <span class="url-tag">📲 URL na Rede Wi-Fi Local (Mesmo Roteador):</span>
+            <div class="url-value" id="network-url-text">http://10.1.33.166:3000</div>
+          </div>
+          <button class="btn-copy-url" id="btn-copy-network">Copiar</button>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;" class="url-row">
+          <div>
+            <span class="url-tag">💻 URL Local (Neste Computador):</span>
+            <div class="url-value">http://localhost:3000</div>
+          </div>
+          <button class="btn-copy-url" id="btn-copy-local">Copiar</button>
+        </div>
+      </div>
+
+      <div class="share-instructions">
+        ✨ <strong>Como compartilhar com outras pessoas:</strong>
+        <ul style="margin-left: 20px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;">
+          <li><strong>Pelo Celular:</strong> Aponte a câmera do seu smartphone para o QR Code acima. A página abrirá no navegador do celular (mesmo no 4G/5G).</li>
+          <li><strong>Pelo WhatsApp/E-mail/Teams:</strong> Clique no botão <em>"Copiar Link Público"</em> e envie o link para quem você desejar.</li>
+          <li><strong>Apresentações / Slides:</strong> Baixe a imagem do QR Code para colocar em slides de aula ou banners.</li>
+        </ul>
+      </div>
+
+      <div class="share-actions-row">
+        <a href="qrcode.png" download="qrcode-verificador-senhas.png" class="btn-download-qr">
+          <span>📥 Baixar Imagem do QR Code</span>
+        </a>
+        <a href="/" class="btn-back">
+          <span>⬅️ Abrir Verificador de Senhas</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copiado! ✓';
+        btn.style.borderColor = '#00e676';
+        btn.style.color = '#00e676';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+
+    document.getElementById('btn-copy-public').addEventListener('click', function() {
+      const url = document.getElementById('public-url-text').textContent.trim();
+      copyToClipboard(url, this);
+    });
+
+    document.getElementById('btn-copy-network').addEventListener('click', function() {
+      const url = document.getElementById('network-url-text').textContent.trim();
+      copyToClipboard(url, this);
+    });
+
+    document.getElementById('btn-copy-local').addEventListener('click', function() {
+      copyToClipboard('http://localhost:3000', this);
+    });
+  </script>
+</body>
+</html>

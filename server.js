@@ -203,6 +203,31 @@ app.post('/api/check-password', (req, res) => {
   }
 });
 
+// ROTA: Obter IP local e URLs para QR Code
+app.get('/api/network-info', (req, res) => {
+  const os = require('os');
+  const nets = os.networkInterfaces();
+  let localIp = 'localhost';
+
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      if (net.family === 'IPv4' && !net.internal && !name.toLowerCase().includes('virtual') && !name.toLowerCase().includes('vmnet') && !net.address.startsWith('192.168.56')) {
+        localIp = net.address;
+        break;
+      }
+    }
+  }
+
+  res.json({
+    localIp,
+    port: PORT,
+    localUrl: `http://localhost:${PORT}`,
+    networkUrl: `http://${localIp}:${PORT}`,
+    qrCodeUrl: `/qrcode.png`,
+    qrSvgUrl: `/qrcode.svg`
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando com sucesso em http://localhost:${PORT}`);
 });

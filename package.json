@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "db": "node view-db.js"
+    "db": "node view-db.js",
+    "qr": "node generate-qr.js",
+    "tunnel": "node tunnel.js"
   },
   "keywords": [
     "security",
@@ -19,6 +21,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "localtunnel": "^2.0.2",
+    "qrcode": "^1.5.4",
     "sqlite3": "^5.1.7"
   }
 }

@@ -581,6 +581,15 @@ body.system-crashing {
   margin-bottom: 36px;
 }
 
+.header-badges-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
 .shield-badge {
   display: inline-flex;
   align-items: center;
@@ -593,7 +602,28 @@ body.system-crashing {
   font-weight: 700;
   letter-spacing: 1px;
   color: var(--primary);
-  margin-bottom: 16px;
+}
+
+.share-badge-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  color: #00e676;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.share-badge-link:hover {
+  background: rgba(0, 230, 118, 0.22);
+  border-color: #00e676;
+  transform: translateY(-1px);
 }
 
 .pulse-dot {
